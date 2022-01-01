@@ -56,6 +56,10 @@ body {
 /* Styling
 -------------------------------------------------- */
 
+body {
+  background-color: #FDFDFD;
+}
+
 .about-row {
   margin: 15px 0;
 }
@@ -63,7 +67,7 @@ body {
 .about-card {
   padding-top: 15px;
   border-radius: .25rem;
-  background-color: #F7F7F7;
+  background-color: #F9F9F9;
   border: solid .1rem rgba(0,0,0,.25);
 }
 
