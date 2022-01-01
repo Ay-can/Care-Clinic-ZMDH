@@ -23,6 +23,11 @@ namespace Wdpr_Groep_E.Controllers
             return View();
         }
 
+        public IActionResult About()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
