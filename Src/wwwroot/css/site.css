@@ -17,6 +17,7 @@ a {
 html {
   font-size: 14px;
 }
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -26,6 +27,7 @@ html {
 .border-top {
   border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
   border-bottom: 1px solid #e5e5e5;
 }
@@ -49,4 +51,41 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 2rem;
+}
+
+/* Styling
+-------------------------------------------------- */
+
+.about-row {
+  margin: 15px 0;
+}
+
+.about-card {
+  padding-top: 15px;
+  border-radius: .25rem;
+  background-color: #F7F7F7;
+  border: solid .1rem rgba(0,0,0,.25);
+}
+
+.about-card figure {
+  margin-bottom: 15px;
+}
+
+.about-card figure img {
+  width: 100%;
+  border-radius: .25rem;
+}
+
+.about-card figure figcaption {
+  font-weight: 600;
+  text-align: center;
+}
+
+.about-card p {
+  overflow: hidden;
+  text-align: center;
+  margin-bottom: 15px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
