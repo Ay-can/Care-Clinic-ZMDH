@@ -11,6 +11,14 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+             <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="Home" asp-action="Index"><span class="material-icons-round">home</span>Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="Home" asp-action="About"><span class="material-icons-round">info</span>Over ons</a>
+                </li>
+            </ul>
              @if (SignInManager.IsSignedIn(User))
             {
             <ul class="navbar-nav">
@@ -27,14 +35,7 @@
             }
             else
             {
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="Home" asp-action="Index"><span class="material-icons-round">home</span>Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="Home" asp-action="About"><span class="material-icons-round">info</span>Over ons</a>
-                </li>
-            </ul>
+          
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login"><span class="material-icons-round">login</span>Login</a>
@@ -44,7 +45,7 @@
                 </li>
             </ul>
             }
-           
+            
         </div>
     </nav>
 </header>
