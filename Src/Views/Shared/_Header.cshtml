@@ -1,30 +1,28 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light">
-        <div class="container">
-            <a class="navbar-brand" asp-controller="Home" asp-action="Index" tabindex="-1" aria-disabled="true">
-                <img src="~/img/logo.svg" alt="ZMDH logo" />
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Home" asp-action="Index"><span class="material-icons-round">home</span>Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Home" asp-action="About"><span class="material-icons-round">info</span>Over ons</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Login" asp-action="Index"><span class="material-icons-round">login</span>Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Register" asp-action="Index"><span class="material-icons-round">person_add</span>Registreer</a>
-                    </li>
-                </ul>
-            </div>
+        <a class="navbar-brand mr-3 pt-1 pb-1" asp-controller="Home" asp-action="Index" tabindex="-1" aria-disabled="true">
+            <img src="~/img/logo.svg" alt="ZMDH logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="Home" asp-action="Index"><span class="material-icons-round">home</span>Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="Home" asp-action="About"><span class="material-icons-round">info</span>Over ons</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="Login" asp-action="Index"><span class="material-icons-round">login</span>Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="Register" asp-action="Index"><span class="material-icons-round">person_add</span>Registreer</a>
+                </li>
+            </ul>
         </div>
     </nav>
 </header>

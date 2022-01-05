@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Round">
 
+    <link rel="stylesheet" href="~/css/font/font.css">
+
     <link rel="stylesheet" href="~/css/site.css">
     <link rel="stylesheet" href="~/css/navbar.css">
     <link rel="stylesheet" href="~/css/footer.css">
@@ -17,10 +19,8 @@
 <body>
     <partial name="_Header" />
 
-    <main role="main" class="pt-3 pb-3">
-        <div class="container">
-            @RenderBody()
-        </div>
+    <main role="main">
+        @RenderBody()
     </main>
 
     <partial name="_Footer" />

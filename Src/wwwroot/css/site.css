@@ -1,21 +1,91 @@
 ﻿/* Colors */
 
 :root {
-  --blue: #009efd;
-  --green: #2af598;
+  --blue: #009EFD;
+  --green: #2AF598;
 }
 
-/* Main */
+/* Style */
+
+body {
+  font-family: "Lato", sans-serif;
+}
 
 main {
+  padding-top: 3.5rem;
   background-color: #FAFAFA;
-  min-height: calc(100vh - 5.5rem); /* Whole page minus navbar + footer */
+  /* Whole page minus footer */
+  min-height: calc(100vh - 1.5rem);
 }
 
 /* Homepage
 -------------------------------------------------- */
 
+.home-bg {
+  position: relative;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: top center;
+  background-image: url("../img/home-bg.jpg");
+}
 
+.home-bg:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: rgba(0, 0, 0, .5);
+}
+
+.head-card {
+  display: flex;
+  padding: 0 2rem;
+  align-items: center;
+  border-radius: .25rem;
+  flex-direction: column;
+  justify-content: center;
+  margin: 13.5rem auto 6rem;
+}
+
+@media screen and (max-width: 768px) {
+  .head-card {
+    margin: 6rem auto 4rem;
+  }
+}
+
+.home-row {
+  padding: 0 4rem;
+  margin-bottom: 6rem;
+}
+
+.head-card>p {
+  color: #FFF;
+  font-size: 1.5rem;
+}
+
+@media screen and (max-width: 768px) {
+  .head-card>p {
+    font-size: 1.25rem;
+  }
+}
+
+.head-card>img {
+  width: 100%;
+  min-width: 10rem;
+  max-width: 30rem;
+  margin-bottom: 2rem;
+  filter: drop-shadow(0 1px 1px rgba(#000 / .25));
+}
+
+.home-card {
+  color: #FFF;
+  margin: auto 0;
+  margin: 1.5rem 3rem;
+  border-radius: .25rem;
+  padding: 3rem 2rem 2rem;
+  background-color: rgba(#FFF / .05);
+}
 
 /* About
 -------------------------------------------------- */
@@ -28,7 +98,8 @@ main {
   padding-top: 15px;
   border-radius: .25rem;
   background-color: #F9F9F9;
-  border: solid .1rem rgba(0, 0, 0, .25);
+  border: solid .1rem rgba(#000 / .25);
+  box-shadow: 0 2px 4px -2px rgb(#000 / .5);
 }
 
 .about-card figure {
