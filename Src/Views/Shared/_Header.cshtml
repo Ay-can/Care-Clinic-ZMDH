@@ -1,3 +1,7 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light">
         <a class="navbar-brand mr-3 pt-1 pb-1" asp-controller="Home" asp-action="Index" tabindex="-1" aria-disabled="true">
@@ -7,6 +11,22 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+             @if (SignInManager.IsSignedIn(User))
+            {
+            <ul class="navbar-nav">
+                <li class="nav-item"><a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hallo @UserManager.GetUserName(User)!</a>
+                </li>
+
+                <li class="nav-item">
+                <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl='@Url.Action("Index","Home", new { area = ""})'>
+                <button id="logout" type="submit" class="nav-link btn btn-link text-dark">Log Uit</button>
+                </form>
+                </li>
+            </ul>  
+
+            }
+            else
+            {
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link text-dark" asp-controller="Home" asp-action="Index"><span class="material-icons-round">home</span>Home</a>
@@ -23,6 +43,8 @@
                     <a class="nav-link text-dark" href="Identity/Account/Register"><span class="material-icons-round">person_add</span>Registreer</a>
                 </li>
             </ul>
+            }
+           
         </div>
     </nav>
 </header>
