@@ -2,5 +2,6 @@
   font-size: .75rem;
   line-height: 1.5rem;
   background-color: #FDFDFD;
+  /* border-top: solid 1px rgba(0 0 0 / .25); */
   box-shadow: 0 -2px 4px -2px rgba(0 0 0 / .5);
 }
