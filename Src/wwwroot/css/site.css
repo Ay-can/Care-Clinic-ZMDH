@@ -65,13 +65,13 @@ main {
   align-items: center;
   border-radius: .25rem;
   flex-direction: column;
+  margin: 9rem auto 6rem;
   justify-content: center;
-  margin: 9.5rem auto 6rem;
 }
 
 @media screen and (max-width: 768px) {
   .head-card {
-    margin: 6.5rem auto 4rem;
+    margin: 6rem auto 4rem;
   }
 }
 
@@ -194,10 +194,39 @@ main {
   -webkit-box-orient: vertical;
 }
 
-/* Login
+/* Login & Register
 -------------------------------------------------- */
 
+.page {
+  display: flex;
+  margin: 6rem auto;
+  border-radius: .25rem;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #F9F9F9;
+  height: calc(100vh - 17rem);
+  border: solid 1px rgba(0 0 0 / .25);
+  box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
+}
 
+.page h1 {
+  margin-bottom: 2rem;
+}
 
-/* Register
--------------------------------------------------- */
+.page section {
+  padding: 0 6rem;
+}
+
+.page .btn {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  padding: .25rem 4rem;
+}
+
+.toggle-password {
+  cursor: pointer;
+}
+
+.required {
+  color: var(--red);
+}
