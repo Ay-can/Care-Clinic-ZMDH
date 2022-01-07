@@ -10,16 +10,36 @@ using Wdpr_Groep_E.Models;
 
 namespace Wdpr_Groep_E.Controllers
 {
-    public class HomeController : Controller
+    public class AboutController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<AboutController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public AboutController(ILogger<AboutController> logger)
         {
             _logger = logger;
         }
 
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult Angela_van_Heringa()
+        {
+            return View();
+        }
+
+        public IActionResult Gijs_Broekman()
+        {
+            return View();
+        }
+
+        public IActionResult Jantinus_Verduin()
+        {
+            return View();
+        }
+
+        public IActionResult Joseph_van_der_Vliet()
         {
             return View();
         }

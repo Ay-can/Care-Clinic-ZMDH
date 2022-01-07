@@ -10,11 +10,11 @@ using Wdpr_Groep_E.Models;
 
 namespace Wdpr_Groep_E.Controllers
 {
-    public class HomeController : Controller
+    public class PrivacyController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<PrivacyController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public PrivacyController(ILogger<PrivacyController> logger)
         {
             _logger = logger;
         }

@@ -3,6 +3,7 @@
   width: 100%;
   position: fixed;
   background-color: #FDFDFD;
+  /* border-bottom: solid 1px rgba(0 0 0 / .25); */
   box-shadow: 0 2px 4px -2px rgba(0 0 0 / .5);
 }
 
@@ -24,6 +25,6 @@
 }
 
 .nav-link:hover, .nav-link:focus {
-  background-color: rgba(255 255 255 / .4);
+  background-color: rgba(155 155 155 / 0.05);
   box-shadow: inset 0 2px 4px -2px rgba(0 0 0 / .5);
 }
