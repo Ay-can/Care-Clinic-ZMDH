@@ -1,8 +1,9 @@
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+[Authorize(Roles ="Moderator")]
 public class RoleSystemController : Controller
 {
     private readonly RoleManager<IdentityRole> _roleManager;
