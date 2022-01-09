@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -11,9 +13,25 @@ namespace Wdpr_Groep_E
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+             var host = CreateHostBuilder(args).Build();
+            using (var scope = host.Services.CreateScope())
+            {
+                var getService = scope.ServiceProvider;
+                try
+                {
+                    var getContext = getService.GetRequiredService<AppContext>();
+                    var getUserManager = getService.GetRequiredService<UserManager<IdentityUser>>();
+                    var getRoleManager = getService.GetRequiredService<RoleManager<IdentityRole>>();
+                    await SeedContext.CreateRolesAsync(getUserManager, getRoleManager);
+                }
+                catch
+                {
+                    System.Console.WriteLine("Het seeding van database is niet gelukt");
+                }
+            }
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
