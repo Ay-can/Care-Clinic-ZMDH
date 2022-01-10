@@ -32,13 +32,13 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "De {0} moet minstens {2} en maximaal {1} karakters lang zijn.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Wachtwoord bevestigen")]
+            [Compare("Password", ErrorMessage = "Het wachtwoord en het bevestigingswachtwoord komen niet overeen.")]
             public string ConfirmPassword { get; set; }
 
             public string Code { get; set; }
@@ -48,7 +48,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
         {
             if (code == null)
             {
-                return BadRequest("A code must be supplied for password reset.");
+                return BadRequest("Voor het resetten van het wachtwoord moet een code worden opgegeven.");
             }
             else
             {

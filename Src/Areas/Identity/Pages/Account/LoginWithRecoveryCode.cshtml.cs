@@ -33,7 +33,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
             [BindProperty]
             [Required]
             [DataType(DataType.Text)]
-            [Display(Name = "Recovery Code")]
+            [Display(Name = "Herstel code")]
             public string RecoveryCode { get; set; }
         }
 
@@ -43,7 +43,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {
-                throw new InvalidOperationException($"Unable to load two-factor authentication user.");
+                throw new InvalidOperationException($"Kan gebruiker met tweestapsverificatie niet laden.");
             }
 
             ReturnUrl = returnUrl;
@@ -61,7 +61,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
             {
-                throw new InvalidOperationException($"Unable to load two-factor authentication user.");
+                throw new InvalidOperationException($"Kan gebruiker met tweestapsverificatie niet laden.");
             }
 
             var recoveryCode = Input.RecoveryCode.Replace(" ", string.Empty);
@@ -70,18 +70,18 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
 
             if (result.Succeeded)
             {
-                _logger.LogInformation("User with ID '{UserId}' logged in with a recovery code.", user.Id);
+                _logger.LogInformation("Gebruiker met ID '{UserId}' is ingelogd met een herstelcode.", user.Id);
                 return LocalRedirect(returnUrl ?? Url.Content("~/"));
             }
             if (result.IsLockedOut)
             {
-                _logger.LogWarning("User with ID '{UserId}' account locked out.", user.Id);
+                _logger.LogWarning("Het account van gebruiker met ID '{UserId}' is geblokkeerd.", user.Id);
                 return RedirectToPage("./Lockout");
             }
             else
             {
-                _logger.LogWarning("Invalid recovery code entered for user with ID '{UserId}' ", user.Id);
-                ModelState.AddModelError(string.Empty, "Invalid recovery code entered.");
+                _logger.LogWarning("Ongeldige herstelcode ingevoerd voor gebruiker met ID '{UserId}' ", user.Id);
+                ModelState.AddModelError(string.Empty, "Ongeldige herstelcode ingevoerd.");
                 return Page();
             }
         }
