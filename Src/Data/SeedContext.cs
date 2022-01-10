@@ -33,4 +33,26 @@ public static class SeedContext
             }
         }
     }
+
+    public static async Task CreateTestUserAsync(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+    {
+        //nog aanpassen wanneer default IdentityUser is veranderd.
+
+        var User = new IdentityUser
+        {
+            UserName = "test@mail.nl",
+            Email = "test@mail.nl",
+            EmailConfirmed = true,
+            PhoneNumberConfirmed = true
+        };
+       if(userManager.Users.All(s => s.Id != User.Id))
+       {
+           var Manager = await userManager.FindByEmailAsync(User.Email);
+           if(Manager == null)
+           {
+               await userManager.CreateAsync(User,"test");
+               await userManager.AddToRoleAsync(User,"Ouder");
+           }
+       } 
+    }
 }
