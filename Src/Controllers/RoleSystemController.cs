@@ -19,7 +19,15 @@ public class RoleSystemController : Controller
         return View(GetRoles);
     }
    //AddRoles....
-
+    [HttpPost]
+    public async Task<IActionResult> AddRole(string Name)
+    {
+      if(Name != null)
+      {
+          await _roleManager.CreateAsync(new IdentityRole(Name));
+      }  
+      return RedirectToAction("Index");
+    }
 
    //DeleteRoles...
 
