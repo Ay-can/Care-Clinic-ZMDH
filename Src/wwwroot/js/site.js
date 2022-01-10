@@ -1,4 +1,5 @@
-﻿// Set the needed constants.
+﻿// Password show/hide switch
+// Set the needed constants.
 const inputPassword = document.querySelector(".input-password");
 
 // Check if password input field is on the page.
@@ -16,3 +17,19 @@ if (inputPassword) {
             : (this.innerHTML = "visibility_off");
     };
 }
+
+// Load icon
+document.onreadystatechange = function () {
+    $("body").css("overflow", "hidden");
+    const state = document.readyState;
+    if (state === "interactive") {
+        document.querySelector("main").style.visibility = "hidden";
+    } else if (state === "complete") {
+        setTimeout(function () {
+            $("body").css("overflow", "visible");
+            // document.getElementById("interactive");
+            document.querySelector(".load").style.visibility = "hidden";
+            document.querySelector("main").style.visibility = "visible";
+        }, 100);
+    }
+};

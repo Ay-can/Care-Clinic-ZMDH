@@ -4,7 +4,7 @@
 
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light">
-        <a class="navbar-brand mr-3 pt-1 pb-1" asp-controller="Home" asp-action="Index" tabindex="-1" aria-disabled="true">
+        <a class="navbar-brand mr-3" asp-controller="Home" asp-action="Index" tabindex="-1" aria-disabled="true">
             <img src="~/img/logo.svg" alt="ZMDH logo">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,21 +13,27 @@
         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="Home" asp-action="Index"><span class="material-icons-round">home</span>Home</a>
+                    <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">
+                        <span class="material-icons-round d-flex align-items-center">home</span>Home
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="About" asp-action="Index"><span class="material-icons-round">info</span>Over ons</a>
+                    <a class="nav-link text-dark" asp-controller="About" asp-action="Index">
+                        <span class="material-icons-round d-flex align-items-center">info</span>Over ons
+                    </a>
                 </li>
             </ul>
             @if (SignInManager.IsSignedIn(User))
             {
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hallo @UserManager.GetUserName(User)!</a>
+                        <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Account">Hallo @UserManager.GetUserName(User)!</a>
                     </li>
                     <li class="nav-item">
                         <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl='@Url.Action("Index","Home", new { area = ""})'>
-                            <button id="logout" type="submit" class="nav-link btn btn-link text-dark"><span class="material-icons-round">logout</span>Uitloggen</button>
+                            <button id="logout" type="submit" class="nav-link btn btn-link text-dark w-100">
+                                <span class="material-icons-round d-flex align-items-center">logout</span>Uitloggen
+                            </button>
                         </form>
                     </li>
                 </ul>
@@ -36,10 +42,14 @@
             {
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login"><span class="material-icons-round">login</span>Login</a>
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">
+                            <span class="material-icons-round d-flex align-items-center">login</span>Login
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register"><span class="material-icons-round">person_add</span>Registreer</a>
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">
+                            <span class="material-icons-round d-flex align-items-center">person_add</span>Registreer
+                        </a>
                     </li>
                 </ul>
             }

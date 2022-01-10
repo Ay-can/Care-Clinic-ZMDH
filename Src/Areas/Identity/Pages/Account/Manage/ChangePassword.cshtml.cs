@@ -35,18 +35,18 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [DataType(DataType.Password)]
-            [Display(Name = "Current password")]
+            [Display(Name = "Huiding wachtwoord")]
             public string OldPassword { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "Uw {0} moet minstens {2} en maximaal {1} karakters lang zijn.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "New password")]
+            [Display(Name = "Nieuw wachtwoord")]
             public string NewPassword { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm new password")]
-            [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+            [Display(Name = "Bevesting nieuw wachtwoord")]
+            [Compare("NewPassword", ErrorMessage = "Het nieuwe wachtwoord en de bevestiging van het nieuwe wachtwoord komen niet overeen.")]
             public string ConfirmPassword { get; set; }
         }
 

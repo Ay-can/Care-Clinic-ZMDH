@@ -31,6 +31,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
 
         public string Username { get; set; }
 
+        [Display(Name = "E-mail")]
         public string Email { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
@@ -45,7 +46,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [EmailAddress]
-            [Display(Name = "New email")]
+            [Display(Name = "Nieuw e-mail")]
             public string NewEmail { get; set; }
         }
 

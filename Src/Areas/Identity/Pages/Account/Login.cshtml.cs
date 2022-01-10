@@ -42,13 +42,13 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "E-mail is verplicht.")]
+            [EmailAddress(ErrorMessage = "E-mail is verplicht.")]
             [Display(Name = "E-mail")]
             public string Email { get; set; }
 
-            [Required]
-            [DataType(DataType.Password)]
+            [Required(ErrorMessage = "Wachtwoord is verplicht.")]
+            [DataType(DataType.Password, ErrorMessage = "Wachtwoord is verplicht.")]
             [Display(Name = "Wachtwoord")]
             public string Password { get; set; }
 
