@@ -2,6 +2,7 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
+
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light">
         <a class="navbar-brand mr-3" asp-controller="Home" asp-action="Index" tabindex="-1" aria-disabled="true">
@@ -25,6 +26,17 @@
             </ul>
             @if (SignInManager.IsSignedIn(User))
             {
+                 @if (User.IsInRole("Moderator"))
+                {
+                     <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="UserSystem" asp-action="Index"><span class="material-icons-round"></span>Gebruikers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-controller="RoleSystem" asp-action="Index"><span class="material-icons-round"></span>Rollen</a>
+                    </li>
+                </ul>
+                }
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Account">Hallo @UserManager.GetUserName(User)!</a>
@@ -37,6 +49,7 @@
                         </form>
                     </li>
                 </ul>
+               
             }
             else
             {

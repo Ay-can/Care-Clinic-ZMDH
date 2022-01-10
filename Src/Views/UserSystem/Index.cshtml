@@ -1,0 +1,30 @@
+@model List<UserRoleViewModel>;
+@{
+ViewData["Title"] = "User Management Systeem";
+}
+<h1>Rollen van gebruikers</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Email</th>
+            <th>Rollen</th>
+            <th>Update</th>
+            <th>Verwijder</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+           <tr>
+               <td>@user.UserId</td>
+               <td>@user.Email</td>
+               <td>@string.Join(" ", user.Roles.ToList())
+               <td><a class="btn btn-primary">Aanpassen</td>
+               <form method="post" asp-controller="UserSystem" asp-action="DeleteUser" asp-route-id="@user.UserId">
+               <td><button class="btn btn-danger">Verwijder</button></td>
+                </form>
+           </tr> 
+        }
+    </tbody>
+</table>
