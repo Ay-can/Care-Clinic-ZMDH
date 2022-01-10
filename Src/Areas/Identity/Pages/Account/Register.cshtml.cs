@@ -45,21 +45,36 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required(ErrorMessage = "E-mail is verplicht.")]
-            [EmailAddress(ErrorMessage = "E-mail is verplicht.")]
+            [Required(ErrorMessage = "{0} is verplicht.")]
+            [EmailAddress(ErrorMessage = "Uw {0} is niet correct.")]
             [Display(Name = "E-mail")]
             public string Email { get; set; }
 
-            [Required(ErrorMessage = "Wachtwoord is verplicht.")]
+            [Required(ErrorMessage = "{0} is verplicht.")]
             [StringLength(100, ErrorMessage = "Uw {0} moet minstens {2} en maximaal {1} karakters lang zijn.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Wachtwoord")]
             public string Password { get; set; }
 
-            [DataType(DataType.Password)]
+            [Required(ErrorMessage = "{0} is verplicht.")]
+            [DataType(DataType.Password, ErrorMessage = "{0} is verplicht.")]
             [Display(Name = "Bevestig wachtwoord")]
             [Compare("Password", ErrorMessage = "De ingevoerde wachtwoorden komen niet overeen.")]
             public string ConfirmPassword { get; set; }
+
+            [Required(ErrorMessage = "{0} is verplicht.")]
+            [Display(Name = "Gebruikersnaam")]
+            public string UserName { get; set; }
+
+            [Required(ErrorMessage = "{0} is verplicht.")]
+            [DataType(DataType.Date)]
+            [Display(Name = "Geboortedatum")]
+            public DateTime BirthDate
+            {
+                get { return this.dateCreated.HasValue ? this.dateCreated.Value : DateTime.Now; }
+                set { this.dateCreated = value; }
+            }
+            private DateTime? dateCreated = null;
         }
 
         public async Task OnGetAsync(string returnUrl = null)

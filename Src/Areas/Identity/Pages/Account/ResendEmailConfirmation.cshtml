@@ -10,6 +10,10 @@
         <div class="col">
             <section>
                 <form method="post">
+                    <p class="pb-3">
+                        Het kan zijn dat u na het registreren geen verfificatie mail van ons heeft ontvangen, of deze bent kwijt geraakt.
+                        Vul hier onder uw e-mail in waarmee u had geregistreerd om opnieuw een verfificatie te ontvangen.
+                    </p>
                     <h4>Voer uw e-mail in.</h4>
                     <hr />
                     <div asp-validation-summary="All" class="text-danger"></div>
@@ -19,8 +23,11 @@
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
                     <div class="form-group text-center">
-                        <button type="submit" class="btn btn-primary">Opnieuw versturen</button>
+                        <button type="submit" class="btn btn-primary lg-btn mt-3">Opnieuw versturen</button>
                     </div>
+                    <p class="pt-3">
+                        Het kan even duren tot u de mail van ons ontvangt. Als u geen mail ontvangt na 15 minuten, probeer het dan opnieuw.
+                    </p>
                 </form>
             </section>
         </div>
