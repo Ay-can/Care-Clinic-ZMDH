@@ -61,23 +61,23 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Telefoonnummer")]
             public string PhoneNumber { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "{0} is verplicht.")]
             [Display(Name = "Straat")]
             public string Street { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "{0} is verplicht.")]
             [Display(Name = "Huisnummer")]
             public string HouseNumber { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "{0} is verplicht.")]
             [Display(Name = "Toevoeging")]
             public string Addition { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "{0} is verplicht.")]
             [Display(Name = "Postcode")]
             public string ZipCode { get; set; }
 
-            [Required]
+            [Required(ErrorMessage = "{0} is verplicht.")]
             [Display(Name = "Woonplaats")]
             public string City { get; set; }
         }

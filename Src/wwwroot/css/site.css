@@ -221,36 +221,38 @@ main {
 
 /* Angela van Heringa About
 -------------------------------------------------- */
-.about-paragraph{
+.about-paragraph {
   border-radius: .25rem;
   background-color: #F9F9F9;
   border: solid 1px rgba(0 0 0 / .25);
   box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
-  margin-bottom:0px;
+  margin-bottom: 0px;
 }
 
-.about-header{
+.about-header {
   text-align: center;
   padding: 1rem 1rem;
   font-weight: bolder;
 }
 
-.about-header-one{
+.about-header-one {
   margin: 2rem;
 }
 
-.about-header-two{
+.about-header-two {
   margin: 1rem;
   font-weight: bold;
 }
-.about-angela-img{
-  height:100%;
-}
-.about-gijs-img{
-  height:293px;
+
+.about-angela-img {
+  height: 100%;
 }
 
-.about-card-img{
+.about-gijs-img {
+  height: 293px;
+}
+
+.about-card-img {
   border-radius: .25rem;
   background-color: #F9F9F9;
   border: solid 1px rgba(0 0 0 / .25);
@@ -271,15 +273,15 @@ main {
   flex-direction: column;
   justify-content: center;
   background-color: #F9F9F9;
-  min-height: calc(100vh - 17rem);
+  min-height: calc(100vh - 18rem);
   border: solid 1px rgba(0 0 0 / .25);
   -webkit-box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
   box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
 }
 
 .page-md {
-  margin: 12rem auto;
-  min-height: calc(100vh - 29rem);
+  margin: 10rem auto;
+  min-height: calc(100vh - 26rem);
 }
 
 .page h1 {
