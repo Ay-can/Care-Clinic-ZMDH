@@ -22,6 +22,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
             _signInManager = signInManager;
         }
 
+        [Display(Name = "Gebruikersnaam")]
         public string Username { get; set; }
 
         [TempData]
@@ -32,9 +33,53 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+            [Required(ErrorMessage = "{0} is verplicht.")]
+            [StringLength(100, ErrorMessage = "Uw {0} mag mag maximaal {1} karakters lang zijn.")]
+            [Display(Name = "Voornaam")]
+            public string FirstName { get; set; }
+
+            [StringLength(50, ErrorMessage = "Uw {0} mag mag maximaal {1} karakters lang zijn.")]
+            [Display(Name = "Tussenvoegsel")]
+            public string Infix { get; set; }
+
+            [Required(ErrorMessage = "{0} is verplicht.")]
+            [StringLength(100, ErrorMessage = "Uw {0} mag mag maximaal {1} karakters lang zijn.")]
+            [Display(Name = "Achternaam")]
+            public string LastName { get; set; }
+
+            [Required(ErrorMessage = "{0} is verplicht.")]
+            [DataType(DataType.Date)]
+            [Display(Name = "Geboortedatum")]
+            public DateTime BirthDate
+            {
+                get { return this.dateCreated.HasValue ? this.dateCreated.Value : DateTime.Now; }
+                set { this.dateCreated = value; }
+            }
+            private DateTime? dateCreated = null;
+
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Telefoon nummer")]
             public string PhoneNumber { get; set; }
+
+            [Required]
+            [Display(Name = "Straat")]
+            public string Street { get; set; }
+
+            [Required]
+            [Display(Name = "Huisnummer")]
+            public string HouseNumber { get; set; }
+
+            [Required]
+            [Display(Name = "Toevoeging")]
+            public string Addition { get; set; }
+
+            [Required]
+            [Display(Name = "Postcode")]
+            public string ZipCode { get; set; }
+
+            [Required]
+            [Display(Name = "Woonplaats")]
+            public string City { get; set; }
         }
 
         private async Task LoadAsync(IdentityUser user)
