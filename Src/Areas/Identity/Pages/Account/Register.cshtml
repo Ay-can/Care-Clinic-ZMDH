@@ -10,31 +10,68 @@
         <div class="col">
             <section>
                 <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                    <h4>Maak een account aan.</h4>
+                    <h4>Maak uw ZMDH account aan.</h4>
                     <hr />
                     <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="Input.UserName"></label><span class="required"> *</span>
+                                <input asp-for="Input.UserName" class="form-control input-password" />
+                                <small class="d-block pt-1">Een unieke gebruikersnaam voor in de chat.</small>
+                                <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label asp-for="Input.BirthDate"></label><span class="required"> *</span>
+                                <input asp-for="Input.BirthDate" class="form-control" />
+                                <small class="d-block pt-1">Om een ZMDH account aan te maken moet u minstens 16 jaar oud zijn.</small>
+                                <span asp-validation-for="Input.BirthDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label asp-for="Input.Email"></label><span class="required"> *</span>
                         <input asp-for="Input.Email" class="form-control" />
+                        <small class="d-block pt-1">U zal een bevestigingsmail ontvangen op dit e-mailadres.</small>
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="Input.Password"></label><span class="required"> *</span>
-                        <div class="input-group">
-                            <input asp-for="Input.Password" class="form-control input-password" />
-                            <div class="input-group-append">
-                                <div class="input-group-text"><span class="material-icons-round toggle-password">visibility_off</div>
+                    <div class="form-row">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Input.Password"></label><span class="required"> *</span>
+                                <div class="input-group">
+                                    <input asp-for="Input.Password" class="form-control input-password" />
+                                    <div class="input-group-append">
+                                        <div class="input-group-text"><span class="material-icons-round toggle-password">visibility_off</div>
+                                    </div>
+                                </div>
+                                <small class="d-block pt-1">Minstens 6 karakters waarvan; 1 hoofdletter, 1 cijfer en 1 speciaal karakter.</small>
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
                             </div>
                         </div>
-                        <span asp-validation-for="Input.Password" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Input.ConfirmPassword"></label><span class="required"> *</span>
-                        <input asp-for="Input.ConfirmPassword" class="form-control" />
-                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Input.ConfirmPassword"></label><span class="required"> *</span>
+                                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                                <small class="d-block pt-1">Herhaal uw wachtwoord ter controle.</small>
+                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
                     <div class="form-group text-center">
-                        <button type="submit" class="btn btn-primary">Registreer</button>
+                        <button type="submit" class="btn btn-primary lg-btn mt-3">Registreer</button>
+                    </div>
+                    <div class="form-group pt-3">
+                        <div class="row">
+                            <div class="col">
+                                <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Al een ZMDH account? Klik hier om in te loggen.</a>
+                            </div>
+                            <div class="col text-right">
+                                <a asp-controller="Privacy" asp-action="Index">Vragen over uw gegevens? Bekijk ons beleid hier.</a>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </section>

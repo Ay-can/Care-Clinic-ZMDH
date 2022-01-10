@@ -1,26 +1,39 @@
 @page
 @model ResendEmailConfirmationModel
 @{
-    ViewData["Title"] = "Resend email confirmation";
+    ViewData["Title"] = "Opnieuw verificatie versturen";
 }
 
-<h1>@ViewData["Title"]</h1>
-<h4>Enter your email.</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-primary">Resend</button>
-        </form>
+<div class="container page page-md">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+    <div class="row">
+        <div class="col">
+            <section>
+                <form method="post">
+                    <p class="pb-3">
+                        Het kan zijn dat u na het registreren geen verfificatie mail van ons heeft ontvangen, of deze bent kwijt geraakt.
+                        Vul hier onder uw e-mail in waarmee u had geregistreerd om opnieuw een verfificatie te ontvangen.
+                    </p>
+                    <h4>Voer uw e-mail in.</h4>
+                    <hr />
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Input.Email"></label><span class="required"> *</span>
+                        <input asp-for="Input.Email" class="form-control" />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-primary lg-btn mt-3">Opnieuw versturen</button>
+                    </div>
+                    <p class="pt-3">
+                        Het kan even duren tot u de mail van ons ontvangt. Als u geen mail ontvangt na 15 minuten, probeer het dan opnieuw.
+                    </p>
+                </form>
+            </section>
+        </div>
     </div>
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+<partial name="_ValidationScriptsPartial" />
 }

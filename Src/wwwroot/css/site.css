@@ -19,6 +19,17 @@
   padding-right: 1rem;
 }
 
+/* Load icon */
+.load {
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background: url('../img/load.svg') center no-repeat white;
+}
+
 /* Colors */
 
 :root {
@@ -28,15 +39,41 @@
 
 /* Style */
 
+::-webkit-scrollbar-track {
+  background-color: #F9F9F9;
+  -webkit-box-shadow: inset 0 0 4px -2px rgb(0 0 0 / .5);
+  box-shadow: inset 0 0 4px -2px rgb(0 0 0 / .5);
+}
+
+::-webkit-scrollbar {
+  width: .5rem;
+  height: .25rem;
+  background-color: #F9F9F9;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #C9C9C9;
+}
+
 body {
   font-family: "Lato", sans-serif;
 }
 
 main {
-  padding-top: 3.5rem;
+  overflow-y: auto;
+  /* Navbar height */
+  padding-top: 4rem;
   background-color: #FBFBFB;
   /* Whole page minus footer */
-  min-height: calc(100vh - 1.5rem);
+  min-height: calc(100vh - 2rem);
+}
+
+.md-btn {
+  padding: .25rem 1rem;
+}
+
+.lg-btn {
+  padding: .25rem 4rem;
 }
 
 /* Homepage
@@ -69,21 +106,9 @@ main {
   justify-content: center;
 }
 
-@media screen and (max-width: 768px) {
-  .head-card {
-    margin: 6rem auto 4rem;
-  }
-}
-
 .head-card>p {
   color: #FFF;
   font-size: 1.5em;
-}
-
-@media screen and (max-width: 768px) {
-  .head-card>p {
-    font-size: 1.25em;
-  }
 }
 
 .head-card>img {
@@ -93,32 +118,8 @@ main {
   filter: drop-shadow(0 1px 1px rgba(0 0 0 / .25));
 }
 
-@media screen and (max-width: 768px) {
-  .head-card>img {
-    max-width: 20rem;
-  }
-}
-
 .home-row {
   padding: 0 6rem;
-}
-
-@media screen and (max-width: 992px) {
-  .home-row {
-    padding: 0 2rem;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .home-row {
-    padding: 0 1rem;
-  }
-}
-
-@media screen and (max-width: 576px) {
-  .home-row {
-    margin-bottom: 6rem;
-  }
 }
 
 .home-card {
@@ -130,6 +131,35 @@ main {
   background-color: rgba(255 255 255 / .05);
 }
 
+
+.home-container {
+  padding: 6rem 2rem;
+}
+
+@media screen and (max-width: 992px) {
+  .home-row {
+    padding: 0 2rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .head-card {
+    margin: 6rem auto 4rem;
+  }
+
+  .head-card>p {
+    font-size: 1.25em;
+  }
+
+  .head-card>img {
+    max-width: 20rem;
+  }
+
+  .home-row {
+    padding: 0 1rem;
+  }
+}
+
 @media screen and (max-width: 576px) {
   .home-card {
     margin: 1rem;
@@ -138,6 +168,10 @@ main {
 
   .home-card>h2 {
     font-size: 1.9rem;
+  }
+
+  .home-row {
+    margin-bottom: 6rem;
   }
 }
 
@@ -152,10 +186,6 @@ main {
   }
 }
 
-.home-container {
-  padding: 6rem 2rem;
-}
-
 /* About
 -------------------------------------------------- */
 
@@ -164,15 +194,11 @@ main {
 }
 
 .about-card {
-  padding-top: 1rem;
   border-radius: .25rem;
   background-color: #F9F9F9;
   border: solid 1px rgba(0 0 0 / .25);
+  -webkit-box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
   box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
-}
-
-.about-card figure {
-  margin-bottom: 1rem;
 }
 
 .about-card figure img {
@@ -188,11 +214,53 @@ main {
 .about-card p {
   overflow: hidden;
   text-align: center;
-  margin-bottom: 1rem;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
+
+/* Angela van Heringa About
+-------------------------------------------------- */
+.about-paragraph {
+  border-radius: .25rem;
+  background-color: #F9F9F9;
+  border: solid 1px rgba(0 0 0 / .25);
+  box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
+  margin-bottom: 0px;
+}
+
+.about-header {
+  text-align: center;
+  padding: 1rem 1rem;
+  font-weight: bolder;
+}
+
+.about-header-one {
+  margin: 2rem;
+}
+
+.about-header-two {
+  margin: 1rem;
+  font-weight: bold;
+}
+
+.about-angela-img {
+  height: 100%;
+}
+
+.about-gijs-img {
+  height: 293px;
+}
+
+.about-card-img {
+  border-radius: .25rem;
+  background-color: #F9F9F9;
+  border: solid 1px rgba(0 0 0 / .25);
+  box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
+  padding: 1rem;
+  padding-right: 19.5rem;
+}
+
 
 /* Login & Register
 -------------------------------------------------- */
@@ -200,13 +268,20 @@ main {
 .page {
   display: flex;
   margin: 6rem auto;
+  padding: 3rem 1rem;
   border-radius: .25rem;
   flex-direction: column;
   justify-content: center;
   background-color: #F9F9F9;
-  height: calc(100vh - 17rem);
+  min-height: calc(100vh - 18rem);
   border: solid 1px rgba(0 0 0 / .25);
+  -webkit-box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
   box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
+}
+
+.page-md {
+  margin: 10rem auto;
+  min-height: calc(100vh - 26rem);
 }
 
 .page h1 {
@@ -217,16 +292,91 @@ main {
   padding: 0 6rem;
 }
 
-.page .btn {
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-  padding: .25rem 4rem;
-}
-
 .toggle-password {
   cursor: pointer;
 }
 
 .required {
   color: var(--red);
+}
+
+@media screen and (max-width: 576px) {
+  .page {
+    border: none;
+    margin: 0 auto;
+    box-shadow: none;
+    background-color: #FBFBFB;
+    min-height: calc(100vh - 5rem);
+  }
+
+  .page section {
+    padding: 1.5rem;
+  }
+}
+
+/* Profile
+-------------------------------------------------- */
+
+.profile-nav .nav {
+  flex-wrap: nowrap;
+  overflow-y: hidden;
+  overflow-x: overlay;
+  white-space: nowrap;
+}
+
+.profile-nav .nav-link {
+  padding: .5rem 1.5rem;
+  color: rgb(0 0 0 / .75);
+  border-radius: .25rem .25rem 0 0;
+}
+
+.profile-nav .nav-link.active {
+  color: #000;
+  margin-bottom: -1px;
+  background-color: #F9F9F9;
+  border-bottom: none !important;
+  border: solid 1px rgba(0 0 0 / .25);
+  -webkit-box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
+  box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
+}
+
+.profile-row {
+  margin-top: -1px;
+  border-radius: .25rem;
+  background-color: #F9F9F9;
+  border: solid 1px rgba(0 0 0 / .25);
+  -webkit-box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
+  box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
+}
+
+@media screen and (max-width: 576px) {
+  .profile-nav .nav-link {
+    padding: .5rem 1rem !important;
+  }
+
+  .profile-row {
+    border: none;
+    border-radius: 0;
+    border-top: solid 1px rgba(0 0 0 / .25);
+  }
+
+  .info-row {
+    padding: 0 1rem;
+  }
+}
+
+@media screen and (min-width: 576px) {
+  .profile {
+    margin-bottom: 1rem;
+  }
+
+  .info-row {
+    padding: 1rem 4rem;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .info-row {
+    padding: 2rem 6rem;
+  }
 }
