@@ -2,32 +2,39 @@
 @{
     ViewData["Title"] = "Role Management Systeem";
 }
-<h1>Rol Magement Systeem</h1>
-<form method="post" asp-action="AddRole" asp-controller="RoleSystem">
-    <div class="input-group">
-        <input name="Name" class="form-control"></input>
-        <span class="input-group-btn">
-            <button class="btn btn-primary">Rol Toevoegen</button>
-        </span>
+
+<div class="container-fluid manage pt-3 pb-3">
+    <div class="row">
+        <div class="col">
+            <h1>Rol Magement Systeem</h1>
+            <form method="post" asp-action="AddRole" asp-controller="RoleSystem">
+                <div class="input-group">
+                    <input name="Name" class="form-control"></input>
+                    <span class="input-group-btn pl-3">
+                        <button class="btn btn-primary">Rol Toevoegen</button>
+                    </span>
+                </div>
+            </form>
+            <table class="table table-sm table-striped table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Rol</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var role in Model)
+                    {
+                        <tr>
+                            <td>@role.Id</td>
+                            <td>@role.Name</td>
+                            <form method="post" asp-action="DeleteRole" asp-controller="RoleSystem" asp-route-id="@role.Id">
+                                <td class="text-center"><button class="btn btn-sm btn-danger">Verwijder</button></td>
+                            </form>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-</form>
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Rol</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var role in Model)
-        {
-            <tr>
-                <td>@role.Id</td>
-                <td>@role.Name</td>
-                <form method="post" asp-action="DeleteRole" asp-controller="RoleSystem" asp-route-id="@role.Id">
-                <td><button class="btn btn-danger">Verwijder</button></td>
-                </form>
-            </tr>
-        }
-    </tbody>
-</table>
+</div>
