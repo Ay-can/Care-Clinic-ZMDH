@@ -136,13 +136,13 @@ main {
   padding: 6rem 2rem;
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 991.98px) {
   .home-row {
     padding: 0 2rem;
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767.98px) {
   .head-card {
     margin: 6rem auto 4rem;
   }
@@ -160,7 +160,7 @@ main {
   }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 575.98px) {
   .home-card {
     margin: 1rem;
     font-size: .9rem;
@@ -188,11 +188,6 @@ main {
 
 /* About
 -------------------------------------------------- */
-
-.about-row {
-  margin: 1rem 0;
-}
-
 .about-card {
   border-radius: .25rem;
   background-color: #F9F9F9;
@@ -201,7 +196,7 @@ main {
   box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
 }
 
-.about-card figure img {
+.about-card img, about-card figure img {
   width: 100%;
   border-radius: .25rem;
 }
@@ -219,48 +214,21 @@ main {
   -webkit-box-orient: vertical;
 }
 
-/* Angela van Heringa About
--------------------------------------------------- */
-.about-paragraph {
-  border-radius: .25rem;
-  background-color: #F9F9F9;
-  border: solid 1px rgba(0 0 0 / .25);
-  box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
-  margin-bottom: 0px;
-}
+@media screen and (max-width: 767.98px) {
+  .head-row {
+    flex-direction: column-reverse;
+  }
 
-.about-header {
-  text-align: center;
-  padding: 1rem 1rem;
-  font-weight: bolder;
-}
+  .head-row .about-card {
+    flex-grow: 0;
+    margin-bottom: 1rem;
+  }
 
-.about-header-one {
-  margin: 2rem;
+  .head-row .about-card img {
+    width: auto;
+    height: 12rem;
+  }
 }
-
-.about-header-two {
-  margin: 1rem;
-  font-weight: bold;
-}
-
-.about-angela-img {
-  height: 100%;
-}
-
-.about-gijs-img {
-  height: 293px;
-}
-
-.about-card-img {
-  border-radius: .25rem;
-  background-color: #F9F9F9;
-  border: solid 1px rgba(0 0 0 / .25);
-  box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
-  padding: 1rem;
-  padding-right: 19.5rem;
-}
-
 
 /* Login & Register
 -------------------------------------------------- */
@@ -300,7 +268,7 @@ main {
   color: var(--red);
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 575.98px) {
   .page {
     border: none;
     margin: 0 auto;
@@ -349,7 +317,7 @@ main {
   box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 575.98px) {
   .profile-nav .nav-link {
     padding: .5rem 1rem !important;
   }
