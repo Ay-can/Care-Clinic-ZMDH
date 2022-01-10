@@ -38,5 +38,12 @@ public class UserSystemController : Controller
       return View(getRoleViewModel);
     }
 
+    public async Task<IActionResult> DeleteUser(string id)
+    {
+        var GetUser = _userManager.FindByIdAsync(id);
+        await _userManager.DeleteAsync(GetUser.Result);
+        return RedirectToAction("Index");
+    }
+
 
 }

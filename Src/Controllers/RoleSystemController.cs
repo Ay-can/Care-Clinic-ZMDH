@@ -30,7 +30,17 @@ public class RoleSystemController : Controller
     }
 
    //DeleteRoles...
-
+    [HttpPost]
+    public async Task<IActionResult> DeleteRole(string id)
+    {
+        var GetRole = await _roleManager.FindByIdAsync(id);
+        if(GetRole == null)
+        {
+            //return not found view of andere pagina.
+        }
+        await _roleManager.DeleteAsync(GetRole);
+        return RedirectToAction("Index");
+    }
 
 
 

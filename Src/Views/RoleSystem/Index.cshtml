@@ -24,7 +24,9 @@
             <tr>
                 <td>@role.Id</td>
                 <td>@role.Name</td>
+                <form method="post" asp-action="DeleteRole" asp-controller="RoleSystem" asp-route-id="@role.Id">
                 <td><button class="btn btn-danger">Verwijder</button></td>
+                </form>
             </tr>
         }
     </tbody>
