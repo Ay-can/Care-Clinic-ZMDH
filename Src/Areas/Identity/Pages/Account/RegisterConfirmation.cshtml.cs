@@ -37,7 +37,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                return NotFound($"Unable to load user with email '{email}'.");
+                return NotFound($"Kan gebruiker met email '{email}' niet laden.");
             }
 
             Email = email;
