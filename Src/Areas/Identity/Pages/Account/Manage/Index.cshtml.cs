@@ -34,16 +34,16 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Required(ErrorMessage = "{0} is verplicht.")]
-            [StringLength(100, ErrorMessage = "Uw {0} mag mag maximaal {1} karakters lang zijn.")]
+            [StringLength(100, ErrorMessage = "Uw {0} mag maximaal {1} karakters lang zijn.")]
             [Display(Name = "Voornaam")]
             public string FirstName { get; set; }
 
-            [StringLength(50, ErrorMessage = "Uw {0} mag mag maximaal {1} karakters lang zijn.")]
+            [StringLength(50, ErrorMessage = "Uw {0} mag maximaal {1} karakters lang zijn.")]
             [Display(Name = "Tussenvoegsel")]
             public string Infix { get; set; }
 
             [Required(ErrorMessage = "{0} is verplicht.")]
-            [StringLength(100, ErrorMessage = "Uw {0} mag mag maximaal {1} karakters lang zijn.")]
+            [StringLength(100, ErrorMessage = "Uw {0} mag maximaal {1} karakters lang zijn.")]
             [Display(Name = "Achternaam")]
             public string LastName { get; set; }
 
@@ -58,7 +58,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
             private DateTime? dateCreated = null;
 
             [Phone]
-            [Display(Name = "Telefoon nummer")]
+            [Display(Name = "Telefoonnummer")]
             public string PhoneNumber { get; set; }
 
             [Required(ErrorMessage = "{0} is verplicht.")]

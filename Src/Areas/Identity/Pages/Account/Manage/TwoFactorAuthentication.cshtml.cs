@@ -44,7 +44,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Kan gebruiker met ID '{_userManager.GetUserId(User)}' niet laden.");
             }
 
             HasAuthenticator = await _userManager.GetAuthenticatorKeyAsync(user) != null;
@@ -60,11 +60,11 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Kan gebruiker met ID '{_userManager.GetUserId(User)}' niet laden.");
             }
 
             await _signInManager.ForgetTwoFactorClientAsync();
-            StatusMessage = "The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code.";
+            StatusMessage = "De huidige browser is vergeten. Wanneer u opnieuw inlogt vanuit deze browser, wordt u om uw 2fa-code gevraagd.";
             return RedirectToPage();
         }
     }

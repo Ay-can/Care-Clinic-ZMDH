@@ -33,7 +33,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Kan gebruiker met ID '{_userManager.GetUserId(User)}' niet laden.");
             }
 
             return Page();
@@ -44,15 +44,15 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Kan gebruiker met ID '{_userManager.GetUserId(User)}' niet laden.");
             }
 
             await _userManager.SetTwoFactorEnabledAsync(user, false);
             await _userManager.ResetAuthenticatorKeyAsync(user);
-            _logger.LogInformation("User with ID '{UserId}' has reset their authentication app key.", user.Id);
+            _logger.LogInformation("Gebruiker met ID '{UserId}' heeft hun authenticatie-app-sleutel opnieuw ingesteld.", user.Id);
             
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your authenticator app key has been reset, you will need to configure your authenticator app using the new key.";
+            StatusMessage = "Uw authenticator-app-sleutel is opnieuw ingesteld, u moet uw authenticator-app configureren met de nieuwe sleutel.";
 
             return RedirectToPage("./EnableAuthenticator");
         }
