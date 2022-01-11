@@ -16,15 +16,15 @@
                     <div class="form-row">
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
-                                <label asp-for="Input.UserName"></label><span class="required"> *</span>
-                                <input asp-for="Input.UserName" class="form-control input-password" />
+                                <label asp-for="Input.UserName"></label>:<span class="required"> *</span>
+                                <input asp-for="Input.UserName" class="form-control" placeholder="Gebruikersnaam" />
                                 <small class="d-block pt-1">Een unieke gebruikersnaam voor in de chat.</small>
                                 <span asp-validation-for="Input.UserName" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
-                                <label asp-for="Input.BirthDate"></label><span class="required"> *</span>
+                                <label asp-for="Input.BirthDate"></label>:<span class="required"> *</span>
                                 <input asp-for="Input.BirthDate" class="form-control" />
                                 <small class="d-block pt-1">Om een ZMDH account aan te maken moet u minstens 16 jaar oud zijn.</small>
                                 <span asp-validation-for="Input.BirthDate" class="text-danger"></span>
@@ -32,17 +32,17 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label asp-for="Input.Email"></label><span class="required"> *</span>
-                        <input asp-for="Input.Email" class="form-control" />
+                        <label asp-for="Input.Email"></label>:<span class="required"> *</span>
+                        <input asp-for="Input.Email" class="form-control" placeholder="E-mailadres" />
                         <small class="d-block pt-1">U zal een bevestigingsmail ontvangen op dit e-mailadres.</small>
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
                     <div class="form-row">
                         <div class="col-12 col-md-6">
                             <div class="form-group">
-                                <label asp-for="Input.Password"></label><span class="required"> *</span>
+                                <label asp-for="Input.Password"></label>:<span class="required"> *</span>
                                 <div class="input-group">
-                                    <input asp-for="Input.Password" class="form-control input-password" />
+                                    <input asp-for="Input.Password" class="form-control input-password" placeholder="Wachtwoord" />
                                     <div class="input-group-append">
                                         <div class="input-group-text"><span class="material-icons-round toggle-password">visibility_off</div>
                                     </div>
@@ -53,8 +53,8 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <div class="form-group">
-                                <label asp-for="Input.ConfirmPassword"></label><span class="required"> *</span>
-                                <input asp-for="Input.ConfirmPassword" class="form-control" />
+                                <label asp-for="Input.ConfirmPassword"></label>:<span class="required"> *</span>
+                                <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Bevestig wachtwoord" />
                                 <small class="d-block pt-1">Herhaal uw wachtwoord ter controle.</small>
                                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                             </div>
