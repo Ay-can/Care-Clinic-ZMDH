@@ -131,7 +131,6 @@ main {
   background-color: rgba(255 255 255 / .05);
 }
 
-
 .home-container {
   padding: 6rem 2rem;
 }
@@ -178,7 +177,7 @@ main {
 @media screen and (min-width: 1200px) {
   .home-card {
     font-size: 1.1rem;
-    margin: 1rem 6rem 6rem;
+    margin: 1rem 4rem 6rem;
   }
 
   .home-card>h2 {
