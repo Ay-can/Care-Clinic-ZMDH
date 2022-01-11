@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="~/css/site.css">
     <link rel="stylesheet" href="~/css/navbar.css">
     <link rel="stylesheet" href="~/css/footer.css">
+
+    <link rel="stylesheet" href="~/css/accessibility.css">
 </head>
 
 <body>
@@ -25,6 +27,13 @@
         @RenderBody()
     </main>
 
+    <div class="accessibility" tabindex="1">
+        <input type="checkbox" class="d-none" id="accessibilitySwitch">
+        <label class="accessibility-label" for="accessibilitySwitch">
+            <span class="material-icons-round" title="Klik hier om accessibility modus in te schakelen.">accessibility</span>
+        </label>
+    </div>
+
     <partial name="_Footer" />
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -33,6 +42,8 @@
     <script src="https://kit.fontawesome.com/ce2b63786f.js" crossorigin="anonymous"></script>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/accessibility.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 
