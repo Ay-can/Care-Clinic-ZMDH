@@ -106,7 +106,7 @@ main {
   justify-content: center;
 }
 
-.head-card>p {
+.head-card>h2 {
   color: #FFF;
   font-size: 1.5em;
 }
@@ -368,10 +368,14 @@ main {
 .manage input {
   border-radius: .25rem !important;
 }
-
+.manage table {
+  border: none;
+}
 /* Privacy
 -------------------------------------------------- */
 
 .privacy span {
   font-weight: 600;
 }
+
+
