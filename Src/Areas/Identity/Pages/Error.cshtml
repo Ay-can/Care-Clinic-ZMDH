@@ -4,20 +4,20 @@
     ViewData["Title"] = "Error";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<h1 class="text-danger">Fout.</h1>
+<h2 class="text-danger">Er is een fout opgetreden bij het verwerken van uw verzoek.</h2>
 
 @if (Model.ShowRequestId)
 {
     <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
+        <strong>Verzoek ID:</strong> <code>@Model.RequestId</code>
     </p>
 }
 
-<h3>Development Mode</h3>
+<h3>Ontwikkelmodus</h3>
 <p>
-    Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
+    Wisselen naar de <strong>ontwikkeling</strong> omgeving zal meer gedetailleerde informatie weergeven over de fout die is opgetreden.
 </p>
 <p>
-    <strong>Development environment should not be enabled in deployed applications</strong>, as it can result in sensitive information from exceptions being displayed to end users. For local debugging, development environment can be enabled by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>, and restarting the application.
+    <strong>De ontwikkeling omgeving mag niet zijn ingeschakeld in geïmplementeerde applicaties</strong>, omdat dit ertoe kan leiden dat gevoelige informatie van uitzonderingen wordt weergegeven aan eindgebruikers. Voor lokale foutopsporing kan de ontwikkelomgeving worden ingeschakeld door de <strong>ASPNETCORE_OMGEVING</strong> omgevingsvariabele om <strong>Ontwikkeling</strong>, en de applicatie opnieuw te starten.
 </p>
