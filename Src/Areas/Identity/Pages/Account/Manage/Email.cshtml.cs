@@ -46,7 +46,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [EmailAddress]
-            [Display(Name = "Nieuwe e-mail")]
+            [Display(Name = "Nieuw e-mail")]
             public string NewEmail { get; set; }
         }
 
