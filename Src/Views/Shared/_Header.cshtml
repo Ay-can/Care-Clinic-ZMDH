@@ -2,7 +2,6 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light">
         <a class="navbar-brand mr-3" asp-controller="Home" asp-action="Index" tabindex="-1" aria-disabled="true">
@@ -14,13 +13,18 @@
         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">
+                    <a class="nav-link text-dark" asp-controller="Home" asp-action="Index" title="Naar de homepagina.">
                         <span class="material-icons-round d-flex align-items-center">home</span>Home
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-controller="About" asp-action="Index">
-                        <span class="material-icons-round d-flex align-items-center">info</span>Over ons
+                    <a class="nav-link text-dark" asp-controller="Info" asp-action="Index" title="Hier vind u meer informatie.">
+                        <span class="material-icons-round d-flex align-items-center">info</span>Informatie
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-controller="About" asp-action="Index" title="Lees hier over ons bedrijf.">
+                        <span class="material-icons-round d-flex align-items-center">contact_page</span>Over ons
                     </a>
                 </li>
             </ul>
@@ -30,10 +34,14 @@
                 {
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="UserSystem" asp-action="Index"><span class="material-icons-round">people</span>Gebruikers</a>
+                            <a class="nav-link text-dark" asp-controller="UserSystem" asp-action="Index">
+                                <span class="material-icons-round">people</span>Gebruikers
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="RoleSystem" asp-action="Index"><span class="material-icons-round">assignment_ind</span>Rollen</a>
+                            <a class="nav-link text-dark" asp-controller="RoleSystem" asp-action="Index">
+                                <span class="material-icons-round">assignment_ind</span>Rollen
+                            </a>
                         </li>
                     </ul>
                 }
@@ -54,12 +62,19 @@
             {
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">
+                        <form asp-controller="Signup" asp-action="Index">
+                            <button class="nav-link btn btn-link btn-primary text-light">
+                                <span class="material-icons-round d-flex align-items-center">drive_file_rename_outline</span>Maak hier een afspraak!
+                            </button>
+                        </form>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login" title="Inloggen op uw ZMDH account.">
                             <span class="material-icons-round d-flex align-items-center">login</span>Login
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" title="Maak een nieuw account aan.">
                             <span class="material-icons-round d-flex align-items-center">person_add</span>Registreer
                         </a>
                     </li>
