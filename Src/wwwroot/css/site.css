@@ -368,14 +368,14 @@ main {
 .manage input {
   border-radius: .25rem !important;
 }
+
 .manage table {
   border: none;
 }
+
 /* Privacy
 -------------------------------------------------- */
 
 .privacy span {
   font-weight: 600;
 }
-
-
