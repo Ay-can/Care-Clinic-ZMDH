@@ -1,5 +1,5 @@
 @{
-    ViewData["Title"] = "Aanmelden";
+    ViewData["Title"] = "Afspraak maken";
 }
 
 <div class="container page">
@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col">
             <section>
-                <form asp-controller="Home" asp-action="Index" method="post">
+                <form action="/Appointment/CreateAppointment" method="post">
                     <h4>Meld je aan voor een intake gesprek.</h4>
                     <hr />
                     <div class="form-row">
@@ -19,7 +19,7 @@
                         </div>
                         <div class="col-12 col-sm-5 col-md-3">
                             <div class="form-group">
-                                <label for="infix">Tussenvoegsel</label>:<span class="required"> *</span>
+                                <label for="infix">Tussenvoegsel</label>:
                                 <input class="form-control" id="infix" name="infix" placeholder="Tussenvoegsel" />
                             </div>
                         </div>
@@ -50,10 +50,10 @@
                                 <label for="subject">Onderwerp</label>:<span class="required"> *</span>
                                 <select class="custom-select" id="subject" name="subject">
                                     <option selected>Kies een onderwerp</option>
-                                    <option value="1">ADD</option>
-                                    <option value="2">ASS</option>
-                                    <option value="3">Faalangst</option>
-                                    <option value="4">Hoogbegaafdheid</option>
+                                    <option value="ADD">ADD</option>
+                                    <option value="ASS">ASS</option>
+                                    <option value="Faalangst">Faalangst</option>
+                                    <option value="Hoogbegaafdheid">Hoogbegaafdheid</option>
                                 </select>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                         <textarea rows="3" class="form-control" id="message" name="message"></textarea>
                     </div>
                     <div class="form-group text-center">
-                        <button type="submit" class="btn btn-primary lg-btn mt-3">Registreer</button>
+                        <button type="submit" class="btn btn-primary lg-btn mt-3">Afspraak maken</button>
                     </div>
                 </form>
             </section>

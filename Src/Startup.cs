@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +32,16 @@ namespace Wdpr_Groep_E
             services.AddRazorPages();
             services.AddIdentity<IdentityUser,IdentityRole>().AddEntityFrameworkStores<AppContext>().AddDefaultTokenProviders().AddDefaultUI()
             .AddErrorDescriber<CustomIdentityErrorDescriber>();
+            services
+            .AddFluentEmail("zmdh.hulp@gmail.com")
+            .AddSmtpSender(new SmtpClient("smtp.gmail.com")
+            {
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Port = 587,
+                Credentials = new NetworkCredential("zmdh.hulp@gmail.com","Zmdh123!")
+            });
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
