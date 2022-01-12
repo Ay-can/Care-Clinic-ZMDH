@@ -44,7 +44,7 @@
     font-size: 1.4rem;
 }
 
-[accessibility=on] figcaption, [accessibility=on] label, [accessibility=on] li {
+[accessibility=on] figcaption, [accessibility=on] label, [accessibility=on] li, [accessibility=on] .btn {
     font-size: 1.2rem;
 }
 
@@ -52,6 +52,10 @@
     background-color: var(--green);
     -webkit-box-shadow: inset 0 2px 4px -2px rgb(0 0 0 / .5);
     box-shadow: inset 0 2px 4px -2px rgb(0 0 0 / .5);
+}
+
+[accessibility=on] .btn-primary:focus {
+    outline: 5px auto -webkit-focus-ring-color;
 }
 
 [accessibility=on] .nav-link:hover:not(button), [accessibility=on] .nav-link:focus:not(button) {
