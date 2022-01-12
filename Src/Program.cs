@@ -22,7 +22,7 @@ namespace Wdpr_Groep_E
                 try
                 {
                     var getContext = getService.GetRequiredService<AppContext>();
-                    var getUserManager = getService.GetRequiredService<UserManager<IdentityUser>>();
+                    var getUserManager = getService.GetRequiredService<UserManager<AppUser>>();
                     var getRoleManager = getService.GetRequiredService<RoleManager<IdentityRole>>();
                     await SeedContext.CreateRolesAsync(getUserManager, getRoleManager);
                     await SeedContext.CreateModeratorAsync(getUserManager,getRoleManager);

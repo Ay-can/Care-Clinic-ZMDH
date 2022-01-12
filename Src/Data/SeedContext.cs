@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 
 public static class SeedContext
 {
-    public static async Task CreateRolesAsync(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+    public static async Task CreateRolesAsync(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         //We maken rollen aan en vervolgens voegen we ze toe.
         await roleManager.CreateAsync(new IdentityRole("Moderator"));
@@ -13,10 +13,10 @@ public static class SeedContext
         await roleManager.CreateAsync(new IdentityRole("Kind"));
     }
 
-    public static async Task CreateModeratorAsync(UserManager<IdentityUser> userManager , RoleManager<IdentityRole> roleManager)
+    public static async Task CreateModeratorAsync(UserManager<AppUser> userManager , RoleManager<IdentityRole> roleManager)
     {
-        //nog aanpassen wanneer default IdentityUser is veranderd.
-        var Moderator = new IdentityUser
+        //nog aanpassen wanneer default AppUser is veranderd.
+        var Moderator = new AppUser
         {
             UserName = "Moderator@email.com",
             Email = "Moderator@email.com",
@@ -34,11 +34,11 @@ public static class SeedContext
         }
     }
 
-    public static async Task CreateTestUserAsync(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+    public static async Task CreateTestUserAsync(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
     {
-        //nog aanpassen wanneer default IdentityUser is veranderd.
+        //nog aanpassen wanneer default AppUser is veranderd.
 
-        var User = new IdentityUser
+        var User = new AppUser
         {
             UserName = "test@mail.nl",
             Email = "test@mail.nl",
