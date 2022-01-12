@@ -1,0 +1,74 @@
+@{
+    ViewData["Title"] = "Contact";
+}
+
+<div class="container pt-3 pb-3">
+    <div class="row">
+        <div class="col">
+            <h1>@ViewData["Title"]</h1>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col">
+            <h2>Contact opnemen</h2>
+            <p>
+                Als u meer vragen heeft over onze diensten, of als u een vraag heeft over bijvoorbeeld hoe zich u kunt aanmelden, dan kunt u contact
+                op nemen met ons via het contact formulier onder op deze pagina. Wij zullen uw bericht zo spoedig mogelijk te beantwoorden.
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h2>Klachtenprocedure</h2>
+            <p>
+                Als u klachten heeft over een van onze services, onze website of een orthopedagoog, kunt u contact opnemen met ons via het formulier hier onder.
+                Wij zullen verder contact met u opnemen om u zo goed mogelijk te helpen met uw klacht.
+            </p>
+            <p>
+                Bent u ouder, en heeft u klachten over de behandeling van uw kind? Neem dan contact op met de desbetreffende orthopedagoog. Mocht u er samen met
+                de orthopedagoog niet uit komen, dan kan u contact op nemen met onze service balie of het contact formulier in vullen.
+            </p>
+            <p>
+                Wordt je als kind lastig gevallen in de chat of in de praktijk? Neem dan contact op met je behandelende orthopedagoog. Deze zal je dan
+                verder helpen.
+            </p>
+            <p>
+                U kunt ook terecht bij aan de service balie op locatie met uw klacht. Onze medewerker zal u dan helpen en uw klacht afhandelen,
+                of doorverwijzen naar een manager die u dan verder helpt.
+            </p>
+            <p>Eventueel kunt ook contact met ons opnemen door te bellen met ons telefoonnummer: <a href="tel:0703825195">070-3825195</a>.</p>
+        </div>
+    </div>
+    <div class="row pt-3">
+        <div class="col">
+            <section>
+                <form asp-controller="Home" asp-action="Index" method="post">
+                    <h4>Voer hieronder uw bericht in.</h4>
+                    <hr />
+                    <div class="form-row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="email">E-mail</label>:<span class="required"> *</span>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="E-mailadres" />
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="subject">Onderwerp</label>:<span class="required"> *</span>
+                                <input class="form-control" id="subject" name="subject" placeholder="Onderwerp" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Bericht</label>:<span class="required"> *</span>
+                        <textarea rows="5" class="form-control" id="message" name="message"></textarea>
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-primary lg-btn mt-3">Registreer</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</div>
