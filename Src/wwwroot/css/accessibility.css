@@ -80,7 +80,19 @@
     padding: .5rem 6rem;
 }
 
-[accessibility=on] .page span, [accessibility=on] .page a, [accessibility=on] .page small, [accessibility=on] .manage th, [accessibility=on] .manage td {
+[accessibility=on] main {
+    min-height: calc(100vh - 3rem);
+}
+
+[accessibility=on] footer {
+    line-height: 3rem;
+}
+
+[accessibility=on] footer svg {
+    font-size: 1.8rem;
+}
+
+[accessibility=on] .page span, [accessibility=on] .page a, [accessibility=on] .page small, [accessibility=on] .manage th, [accessibility=on] .manage td, [accessibility=on] footer a {
     font-size: 1.2rem;
 }
 
