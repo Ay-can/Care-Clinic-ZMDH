@@ -11,12 +11,12 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
         public IndexModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager)
+            UserManager<AppUser> userManager,
+            SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -50,12 +50,14 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
             [Required(ErrorMessage = "{0} is verplicht.")]
             [DataType(DataType.Date)]
             [Display(Name = "Geboortedatum")]
-            public DateTime BirthDate
-            {
-                get { return this.dateCreated.HasValue ? this.dateCreated.Value : DateTime.Now; }
-                set { this.dateCreated = value; }
-            }
-            private DateTime? dateCreated = null;
+            // public DateTime BirthDate
+            // {
+            //     get { return this.dateCreated.HasValue ? this.dateCreated.Value : DateTime.Now; }
+            //     set { this.dateCreated = value; }
+            // }
+            // private DateTime? dateCreated = null;
+            public DateTime BirthDate {get;set;}
+            
 
             [Phone]
             [Display(Name = "Telefoonnummer")]
@@ -82,16 +84,34 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
             public string City { get; set; }
         }
 
-        private async Task LoadAsync(IdentityUser user)
+        private async Task LoadAsync(AppUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
+            var birthDate =  user.BirthDate;
+            var firstName = user.FirstName;
+            var lastName = user.LastName;
+            var infix = user.Infix;
+            var street = user.Street;
+            var houseNumber = user.HouseNumber;
+            var addition = user.Addition;
+            var zipCode = user.ZipCode;
+            var city = user.City;
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                BirthDate = birthDate,
+                FirstName = firstName,
+                LastName = lastName,
+                Infix = infix,
+                Street = street,
+                HouseNumber = houseNumber,
+                Addition = addition,
+                ZipCode = zipCode,
+                City = city
+                
             };
         }
 
@@ -131,6 +151,64 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
                     return RedirectToPage();
                 }
             }
+
+            var birthDate = user.BirthDate;
+            if(Input.BirthDate != birthDate)
+            {
+                user.BirthDate = Input.BirthDate;
+                await _userManager.UpdateAsync(user);
+            }
+
+            var firstname = user.FirstName;
+            if(Input.FirstName != firstname)
+            {
+                user.FirstName = Input.FirstName;
+                await _userManager.UpdateAsync(user);
+            }
+            var lastname = user.LastName;
+            if(Input.LastName != lastname)
+            {
+                user.LastName = Input.LastName;
+                await _userManager.UpdateAsync(user);
+            }
+
+             var infix = user.Infix;
+            if(Input.Infix != infix)
+            {
+                user.Infix = Input.Infix;
+                await _userManager.UpdateAsync(user);
+            }
+            var street = user.Street;
+            if(Input.Street != street)
+            {
+                user.Street = Input.Street;
+                await _userManager.UpdateAsync(user);
+            }
+                var housenumber = user.HouseNumber;
+             if(Input.HouseNumber != housenumber)
+            {
+                user.HouseNumber = Input.HouseNumber;
+                await _userManager.UpdateAsync(user);
+            }
+                var addition = user.Addition;
+             if(Input.Addition != addition)
+            {
+                user.Addition = Input.Addition;
+                await _userManager.UpdateAsync(user);
+            }
+                var zipcode = user.ZipCode;
+             if(Input.ZipCode != zipcode)
+            {
+                user.ZipCode = Input.ZipCode;
+                await _userManager.UpdateAsync(user);
+            }
+                var city = user.City;
+                 if(Input.City != city)
+            {
+                user.City = Input.City;
+                await _userManager.UpdateAsync(user);
+            }
+
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";

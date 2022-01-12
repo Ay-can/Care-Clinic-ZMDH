@@ -30,7 +30,7 @@ namespace Wdpr_Groep_E
             services.AddControllersWithViews();
             services.AddDbContext<AppContext>(options => options.UseSqlite("Data Source=demo.db"));
             services.AddRazorPages();
-            services.AddIdentity<IdentityUser,IdentityRole>().AddEntityFrameworkStores<AppContext>().AddDefaultTokenProviders().AddDefaultUI()
+            services.AddIdentity<AppUser,IdentityRole>().AddEntityFrameworkStores<AppContext>().AddDefaultTokenProviders().AddDefaultUI()
             .AddErrorDescriber<CustomIdentityErrorDescriber>();
             services
             .AddFluentEmail("zmdh.hulp@gmail.com")
@@ -41,6 +41,7 @@ namespace Wdpr_Groep_E
                 Port = 587,
                 Credentials = new NetworkCredential("zmdh.hulp@gmail.com","Zmdh123!")
             });
+
             
         }
 

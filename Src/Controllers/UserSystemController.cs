@@ -7,16 +7,16 @@ using Microsoft.EntityFrameworkCore;
 
 public class UserSystemController : Controller
 {
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly UserManager<AppUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
 
-    public UserSystemController(UserManager<IdentityUser> userManager , RoleManager<IdentityRole> roleManager) 
+    public UserSystemController(UserManager<AppUser> userManager , RoleManager<IdentityRole> roleManager) 
     {
         _roleManager = roleManager;
         _userManager = userManager;
     }
 
-    private async Task<List<string>> GetRoles(IdentityUser user)
+    private async Task<List<string>> GetRoles(AppUser user)
     {
         return new List<string>(await _userManager.GetRolesAsync(user));
     }

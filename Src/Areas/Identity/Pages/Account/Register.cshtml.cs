@@ -20,16 +20,16 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly UserManager<AppUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         private readonly IFluentEmail _email;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<AppUser> userManager,
+            SignInManager<AppUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender , IFluentEmail email)
         {
@@ -73,12 +73,13 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
             [Required(ErrorMessage = "{0} is verplicht.")]
             [DataType(DataType.Date)]
             [Display(Name = "Geboortedatum")]
-            public DateTime BirthDate
-            {
-                get { return this.dateCreated.HasValue ? this.dateCreated.Value : DateTime.Now; }
-                set { this.dateCreated = value; }
-            }
-            private DateTime? dateCreated = null;
+            public DateTime BirthDate {get;set;}
+            // public DateTime BirthDate
+            // {
+            //     get { return this.dateCreated.HasValue ? this.dateCreated.Value : DateTime.Now; }
+            //     set { this.dateCreated = value; }
+            // }
+            // private DateTime? dateCreated = null;
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -93,7 +94,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                var user = new AppUser { UserName = Input.UserName, Email = Input.Email, BirthDate = Input.BirthDate };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
