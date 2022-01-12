@@ -18,12 +18,14 @@ public class AppointmentModel
     public string Email { get; set; }
     [Display(Name ="Telefoonnummer")]
     [DataType(DataType.PhoneNumber)]
+    [StringLength(9)]
     public string PhoneNumber { get; set; }
     [Required(ErrorMessage ="Kies uw onderwerp.")]
     [Display(Name ="Onderwerp")]
     public string Subject { get; set; }
     [Required (ErrorMessage = "Voer uw reden voor een afspraak in")]
     [Display(Name ="Bericht")]
+    [StringLength(250)]
     public string Message { get; set; }
 
 

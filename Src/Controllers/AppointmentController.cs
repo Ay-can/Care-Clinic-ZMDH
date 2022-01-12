@@ -29,10 +29,17 @@ namespace Wdpr_Groep_E.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult CreateAppointment(string firstname, string lastname, string infix, string email, string phone , string subject, string message)
+        public async Task<IActionResult> CreateAppointment(string firstname, string lastname, string infix, string email, string phone , string subject, string message)
         {
             _context.Add(new AppointmentModel () {FirstName = firstname, LastName = lastname, Infix = infix, PhoneNumber = phone, Subject = subject , Message = message , Email = email});
             _context.SaveChanges();
+
+            var sender = _email
+            .To(email)
+            .Subject("Afspraak succesvol aangevraagd")
+            .Body($"Uw afspraak voor een intake gesprek over {subject} is succesvol ontvangen, U krijgt zo snel mogelijk antwoord van de orthopedagoog.");
+
+            await sender.SendAsync();
             return RedirectToAction("Index","Home");
         }
         
@@ -42,6 +49,7 @@ namespace Wdpr_Groep_E.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+       
 
         
     }
