@@ -31,20 +31,20 @@
     </div>
 </div>
 <div class="home-container home-banner">
-    <div class="row w-100">
-        <div class="col d-flex align-items-center justify-content-center">
+    <div class="row w-100 m-0">
+        <div class="col-sm-5 d-none d-sm-flex align-items-center justify-content-center pr-0">
             <form asp-controller="Appointment" asp-action="Index">
-                <button type="button" class="btn btn-primary">
-                    <span class="material-icons-round d-flex align-items-center">drive_file_rename_outline</span>Maak direct een afspraak!
+                <button class="btn btn-primary">
+                    <span class="material-icons-round d-flex align-items-center">drive_file_rename_outline</span>Maak afspraak!
                 </button>
             </form>
         </div>
-        <div class="col scroll-down d-flex align-items-center justify-content-center text-center">
+        <div class="col-12 col-sm-2 scroll-down d-flex align-items-center justify-content-center text-center p-0">
             <a href="#home-body">Lees meer<span class="material-icons-round">expand_more</span></a>
         </div>
-        <div class="col d-flex align-items-center justify-content-center">
+        <div class="col-sm-5 d-none d-sm-flex align-items-center justify-content-center pl-0">
             <form asp-controller="Info" asp-action="Index">
-                <button type="button" class="btn btn-primary">
+                <button class="btn btn-primary">
                     <span class="material-icons-round">info</span>Meer informatie
                 </button>
             </form>
@@ -52,8 +52,8 @@
     </div>
 </div>
 <div class="home-container">
-    <div class="row home-row" id="home-body">
-        <div class="col">
+    <div class="row mb-0" id="home-body">
+        <div class="home-text-col col-12 col-lg-6 d-flex align-items-center justify-content-center flex-column">
             <h2 class="text-center mb-3">ZMDH wat doen wij nou eigenlijk?</h2>
             <p class="text-center">
                 Wij helpen kinderen/jongeren met hun “problemen” en onze missie is dan ook dat iedere patiënt met zijn/haar problemen goed geholpen wordt.
@@ -61,7 +61,15 @@
                 De visie van het bedrijf is om te groeien tot de grootste en de beste praktijk van de regio haaglanden.
             </p>
         </div>
-        <div class="col">
+        <div class="d-none d-lg-flex col-lg-6 align-items-center justify-content-center p-0">
+            <img class="w-100" src="https://source.unsplash.com/random/1920x1080" alt="Image 1">
+        </div>
+    </div>
+    <div class="row mt-0" id="home-body">
+        <div class="d-none d-lg-flex col-lg-6 align-items-center justify-content-center p-0">
+            <img class="w-100" src="https://source.unsplash.com/random/1920x1080" alt="Image 2">
+        </div>
+        <div class="home-text-col col-12 col-lg-6 d-flex align-items-center justify-content-center flex-column">
             <h2 class="text-center mb-3">Handige links:</h2>
             <ul>
                 <li>Om meer informatie over ADD te lezen <a href="https://www.adhd-nederland.nl/" target="_blank">klik hier</a>.</li>
