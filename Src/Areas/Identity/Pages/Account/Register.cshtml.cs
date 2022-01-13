@@ -95,8 +95,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                MailAddress check = new MailAddress(Input.Email);
-                string GetUserName = check.User;
+                string GetUserName = Input.UserName;
                 var user = new AppUser { UserName = GetUserName, Email = Input.Email, BirthDate = Input.BirthDate };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
