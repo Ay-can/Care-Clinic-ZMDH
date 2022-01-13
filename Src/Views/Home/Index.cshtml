@@ -22,9 +22,12 @@
             <div class="col home-card">
                 <h2 class="text-center mb-3">Hoe meld ik mijzelf aan?</h2>
                 <p class="text-center">
-                    U kunt uzelf of uw kind aanmelden via deze website. Dan vul dan het formulier in over wat u of uw kind
-                    voor stoornis heeft en dan word u gekoppeld aan een gespecialiseerde hulpverlener. Zo zult u
-                    gekoppeld worden aan een <a asp-controller="About">hulpverlener</a>.
+                    U kunt uzelf of uw kind <a asp-controller="Appointment">hier</a> aanmelden via deze website.
+                    Dan ziet u daar een formulier met de gegevens van uw kind, en kunt u een onderwerp kiezen
+                    (ADD, ASS, faalangst of hoogbegaafdheid). Zo zult u gekoppeld worden aan een
+                    <a asp-controller="About">hulpverlener</a>. U zult dan een een email ontvangen van het opgegeven
+                    emailadres dat de afspraak is bevestigd. Later ontvangt u dan ook een email van de hulpverlener
+                    die u verder op de hoogte stellen.
                 </p>
             </div>
         </div>
@@ -35,7 +38,8 @@
         <div class="col-sm-5 d-none d-sm-flex align-items-center justify-content-center pr-0">
             <form asp-controller="Appointment" asp-action="Index">
                 <button class="btn btn-primary">
-                    <span class="material-icons-round d-flex align-items-center">drive_file_rename_outline</span>Maak afspraak!
+                    <span class="material-icons-round d-flex align-items-center">drive_file_rename_outline</span>Maak
+                    afspraak!
                 </button>
             </form>
         </div>
@@ -56,26 +60,31 @@
         <div class="home-text-col col-12 col-lg-6 d-flex align-items-center justify-content-center flex-column">
             <h2 class="text-center mb-3">ZMDH wat doen wij nou eigenlijk?</h2>
             <p class="text-center">
-                Wij helpen kinderen/jongeren met hun “problemen” en onze missie is dan ook dat iedere patiënt met zijn/haar problemen goed geholpen wordt.
-                Dat doen wij door goede pedagogen in onze praktijk in dienst te nemen en deze regelmatig bij te scholen d.m.v. cursussen.
+                Wij helpen kinderen/jongeren met hun “problemen” en onze missie is dan ook dat iedere patiënt met
+                zijn/haar problemen goed geholpen wordt.
+                Dat doen wij door goede pedagogen in onze praktijk in dienst te nemen en deze regelmatig bij te scholen
+                d.m.v. cursussen.
                 De visie van het bedrijf is om te groeien tot de grootste en de beste praktijk van de regio haaglanden.
             </p>
         </div>
         <div class="d-none d-lg-flex col-lg-6 align-items-center justify-content-center p-0">
-            <img class="w-100" src="https://source.unsplash.com/random/1920x1080" alt="Image 1">
+            <img class="w-100" src="~/img/vrouwtekeningkind.png" alt="Foto van vrouw en kind die lachen">
         </div>
     </div>
     <div class="row mt-0" id="home-body">
         <div class="d-none d-lg-flex col-lg-6 align-items-center justify-content-center p-0">
-            <img class="w-100" src="https://source.unsplash.com/random/1920x1080" alt="Image 2">
+            <img class="w-100" src="~/img/meisjepraat.png" alt="Foto van meisje die praat met hulpverlener">
         </div>
         <div class="home-text-col col-12 col-lg-6 d-flex align-items-center justify-content-center flex-column">
             <h2 class="text-center mb-3">Handige links:</h2>
             <ul>
-                <li>Om meer informatie over ADD te lezen <a href="https://www.adhd-nederland.nl/" target="_blank">klik hier</a>.</li>
+                <li>Om meer informatie over ADD te lezen <a href="https://www.adhd-nederland.nl/" target="_blank">klik
+                        hier</a>.</li>
                 <li>Lees <a href="https://www.autisme.nl/" target="_blank">hier</a> meer over ASS.</li>
-                <li>Meer informatie over faalangst vind u <a href="https://www.faalangst.nl/" target="_blank">hier</a>.</li>
-                <li>Voor meer informatie over hoogbegaafd <a href="https://www.lich.nl/" target="_blank">klik hier</a>.</li>
+                <li>Meer informatie over faalangst vind u <a href="https://www.faalangst.nl/" target="_blank">hier</a>.
+                </li>
+                <li>Voor meer informatie over hoogbegaafd <a href="https://www.lich.nl/" target="_blank">klik hier</a>.
+                </li>
             </ul>
         </div>
     </div>
