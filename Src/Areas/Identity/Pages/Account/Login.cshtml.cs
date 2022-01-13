@@ -44,7 +44,6 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required(ErrorMessage = "Voer uw {0} in.")]
-            //[EmailAddress(ErrorMessage = "Uw {0} is niet correct.")]
             [Display(Name = "E-mail / Gebruikersnaam")]
             public string Email { get; set; }
 
