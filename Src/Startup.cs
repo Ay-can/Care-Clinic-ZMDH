@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using Wdpr_Groep_E.Hubs;
+
 namespace Wdpr_Groep_E
 {
     public class Startup
@@ -30,7 +32,8 @@ namespace Wdpr_Groep_E
             services.AddControllersWithViews();
             services.AddDbContext<AppContext>(options => options.UseSqlite("Data Source=demo.db"));
             services.AddRazorPages();
-            services.AddIdentity<AppUser,IdentityRole>().AddEntityFrameworkStores<AppContext>().AddDefaultTokenProviders().AddDefaultUI()
+            services.AddSignalR();
+            services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppContext>().AddDefaultTokenProviders().AddDefaultUI()
             .AddErrorDescriber<CustomIdentityErrorDescriber>();
             services
             .AddFluentEmail("zmdh.hulp@gmail.com")
@@ -39,10 +42,10 @@ namespace Wdpr_Groep_E
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 Port = 587,
-                Credentials = new NetworkCredential("zmdh.hulp@gmail.com","Zmdh123!")
+                Credentials = new NetworkCredential("zmdh.hulp@gmail.com", "Zmdh123!")
             });
 
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,6 +71,7 @@ namespace Wdpr_Groep_E
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapHub<ChatHub>("/chathub");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
