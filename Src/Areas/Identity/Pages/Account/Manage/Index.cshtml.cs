@@ -50,17 +50,11 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
             [Required(ErrorMessage = "{0} is verplicht.")]
             [DataType(DataType.Date)]
             [Display(Name = "Geboortedatum")]
-            // public DateTime BirthDate
-            // {
-            //     get { return this.dateCreated.HasValue ? this.dateCreated.Value : DateTime.Now; }
-            //     set { this.dateCreated = value; }
-            // }
-            // private DateTime? dateCreated = null;
-            public DateTime BirthDate {get;set;}
-            
+            public DateTime BirthDate { get; set; }
 
-            [Phone]
+            [Phone(ErrorMessage = "Uw {0} is niet juist.")]
             [Display(Name = "Telefoonnummer")]
+            [StringLength(10, ErrorMessage = "Een {0} kan maximaal {1} karakters lang zijn.")]
             public string PhoneNumber { get; set; }
 
             [Required(ErrorMessage = "{0} is verplicht.")]
@@ -71,7 +65,6 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Huisnummer")]
             public string HouseNumber { get; set; }
 
-            [Required(ErrorMessage = "{0} is verplicht.")]
             [Display(Name = "Toevoeging")]
             public string Addition { get; set; }
 
@@ -88,7 +81,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            var birthDate =  user.BirthDate;
+            var birthDate = user.BirthDate;
             var firstName = user.FirstName;
             var lastName = user.LastName;
             var infix = user.Infix;
@@ -111,7 +104,6 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
                 Addition = addition,
                 ZipCode = zipCode,
                 City = city
-                
             };
         }
 
@@ -120,7 +112,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Niet instaat om user op te halen met ID '{_userManager.GetUserId(User)}'.");
             }
 
             await LoadAsync(user);
@@ -132,7 +124,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Niet instaat om user op te halen met ID '{_userManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
@@ -147,71 +139,76 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
+                    StatusMessage = "Een onverwachte error heeft zich voorgedaan.";
                     return RedirectToPage();
                 }
             }
 
             var birthDate = user.BirthDate;
-            if(Input.BirthDate != birthDate)
+            if (Input.BirthDate != birthDate)
             {
                 user.BirthDate = Input.BirthDate;
                 await _userManager.UpdateAsync(user);
             }
 
             var firstname = user.FirstName;
-            if(Input.FirstName != firstname)
+            if (Input.FirstName != firstname)
             {
                 user.FirstName = Input.FirstName;
                 await _userManager.UpdateAsync(user);
             }
+
             var lastname = user.LastName;
-            if(Input.LastName != lastname)
+            if (Input.LastName != lastname)
             {
                 user.LastName = Input.LastName;
                 await _userManager.UpdateAsync(user);
             }
 
-             var infix = user.Infix;
-            if(Input.Infix != infix)
+            var infix = user.Infix;
+            if (Input.Infix != infix)
             {
                 user.Infix = Input.Infix;
                 await _userManager.UpdateAsync(user);
             }
+
             var street = user.Street;
-            if(Input.Street != street)
+            if (Input.Street != street)
             {
                 user.Street = Input.Street;
                 await _userManager.UpdateAsync(user);
             }
-                var housenumber = user.HouseNumber;
-             if(Input.HouseNumber != housenumber)
+
+            var housenumber = user.HouseNumber;
+            if (Input.HouseNumber != housenumber)
             {
                 user.HouseNumber = Input.HouseNumber;
                 await _userManager.UpdateAsync(user);
             }
-                var addition = user.Addition;
-             if(Input.Addition != addition)
+
+            var addition = user.Addition;
+            if (Input.Addition != addition)
             {
                 user.Addition = Input.Addition;
                 await _userManager.UpdateAsync(user);
             }
-                var zipcode = user.ZipCode;
-             if(Input.ZipCode != zipcode)
+
+            var zipcode = user.ZipCode;
+            if (Input.ZipCode != zipcode)
             {
                 user.ZipCode = Input.ZipCode;
                 await _userManager.UpdateAsync(user);
             }
-                var city = user.City;
-                 if(Input.City != city)
+
+            var city = user.City;
+            if (Input.City != city)
             {
                 user.City = Input.City;
                 await _userManager.UpdateAsync(user);
             }
 
-
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Uw profiel is geupdate.";
             return RedirectToPage();
         }
     }
