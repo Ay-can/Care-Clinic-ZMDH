@@ -145,6 +145,10 @@ main {
   padding: 2rem 0;
 }
 
+#home-body img {
+  border-radius: .25rem;
+}
+
 .home-card {
   color: #FFF;
   border-radius: .25rem;
@@ -202,6 +206,10 @@ main {
   .home-card>h2 {
     font-size: 1.8rem;
   }
+
+  .home-text-col {
+    padding: 0 2rem;
+  }
 }
 
 @media screen and (max-width: 575.98px) {
@@ -223,6 +231,10 @@ main {
 
   .home-card {
     font-size: .9rem;
+  }
+
+  .home-text-col {
+    padding: 0;
   }
 }
 
@@ -360,7 +372,6 @@ main {
 
 .profile-nav .nav-link.active {
   color: #000;
-  margin-bottom: -1px;
   background-color: #F9F9F9;
   border-bottom: none !important;
   border: solid 1px rgba(0 0 0 / .25);
@@ -369,7 +380,8 @@ main {
 }
 
 .profile-row {
-  margin-top: -1px;
+  margin-top: -2px;
+  position: relative;
   border-radius: .25rem;
   background-color: #F9F9F9;
   border: solid 1px rgba(0 0 0 / .25);

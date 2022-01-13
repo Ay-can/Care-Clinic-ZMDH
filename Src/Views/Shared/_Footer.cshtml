@@ -2,15 +2,12 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-3 pr-0">
-                <a class="icon icon-twitter" href="#"><i class="fab fa-twitter-square"></i></a>
-                <a class="icon icon-facebook pl-1" href="#"><i class="fab fa-facebook-square"></i></a>
-                <a class="icon icon-instagram pl-1" href="#"><i class="fab fa-instagram-square"></i></a>
+                <a asp-controller="Contact" asp-action="Index">Contact</a>
             </div>
             <div class="col-6 text-center p-0">
                 <a asp-controller="Home" asp-action="Index">&copy; ZMDH - 2022</a>
             </div>
             <div class="col-3 text-right pl-0">
-                <a class="pr-1" asp-controller="Contact" asp-action="Index">Contact</a>
                 <a asp-controller="Privacy" asp-action="Index">Beleid</a>
             </div>
         </div>
