@@ -28,7 +28,8 @@ namespace Wdpr_Groep_E
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<WdprContext>(options => options.UseSqlite("Data Source=demo.db"));
+            //services.AddDbContext<WdprContext>(options => options.UseSqlite("Data Source=demo.db"));
+            services.AddDbContext<WdprContext>(options => options.UseSqlServer("Data Source=SQL5109.site4now.net;Initial Catalog=db_a7f252_zmdh;User Id=db_a7f252_zmdh_admin;Password=Aycan123!"));
             services.AddRazorPages();
             services.AddSignalR();
             services.AddIdentity<AppUser, IdentityRole>()
