@@ -39,26 +39,21 @@ namespace Wdpr_Groep_E.Data
             }
         }
 
-        public static async Task CreateTestUserAsync(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task CreateTestUserAsync(UserManager<AppUser> userManager , RoleManager<IdentityRole> roleManager)
         {
-            //nog aanpassen wanneer default AppUser is veranderd.
-
-            var User = new AppUser
+            var TestUser = new AppUser
             {
-                UserName = "test@mail.nl",
-                Email = "test@mail.nl",
+                UserName = "test",
+                Email = "test@gmail.com",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true
-            };
-            if (userManager.Users.All(s => s.Id != User.Id))
-            {
-                var Manager = await userManager.FindByEmailAsync(User.Email);
-                if (Manager == null)
-                {
-                    await userManager.CreateAsync(User, "test");
-                    await userManager.AddToRoleAsync(User, "Ouder");
-                }
-            }
+            }; 
+           
+                await userManager.CreateAsync(TestUser,"Test123!");
+                await userManager.AddToRoleAsync(TestUser,"Test123!");
+            
         }
+
+    
     }
 }
