@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Wdpr_Groep_E.Hubs;
 using Wdpr_Groep_E.Data;
 using Wdpr_Groep_E.Models;
+using Wdpr_Groep_E.Services;
 
 namespace Wdpr_Groep_E
 {
@@ -43,6 +44,7 @@ namespace Wdpr_Groep_E
                     Port = 587,
                     Credentials = new NetworkCredential("zmdh.hulp@gmail.com", "Zmdh123!")
                 });
+           services.AddSingleton<IZmdhApi,ZmdhApi>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

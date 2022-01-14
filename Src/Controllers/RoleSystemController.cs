@@ -1,8 +1,11 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Wdpr_Groep_E.Models;
+using Wdpr_Groep_E.Services;
 
 [Authorize(Roles = "Moderator")]
 public class RoleSystemController : Controller
