@@ -336,7 +336,7 @@ namespace Wdpr_Groep_E.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ChatId")
+                    b.Property<int>("ChatId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
@@ -415,9 +415,13 @@ namespace Wdpr_Groep_E.Migrations
 
             modelBuilder.Entity("Wdpr_Groep_E.Models.Message", b =>
                 {
-                    b.HasOne("Wdpr_Groep_E.Models.Chat", null)
+                    b.HasOne("Wdpr_Groep_E.Models.Chat", "Chat")
                         .WithMany("Messages")
-                        .HasForeignKey("ChatId");
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chat");
                 });
 
             modelBuilder.Entity("Wdpr_Groep_E.Models.Chat", b =>
