@@ -13,33 +13,33 @@
                     <div class="form-row">
                         <div class="col-12 col-md-4">
                             <div class="form-group">
-                                <label for="firstname">Voornaam</label>:<span class="required"> *</span>
-                                <input class="form-control" id="firstname" name="firstname" placeholder="Voornaam" />
+                                <label for="firstname">Voornaam:</label><span class="required"> *</span>
+                                <input class="form-control" id="firstname" name="firstname" placeholder="Voornaam" required />
                             </div>
                         </div>
                         <div class="col-12 col-sm-5 col-md-3">
                             <div class="form-group">
-                                <label for="infix">Tussenvoegsel</label>:
+                                <label for="infix">Tussenvoegsel:</label>
                                 <input class="form-control" id="infix" name="infix" placeholder="Tussenvoegsel" />
                             </div>
                         </div>
                         <div class="col-12 col-sm-7 col-md-5">
                             <div class="form-group">
-                                <label for="lastname">Achternaam</label>:<span class="required"> *</span>
-                                <input class="form-control" id="lastname" name="lastname" placeholder="Achternaam" />
+                                <label for="lastname">Achternaam:</label><span class="required"> *</span>
+                                <input class="form-control" id="lastname" name="lastname" placeholder="Achternaam" required />
                             </div>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
-                                <label for="email">E-mail</label>:<span class="required"> *</span>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="E-mailadres" />
+                                <label for="email">E-mail:</label><span class="required"> *</span>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="E-mailadres" required />
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
-                                <label for="phone">Telefoonnummer</label>:
+                                <label for="phone">Telefoonnummer:</label>
                                 <input type="tel" class="form-control" id="phone" name="phone" placeholder="Telefoonnummer" />
                             </div>
                         </div>
@@ -47,9 +47,9 @@
                     <div class="form-row">
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
-                                <label for="subject">Onderwerp</label>:<span class="required"> *</span>
-                                <select class="custom-select" id="subject" name="subject">
-                                    <option selected>Kies een onderwerp</option>
+                                <label for="subject">Onderwerp:</label><span class="required"> *</span>
+                                <select class="custom-select" id="subject" name="subject" required>
+                                    <option value="" selected>Kies een onderwerp</option>
                                     <option value="ADD">ADD</option>
                                     <option value="ASS">ASS</option>
                                     <option value="Faalangst">Faalangst</option>
@@ -59,8 +59,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="message">Bericht</label>:<span class="required"> *</span>
-                        <textarea rows="3" class="form-control" id="message" name="message"></textarea>
+                        <label for="message">Bericht:</label><span class="required"> *</span>
+                        <textarea rows="3" class="form-control" id="message" name="message" required></textarea>
                     </div>
                     <div class="form-group text-center">
                         <button type="submit" class="btn btn-primary lg-btn mt-3">Afspraak maken</button>

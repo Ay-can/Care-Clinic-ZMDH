@@ -9,19 +9,19 @@ using Wdpr_Groep_E.Models;
 
 namespace Wdpr_Groep_E.Controllers
 {
-    public class ChatOverviewController : Controller
+    public class CaregiverController : Controller
     {
-        private readonly ILogger<ChatOverviewController> _logger;
+        private readonly ILogger<CaregiverController> _logger;
 
         private readonly WdprContext _context;
 
-        public ChatOverviewController(ILogger<ChatOverviewController> logger, WdprContext context)
+        public CaregiverController(ILogger<CaregiverController> logger, WdprContext context)
         {
             _context = context;
             _logger = logger;
         }
 
-        public async Task<IActionResult> Index() => View(await _context.Chats.ToListAsync());
+        public async Task<IActionResult> Index() => View(await _context.Caregivers.ToListAsync());
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
+using Wdpr_Groep_E.Models;
+
 namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
 {
     public class ResetAuthenticatorModel : PageModel
@@ -50,7 +52,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
             await _userManager.SetTwoFactorEnabledAsync(user, false);
             await _userManager.ResetAuthenticatorKeyAsync(user);
             _logger.LogInformation("Gebruiker met ID '{UserId}' heeft hun authenticatie-app-sleutel opnieuw ingesteld.", user.Id);
-            
+
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Uw authenticator-app-sleutel is opnieuw ingesteld, u moet uw authenticator-app configureren met de nieuwe sleutel.";
 

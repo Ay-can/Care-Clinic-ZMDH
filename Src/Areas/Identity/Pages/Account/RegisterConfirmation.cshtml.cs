@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 
+using Wdpr_Groep_E.Models;
+
 namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]

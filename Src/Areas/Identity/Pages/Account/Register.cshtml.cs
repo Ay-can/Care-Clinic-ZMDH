@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
+using Wdpr_Groep_E.Models;
+
 namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
@@ -32,7 +34,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender , IFluentEmail email)
+            IEmailSender emailSender, IFluentEmail email)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -74,7 +76,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
             [Required(ErrorMessage = "{0} is verplicht.")]
             [DataType(DataType.Date)]
             [Display(Name = "Geboortedatum")]
-            public DateTime BirthDate {get;set;}
+            public DateTime BirthDate { get; set; }
             // public DateTime BirthDate
             // {
             //     get { return this.dateCreated.HasValue ? this.dateCreated.Value : DateTime.Now; }
@@ -101,7 +103,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-                    await _userManager.AddToRoleAsync(user,"Tiener");
+                    await _userManager.AddToRoleAsync(user, "Tiener");
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(

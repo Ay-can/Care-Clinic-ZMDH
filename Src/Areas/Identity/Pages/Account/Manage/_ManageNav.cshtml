@@ -1,4 +1,6 @@
+@using Wdpr_Groep_E.Models
 @inject SignInManager<AppUser> SignInManager
+
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

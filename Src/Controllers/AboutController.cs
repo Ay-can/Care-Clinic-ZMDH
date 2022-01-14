@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -14,40 +10,19 @@ namespace Wdpr_Groep_E.Controllers
     {
         private readonly ILogger<AboutController> _logger;
 
-        public AboutController(ILogger<AboutController> logger)
-        {
-            _logger = logger;
-        }
+        public AboutController(ILogger<AboutController> logger) => _logger = logger;
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+        public IActionResult Index() => View();
 
-        public IActionResult Angela_van_Heringa()
-        {
-            return View();
-        }
+        public IActionResult Angela_van_Heringa() => View();
 
-        public IActionResult Gijs_Broekman()
-        {
-            return View();
-        }
+        public IActionResult Gijs_Broekman() => View();
 
-        public IActionResult Jantinus_Verduin()
-        {
-            return View();
-        }
+        public IActionResult Jantinus_Verduin() => View();
 
-        public IActionResult Joseph_van_der_Vliet()
-        {
-            return View();
-        }
+        public IActionResult Joseph_van_der_Vliet() => View();
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

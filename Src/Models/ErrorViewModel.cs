@@ -1,5 +1,3 @@
-using System;
-
 namespace Wdpr_Groep_E.Models
 {
     public class ErrorViewModel

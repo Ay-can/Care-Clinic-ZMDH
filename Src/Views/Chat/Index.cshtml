@@ -1,0 +1,33 @@
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
+@{
+    ViewData["Title"] = "Groepschat";
+}
+
+<div class="container pt-3">
+    <form>
+        <div class="form-row">
+            <input value="@UserManager.GetUserName(User)" id="userInput" hidden />
+            <div class="col">
+                <div class="form-group">
+                    <label for="messageInput">Bericht:</label><span class="required"> *</span>
+                    <input type="text" class="form-control" id="messageInput" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group text-center">
+            <input type="button" class="btn btn-primary lg-btn" id="sendButton" value="Bericht verzenden" />
+        </div>
+    </form>
+</div>
+<hr />
+<div class="container pb-3">
+    <div class="row">
+        <div class="col">
+            <ul id="messagesList"></ul>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>
