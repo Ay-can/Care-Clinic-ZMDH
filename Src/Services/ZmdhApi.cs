@@ -10,23 +10,28 @@ namespace Wdpr_Groep_E.Services
     public class ZmdhApi : IZmdhApi
     {
         private const string Url = "https://orthopedagogie-zmdh.herokuapp.com/clienten";
-        private string urlParameters ="?sleutel=725630189&clientid=";
+        private const string Key = "?sleutel=725630189";
+        private string urlParameters ="&clientid=";
         public HttpClient HttpClient { get; set; } = new HttpClient();
         public HttpResponseMessage ResponseMessage { get; set; } = new HttpResponseMessage();
 
        
-        public async Task DeleteClient()
+        public async Task DeleteClient(string clientid)
         {
-            throw new System.NotImplementedException();
+            HttpClient.BaseAddress = new Uri(Url);
+            HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            
+            await HttpClient.DeleteAsync(Key + urlParameters + clientid);
+
         }
 
        
 
-        public async Task<Client> GetClientObject(Client c)
+        public async Task<Client> GetClientObject(string clientid)
         {
         HttpClient.BaseAddress = new Uri(Url);
         HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        var httpGet = await HttpClient.GetAsync(urlParameters + c.ClientId);
+        var httpGet = await HttpClient.GetAsync(Key + urlParameters + clientid);
         var httpResponse = await httpGet.Content.ReadAsAsync<Client>();
 
         return httpResponse;        
@@ -35,14 +40,18 @@ namespace Wdpr_Groep_E.Services
 
        
 
-        public async Task PostClient()
+        public async Task PostClient(Client c)
         {
-            throw new System.NotImplementedException();
+        HttpClient.BaseAddress = new Uri(Url);
+        HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        await HttpClient.PostAsJsonAsync(Key,c);
         }
 
-        public async Task PutClient()
+        public async Task PutClient(Client c )
         {
-            throw new System.NotImplementedException();
+            HttpClient.BaseAddress = new Uri(Url);
+            HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            await HttpClient.PutAsJsonAsync<Client>(Key + urlParameters + c.clientid,c);
         }
     }
 }

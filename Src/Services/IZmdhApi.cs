@@ -6,10 +6,10 @@ namespace Wdpr_Groep_E.Services
 {
     public interface IZmdhApi
     {
-         Task<Client> GetClientObject(Client c);
-         Task PostClient();
-         Task DeleteClient();
-         Task PutClient();
+         Task<Client> GetClientObject(string clientid);
+         Task PostClient(Client c);
+         Task DeleteClient(string clientid);
+         Task PutClient(Client c);
         
         
     }

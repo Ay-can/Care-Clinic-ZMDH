@@ -18,6 +18,7 @@ public class RoleSystemController : Controller
     public async Task<IActionResult> Index()
     {
         var GetRoles = await _roleManager.Roles.ToListAsync();
+       
         return View(GetRoles);
     }
 
