@@ -1,11 +1,86 @@
+@model IEnumerable<Wdpr_Groep_E.Models.Chat>
 @{
     ViewData["Title"] = "Beschikbare chats";
 }
 
-<div class="container pt-3 pb-3">
+<div class="container-fluid manage pt-3 pb-3">
     <div class="row">
         <div class="col">
+            <div class="text-right mb-3">
+                <button class="btn btn-primary lg-btn" type="button" data-toggle="modal" data-target="#NewGroupChat">+</button>
+            </div>
             <h1>@ViewData["Title"]</h1>
+            <form method="post" asp-action="AddRole" asp-controller="RoleSystem">
+                <div class="input-group">
+                    <input name="Name" class="form-control"></input>
+                    <span class="input-group-btn pl-3">
+                        <button class="btn btn-primary">Rol Toevoegen</button>
+                    </span>
+                </div>
+            </form>
+            <table class="table table-sm table-striped table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>Chatnaam</th>
+                        <th>Onderwerp</th>
+                        <th>Opties</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var chat in Model)
+                    {
+                        <tr>
+                            <td>@chat.Name</td>
+                            <td>@chat.Subject</td>
+                            <td class="text-center">
+                                <form method="post" asp-controller="Chat" asp-action="JoinGroupChat" asp-route-id="@chat.Id">
+                                    <button class="btn btn-sm btn-primary">Deelnemen</button>
+                                </form>
+                                @if (User.IsInRole("Moderator"))
+                                {
+                                    <form method="post" asp-controller="Chat" asp-action="DeleteGroupChat" asp-route-id="@chat.Id">
+                                        <button class="btn btn-sm btn-danger">Verwijder</button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="NewGroupChat" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nieuwe groepschat</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/Chat/CreateGroupChat" method="post">
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Naam chat:</label>
+                        <input class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject" class="col-form-label">Onderwerp:</label>
+                        <select class="custom-select" id="subject" name="subject" required>
+                            <option value="" selected>Kies een onderwerp</option>
+                            <option value="ADD">ADD</option>
+                            <option value="ASS">ASS</option>
+                            <option value="Faalangst">Faalangst</option>
+                            <option value="Hoogbegaafdheid">Hoogbegaafdheid</option>
+                        </select>
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-primary lg-btn mt-3">Aanmaken</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

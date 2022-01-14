@@ -49,9 +49,11 @@
                 {
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="ChatOverview" asp-action="Index">
-                                <span class="material-icons-round">chat</span>Chatten
-                            </a>
+                            <form asp-controller="ChatOverview" asp-action="Index">
+                                <button class="nav-link btn btn-link btn-primary signup-btn">
+                                    <span class="material-icons-round d-flex align-items-center">chat</span>Chatten
+                                </button>
+                            </form>
                         </li>
                     </ul>
                 }

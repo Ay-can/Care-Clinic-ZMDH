@@ -1,3 +1,4 @@
+@model IEnumerable<Wdpr_Groep_E.Models.Caregiver>
 @{
     ViewData["Title"] = "Over Ons";
 }
@@ -22,6 +23,7 @@
         </div>
     </div>
     <div class="row mb-3">
+        @* @foreach (var caregiver in Model) { *@
         <div class="col-12 col-sm-6 col-lg-3">
             <div class="row mx-0 my-3">
                 <div class="col-12 about-card pt-3">
@@ -48,6 +50,7 @@
                 </div>
             </div>
         </div>
+        @* } *@
         <div class="col-12 col-sm-6 col-lg-3">
             <div class="row mx-0 my-3">
                 <div class="col-12 about-card pt-3">

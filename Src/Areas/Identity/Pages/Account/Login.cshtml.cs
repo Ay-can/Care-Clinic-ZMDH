@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using System.Net.Mail;
 
+using Wdpr_Groep_E.Models;
+
 namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
@@ -82,10 +84,10 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var GetUser = Input.Email;
-                if(CheckEmail(Input.Email))
+                if (CheckEmail(Input.Email))
                 {
                     var user = await _userManager.FindByEmailAsync(Input.Email);
-                    if(user != null)
+                    if (user != null)
                     {
                         GetUser = user.UserName;
                     }
