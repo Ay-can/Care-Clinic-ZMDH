@@ -1,33 +1,48 @@
-@using Microsoft.AspNetCore.Identity
-@inject UserManager<AppUser> UserManager
+@model IEnumerable<Chat>
 @{
-    ViewData["Title"] = "Groepschat";
+    ViewData["Title"] = "Beschikbare chats";
 }
 
-<div class="container pt-3">
-    <form>
-        <div class="form-row">
-            <input value="@UserManager.GetUserName(User)" id="userInput" hidden />
-            <div class="col">
-                <div class="form-group">
-                    <label for="messageInput">Bericht:</label><span class="required"> *</span>
-                    <input type="text" class="form-control" id="messageInput" />
-                </div>
-            </div>
-        </div>
-        <div class="form-group text-center">
-            <input type="button" class="btn btn-primary lg-btn" id="sendButton" value="Bericht verzenden" />
-        </div>
-    </form>
-</div>
-<hr />
-<div class="container pb-3">
+<div class="container-fluid manage pt-3 pb-3">
     <div class="row">
         <div class="col">
-            <ul id="messagesList"></ul>
+            <h1>@ViewData["Title"]</h1>
+            <form method="post" asp-controller="Chat" asp-action="Search">
+                <div class="form-group">
+                    <label for="search">Zoek naar chats</label>
+                    <input class="form-control" id="search" name="search"></input>
+                </div>
+                <div class="form-group text-center">
+                    <button class="btn btn-primary lg-btn">Zoeken</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-sm table-striped table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>Chatnaam</th>
+                        <th>Onderwerp</th>
+                        <th>Opties</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var chat in Model)
+                    {
+                        <tr>
+                            <td>@chat.Name</td>
+                            <td>@chat.Subject</td>
+                            <td class="text-center">
+                                <form asp-controller="Chat" asp-action="Chat" asp-route-id="@chat.Id" method="get">
+                                    <button class="btn btn-sm btn-primary">Deelnemen</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
-
-<script src="~/js/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/chat.js"></script>

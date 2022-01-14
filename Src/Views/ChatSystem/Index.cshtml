@@ -1,4 +1,4 @@
-@model IEnumerable<Wdpr_Groep_E.Models.Chat>
+@model IEnumerable<Chat>
 @{
     ViewData["Title"] = "Beschikbare chats";
 }
@@ -18,6 +18,10 @@
                     </span>
                 </div>
             </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
             <table class="table table-sm table-striped table-bordered mt-3">
                 <thead>
                     <tr>
@@ -33,15 +37,9 @@
                             <td>@chat.Name</td>
                             <td>@chat.Subject</td>
                             <td class="text-center">
-                                <form method="post" asp-controller="Chat" asp-action="JoinGroupChat" asp-route-id="@chat.Id">
-                                    <button class="btn btn-sm btn-primary">Deelnemen</button>
+                                <form asp-controller="ChatSystem" asp-action="DeleteChat" asp-route-id="@chat.Id" method="get">
+                                    <button class="btn btn-sm btn-danger">Verwijder</button>
                                 </form>
-                                @if (User.IsInRole("Moderator"))
-                                {
-                                    <form method="post" asp-controller="Chat" asp-action="DeleteGroupChat" asp-route-id="@chat.Id">
-                                        <button class="btn btn-sm btn-danger">Verwijder</button>
-                                    </form>
-                                }
                             </td>
                         </tr>
                     }
@@ -61,7 +59,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/Chat/CreateGroupChat" method="post">
+                <form action="/ChatSystem/CreateGroupChat" method="post">
                     <div class="form-group">
                         <label for="name" class="col-form-label">Naam chat:</label>
                         <input class="form-control" id="name" name="name" required>

@@ -4,6 +4,12 @@ namespace Wdpr_Groep_E.Models
 {
     public class Chat
     {
+        public Chat()
+        {
+            Messages = new List<Message>();
+            Users = new List<AppUser>();
+        }
+
         public int Id { get; set; }
         public string Name { get; set; }
         public ChatType Type { get; set; }

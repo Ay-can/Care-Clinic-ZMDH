@@ -7,41 +7,44 @@ using Microsoft.EntityFrameworkCore;
 
 using Wdpr_Groep_E.Models;
 
-public class UserSystemController : Controller
+namespace Wdpr_Groep_E.Controllers
 {
-    private readonly UserManager<AppUser> _userManager;
-    private readonly RoleManager<IdentityRole> _roleManager;
-
-    public UserSystemController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+    public class UserSystemController : Controller
     {
-        _roleManager = roleManager;
-        _userManager = userManager;
-    }
+        private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-    private async Task<List<string>> GetRoles(AppUser user) => new List<string>(await _userManager.GetRolesAsync(user));
-
-    [Authorize(Roles = "Moderator")]
-    public async Task<IActionResult> Index()
-    {
-        var getUsers = await _userManager.Users.ToListAsync();
-        var getRoleViewModel = new List<UserRoleViewModel>();
-        foreach (var user in getUsers)
+        public UserSystemController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            var curentViewModel = new UserRoleViewModel()
-            {
-                UserId = user.Id,
-                Email = user.Email,
-                Roles = await GetRoles(user)
-            };
-            getRoleViewModel.Add(curentViewModel);
+            _roleManager = roleManager;
+            _userManager = userManager;
         }
-        return View(getRoleViewModel);
-    }
 
-    public async Task<IActionResult> DeleteUser(string id)
-    {
-        var GetUser = _userManager.FindByIdAsync(id);
-        await _userManager.DeleteAsync(GetUser.Result);
-        return RedirectToAction("Index");
+        private async Task<List<string>> GetRoles(AppUser user) => new List<string>(await _userManager.GetRolesAsync(user));
+
+        [Authorize(Roles = "Moderator")]
+        public async Task<IActionResult> Index()
+        {
+            var getUsers = await _userManager.Users.ToListAsync();
+            var getRoleViewModel = new List<UserRoleViewModel>();
+            foreach (var user in getUsers)
+            {
+                var curentViewModel = new UserRoleViewModel()
+                {
+                    UserId = user.Id,
+                    Email = user.Email,
+                    Roles = await GetRoles(user)
+                };
+                getRoleViewModel.Add(curentViewModel);
+            }
+            return View(getRoleViewModel);
+        }
+
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            var GetUser = _userManager.FindByIdAsync(id);
+            await _userManager.DeleteAsync(GetUser.Result);
+            return RedirectToAction("Index");
+        }
     }
 }

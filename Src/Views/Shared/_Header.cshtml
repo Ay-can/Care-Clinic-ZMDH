@@ -43,13 +43,18 @@
                                 <span class="material-icons-round">assignment_ind</span>Rollen
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="ChatSystem" asp-action="Index">
+                                <span class="material-icons-round">feedback</span>Chats
+                            </a>
+                        </li>
                     </ul>
                 }
                 @if (User.IsInRole("Kind") || User.IsInRole("Tiener"))
                 {
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <form asp-controller="ChatOverview" asp-action="Index">
+                            <form asp-controller="Chat" asp-action="Index">
                                 <button class="nav-link btn btn-link btn-primary signup-btn">
                                     <span class="material-icons-round d-flex align-items-center">chat</span>Chatten
                                 </button>
