@@ -37,9 +37,7 @@ namespace Wdpr_Groep_E.Services
         return httpResponse;        
 
         }
-
-       
-
+        //Op dit moment werkt de post alleen als je een id erbij geeft, anders niet.. dit moet je fixen(met postman lukt het wel zonder id?)
         public async Task PostClient(Client c)
         {
         HttpClient.BaseAddress = new Uri(Url);
