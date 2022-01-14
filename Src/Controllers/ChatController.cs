@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,31 +23,30 @@ namespace Wdpr_Groep_E.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index() => View();
+        public async Task<IActionResult> Index() => View(await _context.Chats.ToListAsync());
 
-        [HttpPost]
-        public async Task<IActionResult> CreateChat(string name)
+        [HttpGet("{controller}/{id}")]
+        public IActionResult Chat(int id)
         {
-            _context.Chats.Add(new Chat()
-            {
-                Name = name,
-                Type = ChatType.Chat
-            });
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            var chat = _context.Chats
+                .Include(c => c.Messages)
+                .FirstOrDefault(c => c.Id == id);
+            return View(chat);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateGroupChat(string name, string subject)
+        public async Task<IActionResult> SendMessage(int chatId, string userName, string text)
         {
-            _context.Chats.Add(new Chat()
+            var message = new Message
             {
-                Name = name,
-                Type = ChatType.GroupChat,
-                Subject = subject
-            });
+                ChatId = chatId,
+                Text = text,
+                Name = userName,
+                Time = DateTime.Now
+            };
+            _context.Messages.Add(message);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction("Chat", new { id = chatId });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
