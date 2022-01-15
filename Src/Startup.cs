@@ -44,7 +44,9 @@ namespace Wdpr_Groep_E
                     Port = 587,
                     Credentials = new NetworkCredential("zmdh.hulp@gmail.com", "Zmdh123!")
                 });
-            services.AddSingleton<IZmdhApi, ZmdhApi>();
+
+           services.AddSingleton<IZmdhApi,ZmdhApi>();
+           services.AddSingleton<IZorgdomein,Zorgdomein>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
