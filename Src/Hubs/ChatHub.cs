@@ -24,14 +24,14 @@ namespace Wdpr_Groep_E.Hubs
         {
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 
-            await Clients.Group(groupName).SendAsync("Send", $"{Context.ConnectionId} heeft de groep gejoined {groupName}.");
+            await Clients.Group(groupName).SendAsync("Send", $"{Context.ConnectionId} heeft de groep {groupName} gejoined.");
         }
 
         public async Task RemoveFromGroup(string groupName)
         {
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
 
-            await Clients.Group(groupName).SendAsync("Send", $"{Context.ConnectionId} heeft de groep verlaten {groupName}.");
+            await Clients.Group(groupName).SendAsync("Send", $"{Context.ConnectionId} heeft de groep {groupName} verlaten.");
         }
     }
 }

@@ -1,23 +1,36 @@
 @model IEnumerable<Chat>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
+
 @{
-    ViewData["Title"] = "Beschikbare chats";
+    if (User.IsInRole("Moderator"))
+    {
+        ViewData["Title"] = "Zelfhulpgroepen beheren";
+    }
+    else
+    {
+        ViewData["Title"] = "Beschikbare zelfhulpgroepen";
+    }
 }
 
 <div class="container-fluid manage pt-3 pb-3">
     <div class="row">
         <div class="col">
-            <div class="text-right mb-3">
-                <button class="btn btn-primary lg-btn" type="button" data-toggle="modal" data-target="#NewGroupChat">+</button>
-            </div>
-            <h1>@ViewData["Title"]</h1>
-            <form method="post" asp-action="AddRole" asp-controller="RoleSystem">
-                <div class="input-group">
-                    <input name="Name" class="form-control"></input>
-                    <span class="input-group-btn pl-3">
-                        <button class="btn btn-primary">Rol Toevoegen</button>
-                    </span>
+            @if (User.IsInRole("Orthopedagoog"))
+            {
+                <div class="mb-3">
+                    <button class="btn btn-primary lg-btn" type="button" data-toggle="modal" data-target="#NewGroupChat">Nieuwe zelfhulpgroep</button>
                 </div>
-            </form>
+            }
+            <h1>@ViewData["Title"]</h1>
+            @* <form method="post" asp-action="AddRole" asp-controller="RoleSystem">
+                <div class="input-group">
+                <input name="Name" class="form-control"></input>
+                <span class="input-group-btn pl-3">
+                <button class="btn btn-primary">Rol Toevoegen</button>
+                </span>
+                </div>
+                </form> *@
         </div>
     </div>
     <div class="row">
@@ -27,6 +40,7 @@
                     <tr>
                         <th>Chatnaam</th>
                         <th>Onderwerp</th>
+                        <th>Aantal Deelnemers</th>
                         <th>Opties</th>
                     </tr>
                 </thead>
@@ -36,10 +50,20 @@
                         <tr>
                             <td>@chat.Name</td>
                             <td>@chat.Subject</td>
+                            <td>Aantal users tellen</td>
                             <td class="text-center">
-                                <form asp-controller="ChatSystem" asp-action="DeleteChat" asp-route-id="@chat.Id" method="get">
-                                    <button class="btn btn-sm btn-danger">Verwijder</button>
-                                </form>
+                                @if (User.IsInRole("Tiener") || User.IsInRole("Kind"))
+                                {
+                                    <form asp-controller="ChatSystem" asp-action="JoinChat" asp-route-id="@chat.Id" method="get">
+                                        <button class="btn btn-sm btn-primary">Deelnemen</button>
+                                    </form>
+                                }
+                                @if (User.IsInRole("Moderator"))
+                                {
+                                    <form asp-controller="ChatSystem" asp-action="DeleteChat" asp-route-id="@chat.Id">
+                                        <button class="btn btn-sm btn-danger">Verwijder</button>
+                                    </form>
+                                }
                             </td>
                         </tr>
                     }
@@ -59,7 +83,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/ChatSystem/CreateGroupChat" method="post">
+                <form asp-controller="ChatSystem" asp-action="CreateGroupChat" method="post">
                     <div class="form-group">
                         <label for="name" class="col-form-label">Naam chat:</label>
                         <input class="form-control" id="name" name="name" required>

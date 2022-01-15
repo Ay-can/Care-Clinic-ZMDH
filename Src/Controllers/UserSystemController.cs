@@ -32,6 +32,7 @@ namespace Wdpr_Groep_E.Controllers
                 var curentViewModel = new UserRoleViewModel()
                 {
                     UserId = user.Id,
+                    UserName = user.UserName,
                     Email = user.Email,
                     Roles = await GetRoles(user)
                 };

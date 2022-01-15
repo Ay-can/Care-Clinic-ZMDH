@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 namespace Wdpr_Groep_E.Models
 {
     public class AppUser : IdentityUser
     {
+        public ICollection<ChatUser> Chats { get; set; }
+
         public override string UserName { get; set; }
 
         public string FirstName { get; set; }

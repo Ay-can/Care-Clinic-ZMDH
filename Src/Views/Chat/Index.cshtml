@@ -1,21 +1,14 @@
-@model IEnumerable<Chat>
+@model IEnumerable<ChatUser>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
 @{
-    ViewData["Title"] = "Beschikbare chats";
+    ViewData["Title"] = "Mijn chats";
 }
 
 <div class="container-fluid manage pt-3 pb-3">
     <div class="row">
         <div class="col">
             <h1>@ViewData["Title"]</h1>
-            <form method="post" asp-controller="Chat" asp-action="Search">
-                <div class="form-group">
-                    <label for="search">Zoek naar chats</label>
-                    <input class="form-control" id="search" name="search"></input>
-                </div>
-                <div class="form-group text-center">
-                    <button class="btn btn-primary lg-btn">Zoeken</button>
-                </div>
-            </form>
         </div>
     </div>
     <div class="row">
@@ -25,24 +18,34 @@
                     <tr>
                         <th>Chatnaam</th>
                         <th>Onderwerp</th>
-                        <th>Opties</th>
+                        <th>Type</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var chat in Model)
                     {
                         <tr>
-                            <td>@chat.Name</td>
-                            <td>@chat.Subject</td>
-                            <td class="text-center">
-                                <form asp-controller="Chat" asp-action="Chat" asp-route-id="@chat.Id" method="get">
-                                    <button class="btn btn-sm btn-primary">Deelnemen</button>
-                                </form>
-                            </td>
+                            <td><a asp-controller="Chat" asp-action="Chat" asp-route-id="@chat.Chat.Id">@chat.Chat.Name</a></td>
+                            <td>@chat.Chat.Subject</td>
+                            @if (chat.Chat.Type == ChatType.Chat)
+                            {
+                                <td>Privé Chat</td>
+                            }
+                            @if (chat.Chat.Type == ChatType.GroupChat)
+                            {
+                                <td>Zelfhulpgroep</td>
+                            }
                         </tr>
                     }
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <form asp-controller="ChatSystem" asp-action="Index">
+                <button class="btn btn-primary lg-btn">Zelfhulpgroepen</button>
+            </form>
         </div>
     </div>
 </div>
