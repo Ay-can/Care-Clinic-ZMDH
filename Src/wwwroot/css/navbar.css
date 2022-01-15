@@ -7,6 +7,10 @@
   box-shadow: 0 2px 4px -2px rgba(0 0 0 / .5);
 }
 
+.navbar-nav {
+  column-gap: .25rem;
+}
+
 .navbar-brand {
   height: 3rem;
   padding: .6rem 0;
