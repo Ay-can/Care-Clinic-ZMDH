@@ -1,6 +1,6 @@
 @model List<UserRoleViewModel>;
 @{
-    ViewData["Title"] = "User Management Systeem";
+    ViewData["Title"] = "Gebruikers beheren";
 }
 
 <div class="container-fluid manage pt-3 pb-3">
@@ -10,7 +10,7 @@
             <table class="table table-sm table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        <th>Gebruikersnaam</th>
                         <th>Email</th>
                         <th>Rollen</th>
                         <th>Update</th>
@@ -21,7 +21,7 @@
                     @foreach (var user in Model)
                     {
                         <tr>
-                            <td>@user.UserId</td>
+                            <td>@user.UserName</td>
                             <td>@user.Email</td>
                             <td>@string.Join(" ", user.Roles.ToList())
                             <td class="text-center"><a class="btn btn-sm btn-primary">Aanpassen</td>

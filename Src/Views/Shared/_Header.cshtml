@@ -30,9 +30,27 @@
             </ul>
             @if (SignInManager.IsSignedIn(User))
             {
-                @if (User.IsInRole("Moderator"))
-                {
-                    <ul class="navbar-nav mr-auto">
+                <ul class="navbar-nav mr-auto">
+                    @if (User.IsInRole("Kind") || User.IsInRole("Tiener") || User.IsInRole("Orthopedagoog"))
+                    {
+                        <li class="nav-item">
+                            <form asp-controller="Chat" asp-action="Index">
+                                <button class="nav-link btn btn-link btn-primary signup-btn">
+                                    <span class="material-icons-round d-flex align-items-center">chat</span>Chatten
+                                </button>
+                            </form>
+                        </li>
+                    }
+                    @if (User.IsInRole("Moderator") || User.IsInRole("Orthopedagoog"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="ChatSystem" asp-action="Index">
+                                <span class="material-icons-round">feedback</span>Chats
+                            </a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Moderator"))
+                    {
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="UserSystem" asp-action="Index">
                                 <span class="material-icons-round">people</span>Gebruikers
@@ -43,25 +61,8 @@
                                 <span class="material-icons-round">assignment_ind</span>Rollen
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="ChatSystem" asp-action="Index">
-                                <span class="material-icons-round">feedback</span>Chats
-                            </a>
-                        </li>
-                    </ul>
-                }
-                @if (User.IsInRole("Kind") || User.IsInRole("Tiener"))
-                {
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <form asp-controller="Chat" asp-action="Index">
-                                <button class="nav-link btn btn-link btn-primary signup-btn">
-                                    <span class="material-icons-round d-flex align-items-center">chat</span>Chatten
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
-                }
+                    }
+                </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Account">Hallo @UserManager.GetUserName(User)!</a>

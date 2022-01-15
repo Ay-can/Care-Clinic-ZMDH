@@ -11,9 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
-using Wdpr_Groep_E.Hubs;
 using Wdpr_Groep_E.Data;
+using Wdpr_Groep_E.Hubs;
 using Wdpr_Groep_E.Models;
 using Wdpr_Groep_E.Services;
 
@@ -28,8 +27,8 @@ namespace Wdpr_Groep_E
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            //services.AddDbContext<WdprContext>(options => options.UseSqlite("Data Source=demo.db"));
-            services.AddDbContext<WdprContext>(options => options.UseSqlServer("Data Source=SQL5109.site4now.net;Initial Catalog=db_a7f252_zmdh;User Id=db_a7f252_zmdh_admin;Password=Aycan123!"));
+            services.AddDbContext<WdprContext>(options => options.UseSqlite("Data Source=demo.db"));
+            // services.AddDbContext<WdprContext>(options => options.UseSqlServer("Data Source=SQL5109.site4now.net;Initial Catalog=db_a7f252_zmdh;User Id=db_a7f252_zmdh_admin;Password=Aycan123!"));
             services.AddRazorPages();
             services.AddSignalR();
             services.AddIdentity<AppUser, IdentityRole>()
@@ -45,7 +44,7 @@ namespace Wdpr_Groep_E
                     Port = 587,
                     Credentials = new NetworkCredential("zmdh.hulp@gmail.com", "Zmdh123!")
                 });
-           services.AddSingleton<IZmdhApi,ZmdhApi>();
+            services.AddSingleton<IZmdhApi, ZmdhApi>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

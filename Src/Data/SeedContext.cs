@@ -13,7 +13,7 @@ namespace Wdpr_Groep_E.Data
             //We maken rollen aan en vervolgens voegen we ze toe.
             await roleManager.CreateAsync(new IdentityRole("Orthopedagoog"));
             await roleManager.CreateAsync(new IdentityRole("Moderator"));
-            await roleManager.CreateAsync(new IdentityRole("Ouder"));
+            await roleManager.CreateAsync(new IdentityRole("TestUser"));
             await roleManager.CreateAsync(new IdentityRole("Tiener"));
             await roleManager.CreateAsync(new IdentityRole("Kind"));
         }
@@ -39,7 +39,7 @@ namespace Wdpr_Groep_E.Data
             }
         }
 
-        public static async Task CreateTestUserAsync(UserManager<AppUser> userManager , RoleManager<IdentityRole> roleManager)
+        public static async Task CreateTestUserAsync(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             var TestUser = new AppUser
             {
@@ -47,13 +47,52 @@ namespace Wdpr_Groep_E.Data
                 Email = "test@gmail.com",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true
-            }; 
-           
-                await userManager.CreateAsync(TestUser,"Test123!");
-                await userManager.AddToRoleAsync(TestUser,"Test123!");
-            
+            };
+            await userManager.CreateAsync(TestUser, "Test123!");
+            await userManager.AddToRoleAsync(TestUser, "TestUser");
         }
 
-    
+        public static async Task CreateOrthopedagogen(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            var Angela = new AppUser
+            {
+                UserName = "AngelaVanHeringa",
+                Email = "angela@zmdh.nl",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true
+            };
+            await userManager.CreateAsync(Angela, "Test123!");
+            await userManager.AddToRoleAsync(Angela, "Orthopedagoog");
+
+            var Gijs = new AppUser
+            {
+                UserName = "GijsBroekman",
+                Email = "gijs@zmdh.nl",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true
+            };
+            await userManager.CreateAsync(Gijs, "Test123!");
+            await userManager.AddToRoleAsync(Gijs, "Orthopedagoog");
+
+            var Jantinus = new AppUser
+            {
+                UserName = "JantinusVerduin",
+                Email = "jantinus@zmdh.nl",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true
+            };
+            await userManager.CreateAsync(Jantinus, "Test123!");
+            await userManager.AddToRoleAsync(Jantinus, "Orthopedagoog");
+
+            var Joseph = new AppUser
+            {
+                UserName = "JosephVanDerVliet",
+                Email = "joseph@zmdh.nl",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true
+            };
+            await userManager.CreateAsync(Joseph, "Test123!");
+            await userManager.AddToRoleAsync(Joseph, "Orthopedagoog");
+        }
     }
 }

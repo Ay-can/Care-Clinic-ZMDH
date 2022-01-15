@@ -7,14 +7,15 @@ namespace Wdpr_Groep_E.Models
         public Chat()
         {
             Messages = new List<Message>();
-            Users = new List<AppUser>();
+            Users = new List<ChatUser>();
         }
+
+        public ICollection<Message> Messages { get; set; }
+        public ICollection<ChatUser> Users { get; set; }
 
         public int Id { get; set; }
         public string Name { get; set; }
         public ChatType Type { get; set; }
         public string Subject { get; set; }
-        public ICollection<Message> Messages { get; set; }
-        public ICollection<AppUser> Users { get; set; }
     }
 }

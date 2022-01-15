@@ -19,18 +19,17 @@
                 @if (message.Name == UserManager.GetUserName(User))
                 {
                     <div class="text-right">
-                        <strong>@message.Name</strong> <span>@message.Time.Hour</span>:<span>@message.Time.Minute</span>
+                        <strong class="user-color">@message.Name</strong> <span>@DateTime.Now.ToString("HH:mm")</span>
                         <p>@message.Text</p>
                     </div>
                 }
                 else
                 {
                     <div>
-                        <strong>@message.Name</strong> <span>@message.Time.Hour</span>:<span>@message.Time.Minute</span>
+                        <strong>@message.Name</strong> <span>@DateTime.Now.ToString("HH:mm")</span>
                         <p>@message.Text</p>
                     </div>
                 }
-
             }
         </div>
     </div>
@@ -41,8 +40,7 @@
             <div class="col">
                 <form asp-controller="Chat" asp-action="SendMessage">
                     <div class="form-row">
-                        <input type="hidden" name="chatId" value="@Model.Id" />
-                        <input type="hidden" name="userName" value="@UserManager.GetUserName(User)" />
+                        <input type="hidden" name="id" value="@Model.Id" />
                         <div class="col">
                             <div class="form-group">
                                 <label for="text">Bericht:</label><span class="required"> *</span>

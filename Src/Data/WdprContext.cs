@@ -15,6 +15,15 @@ namespace Wdpr_Groep_E.Data
 
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<ChatUser> ChatUsers { get; set; }
+
         public DbSet<Caregiver> Caregivers { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<ChatUser>().HasKey(cu => new { cu.ChatId, cu.UserId });
+        }
     }
 }
