@@ -15,11 +15,14 @@ namespace Wdpr_Groep_E.Services
         public HttpClient HttpClient { get; set; } = new HttpClient();
         public HttpResponseMessage ResponseMessage { get; set; } = new HttpResponseMessage();
 
-       
-        public async Task DeleteClient(string clientid)
+        public ZmdhApi()
         {
             HttpClient.BaseAddress = new Uri(Url);
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+       
+        public async Task DeleteClient(string clientid)
+        {
             
             await HttpClient.DeleteAsync(Key + urlParameters + clientid);
 
@@ -29,8 +32,6 @@ namespace Wdpr_Groep_E.Services
 
         public async Task<Client> GetClientObject(string clientid)
         {
-        HttpClient.BaseAddress = new Uri(Url);
-        HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         var httpGet = await HttpClient.GetAsync(Key + urlParameters + clientid);
         var httpResponse = await httpGet.Content.ReadAsAsync<Client>();
 
@@ -40,15 +41,11 @@ namespace Wdpr_Groep_E.Services
         //Op dit moment werkt de post alleen als je een id erbij geeft, anders niet.. dit moet je fixen(met postman lukt het wel zonder id?)
         public async Task PostClient(Client c)
         {
-        HttpClient.BaseAddress = new Uri(Url);
-        HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         await HttpClient.PostAsJsonAsync(Key,c);
         }
 
         public async Task PutClient(Client c )
         {
-            HttpClient.BaseAddress = new Uri(Url);
-            HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             await HttpClient.PutAsJsonAsync<Client>(Key + urlParameters + c.clientid,c);
         }
     }
