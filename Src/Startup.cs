@@ -46,6 +46,7 @@ namespace Wdpr_Groep_E
                     Credentials = new NetworkCredential("zmdh.hulp@gmail.com", "Zmdh123!")
                 });
            services.AddSingleton<IZmdhApi,ZmdhApi>();
+           services.AddSingleton<IZorgdomein,Zorgdomein>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
