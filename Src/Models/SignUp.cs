@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Wdpr_Groep_E.Models
 {
-    public class AppointmentModel
+    public class SignUp
     {
         public int Id { get; set; }
 

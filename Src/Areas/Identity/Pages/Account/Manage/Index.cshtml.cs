@@ -77,6 +77,8 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
             [Required(ErrorMessage = "{0} is verplicht.")]
             [Display(Name = "Woonplaats")]
             public string City { get; set; }
+            [Display(Name = "Onderwerp")]
+            public string Subject { get; set; }
         }
 
         private async Task LoadAsync(AppUser user)
@@ -92,6 +94,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
             var addition = user.Addition;
             var zipCode = user.ZipCode;
             var city = user.City;
+            var subject = user.Subject;
             Username = userName;
 
             Input = new InputModel
@@ -105,7 +108,9 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
                 HouseNumber = houseNumber,
                 Addition = addition,
                 ZipCode = zipCode,
-                City = city
+                City = city,
+                Subject = subject
+                
             };
         }
 
@@ -208,6 +213,13 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
                 user.City = Input.City;
                 await _userManager.UpdateAsync(user);
             }
+              var subject = user.Subject;
+            if (Input.Subject != subject)
+            {
+                user.Subject = Input.Subject;
+                await _userManager.UpdateAsync(user);
+            }
+
 
             await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Uw profiel is geupdate.";

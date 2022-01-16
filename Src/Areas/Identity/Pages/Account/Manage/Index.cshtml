@@ -54,6 +54,13 @@
                         <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
                     </div>
                 </div>
+                 <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                        <label asp-for="Input.Subject"></label>:
+                        <input asp-for="Input.Subject" class="form-control" placeholder="Subject" disabled />
+                        <span asp-validation-for="Input.Subject" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
             <h4>Adres gegevens:</h4>
             <div class="form-row">
@@ -92,6 +99,7 @@
                         <label asp-for="Input.City"></label>:<span class="required"> *</span>
                         <input asp-for="Input.City" class="form-control" placeholder="Woonplaats" />
                         <span asp-validation-for="Input.City" class="text-danger"></span>
+                        
                     </div>
                 </div>
             </div>
