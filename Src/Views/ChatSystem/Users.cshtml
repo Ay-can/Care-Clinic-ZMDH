@@ -1,0 +1,43 @@
+@model IEnumerable<ChatUser>
+@{
+    ViewData["Title"] = "Gebruikers in chat";
+}
+
+<div class="container-fluid manage pt-3 pb-3">
+    <div class="row">
+        <div class="col">
+            <h1>@ViewData["Title"]: @Model.First().Chat.Name</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-sm table-striped table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>Naam</th>
+                        @if (User.IsInRole("Moderator"))
+                        {
+                            <th>Verbannen</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.User.UserName</td>
+                            @if (User.IsInRole("Moderator"))
+                            {
+                                <td class="text-center">
+                                    <form asp-controller="Chat" asp-action="RemoveUser" asp-route-id="@user.User.Id">
+                                        <button class="btn btn-sm btn-danger">Verbannen</button>
+                                    </form>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

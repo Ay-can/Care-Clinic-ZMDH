@@ -8,6 +8,12 @@
 <div class="container-fluid manage pt-3 pb-3">
     <div class="row">
         <div class="col">
+            @if (User.IsInRole("Tiener") || User.IsInRole("Kind"))
+            {
+                <div class="mb-3">
+                    <button class="btn btn-primary lg-btn" type="button" data-toggle="modal" data-target="#JoinPrivateRoom">Voeg privéchat toe</button>
+                </div>
+            }
             <h1>@ViewData["Title"]</h1>
         </div>
     </div>
@@ -27,13 +33,13 @@
                         <tr>
                             <td><a asp-controller="Chat" asp-action="Chat" asp-route-id="@chat.Chat.Id">@chat.Chat.Name</a></td>
                             <td>@chat.Chat.Subject</td>
-                            @if (chat.Chat.Type == ChatType.Chat)
-                            {
-                                <td>Privé Chat</td>
-                            }
-                            @if (chat.Chat.Type == ChatType.GroupChat)
+                            @if (chat.Chat.Type == ChatType.Room)
                             {
                                 <td>Zelfhulpgroep</td>
+                            }
+                            @if (chat.Chat.Type == ChatType.Private)
+                            {
+                                <td>Privéchat</td>
                             }
                         </tr>
                     }
@@ -41,11 +47,16 @@
             </table>
         </div>
     </div>
-    <div class="row">
-        <div class="col text-center">
-            <form asp-controller="ChatSystem" asp-action="Index">
-                <button class="btn btn-primary lg-btn">Zelfhulpgroepen</button>
-            </form>
+    @if (User.IsInRole("Tiener") || User.IsInRole("Kind"))
+    {
+        <div class="row">
+            <div class="col text-center">
+                <form asp-controller="ChatSystem" asp-action="Index">
+                    <button class="btn btn-primary lg-btn">Zelfhulpgroepen</button>
+                </form>
+            </div>
         </div>
-    </div>
+    }
 </div>
+
+<partial name="../Shared/Modals/JoinPrivateRoomModal" />

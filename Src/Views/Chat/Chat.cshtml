@@ -12,21 +12,20 @@
     </div>
     <hr />
     <div class="row">
-        <div class="col">
-            @* <ul id="messagesList"></ul> *@
+        <div class="col messages">
             @foreach (var message in Model.Messages)
             {
                 @if (message.Name == UserManager.GetUserName(User))
                 {
                     <div class="text-right">
-                        <strong class="user-color">@message.Name</strong> <span>@DateTime.Now.ToString("HH:mm")</span>
+                        <header><strong class="user-color">@message.Name</strong> <span>@DateTime.Now.ToString("HH:mm")</span></header>
                         <p>@message.Text</p>
                     </div>
                 }
                 else
                 {
                     <div>
-                        <strong>@message.Name</strong> <span>@DateTime.Now.ToString("HH:mm")</span>
+                        <header><strong>@message.Name</strong> <span>@DateTime.Now.ToString("HH:mm")</span></header>
                         <p>@message.Text</p>
                     </div>
                 }
@@ -38,18 +37,21 @@
     <div class="container pt-3 pb-3">
         <div class="row">
             <div class="col">
-                <form asp-controller="Chat" asp-action="SendMessage">
+                <form onsubmit="sendMessage(event)" asp-controller="Chat" asp-action="CreateMessage" method="post">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <input type="hidden" name="room" value="@Model.Name" />
+                    <label for="text">Bericht:</label><span class="required"> *</span>
                     <div class="form-row">
-                        <input type="hidden" name="id" value="@Model.Id" />
                         <div class="col">
                             <div class="form-group">
-                                <label for="text">Bericht:</label><span class="required"> *</span>
                                 <input type="text" class="form-control" id="text" name="text" />
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group text-center">
-                        <input type="submit" class="btn btn-primary lg-btn" value="Bericht verzenden" />
+                        <div class="col-auto">
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-primary message-btn" value="Bericht verzenden" />
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -57,5 +59,67 @@
     </div>
 </div>
 
-<script src="~/js/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/chat.js"></script>
+@section Scripts {
+<script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+    var connection = new signalR.HubConnectionBuilder()
+        .withUrl("/chatHub")
+        .build();
+
+    var _connectionId = '';
+
+    connection.on("ReceiveMessage", function (data) {
+        var message = document.createElement('div');
+        if (data.name == '@UserManager.GetUserName(User)') {
+            message.innerHTML = `
+                <div class="text-right">
+                    <strong class="user-color">${data.name}</strong> <span>${new Date(data.time).toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' })}</span>
+                    <p>${data.text}</p>
+                </div>
+            `;
+        } else {
+            message.innerHTML = `
+                <div>
+                    <strong>${data.name}</strong> <span>${new Date(data.time).toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' })}</span>
+                    <p>${data.text}</p>
+                </div>
+            `;
+        }
+        document.querySelector('.messages').appendChild(message);
+    });
+
+    var joinRoom = function () {
+        axios.post('/Chat/JoinRoom/' + _connectionId + '/@Model.Name', null)
+            .then(res => {
+                console.log("Zelfhulpgroep gejoined!", res);
+            }).catch(err => {
+                console.log("Error tijdens joinen zelfhulpgroep!", err);
+            });
+    };
+
+    connection.start()
+        .then(function () {
+            connection.invoke('getConnectionId')
+                .then(function (connectionId) {
+                    _connectionId = connectionId;
+                    joinRoom();
+                });
+        }).catch(function (err) {
+            console.log(err);
+        });
+
+    var sendMessage = function (event) {
+        event.preventDefault();
+        var data = new FormData(event.target);
+        document.getElementById('text').value = '';
+        axios.post('/Chat/SendMessage', data)
+            .then(res => {
+                console.log("Bericht verzonden!", res);
+            }).catch(err => {
+                console.log("Error tijdens verzenden bericht!", err);
+            });
+    }
+</script>
+}
