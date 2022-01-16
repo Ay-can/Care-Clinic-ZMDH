@@ -110,11 +110,11 @@
                             }
                         }
                     }
-                     @if (UserManager.GetUserAsync(User).Result.Subject == "hoogbegaafd")
+                     @if (UserManager.GetUserAsync(User).Result.Subject == "Hoogbegaafdheid")
                     {
                         @foreach (var signup in Model)
                         {
-                            @if (@signup.Subject == "hoogbegaafd")
+                            @if (@signup.Subject == "Hoogbegaafdheid")
                             {
                                 <tr>
                                     <td>@signup.FirstName</td>
