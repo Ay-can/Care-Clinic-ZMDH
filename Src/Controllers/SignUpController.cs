@@ -55,11 +55,12 @@ namespace Wdpr_Groep_E.Controllers
         [HttpGet]
         public IActionResult OverView()
         {
+            
             return View(_context.SignUps.ToList());
         }
 
         [HttpPost]
-        public IActionResult AcceptSignUp(string firstname, string email, int Id)
+        public IActionResult AcceptSignUp(string firstname, string email, int Id, string Subject)
         {
                 var user = new AppUser { UserName = firstname + "69" , Email = email};
                 var result =  _userManager.CreateAsync(user, "Test123!");

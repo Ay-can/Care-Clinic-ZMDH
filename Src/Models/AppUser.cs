@@ -22,6 +22,7 @@ namespace Wdpr_Groep_E.Models
         public string Addition { get; set; }
         public string ZipCode { get; set; }
         public string City { get; set; }
+        public string Subject { get; set; }
 
         // public string IBAN { get; set; }
     }

@@ -1,4 +1,8 @@
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
 @model List<Wdpr_Groep_E.Models.SignUp>;
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
 @{
     ViewData["Title"] = "Gebruikers beheren";
 }
@@ -19,29 +23,123 @@
                     </tr>
                 </thead>
                 <tbody>
-                      @foreach (var signup in Model)
+                    @if (UserManager.GetUserAsync(User).Result.Subject == "ADD")
                     {
-                        <tr>
-                            <td>@signup.FirstName</td>
-                            <td>@signup.Infix</td>
-                            <td>@signup.LastName</td>
-                            <td>@signup.Email</td>
-                            <td>@signup.Subject</td>
-                            <td>@signup.Message</td>
-                             <form method="post" asp-controller="SignUp" asp-action="AcceptSignUp">
-                                <td class="text-center"><button class="btn btn-sm btn-success">Accepteren</button></td>
-                                <input type="hidden" name="firstname" value="@signup.FirstName"></input>
-                                <input type="hidden" name="email" value="@signup.Email">
-                                <input type="hidden" name="Id" value="@signup.Id">
-
-                            </form> 
-                              <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.Id">
-                                <td class="text-center"><button class="btn btn-sm btn-danger">Weigeren</button></td>
-                                <input type="hidden" name="firstname" value="@signup.FirstName"></input>
-                                <input type="hidden" name="email" value="@signup.Email">
-                            </form> 
-                        </tr>
-                    }  
+                        @foreach (var signup in Model)
+                        {
+                            @if (@signup.Subject == "ADD")
+                            {
+                                <tr>
+                                    <td>@signup.FirstName</td>
+                                    <td>@signup.Infix</td>
+                                    <td>@signup.LastName</td>
+                                    <td>@signup.Email</td>
+                                    <td>@signup.Subject</td>
+                                    <td>@signup.Message</td>
+                                    <form method="post" asp-controller="SignUp" asp-action="AcceptSignUp">
+                                        <td class="text-center"><button class="btn btn-sm btn-success">Accepteren</button></td>
+                                        <input type="hidden" name="firstname" value="@signup.FirstName"></input>
+                                        <input type="hidden" name="email" value="@signup.Email">
+                                        <input type="hidden" name="Id" value="@signup.Id">
+                                        <input type="hidden" name="Subject" value="@signup.Subject"></input>
+                                    </form>
+                                    <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.Id">
+                                        <td class="text-center"><button class="btn btn-sm btn-danger">Weigeren</button></td>
+                                        <input type="hidden" name="firstname" value="@signup.FirstName"></input>
+                                        <input type="hidden" name="email" value="@signup.Email">
+                                    </form>
+                                </tr>
+                            }
+                        }
+                    }
+                    @if (UserManager.GetUserAsync(User).Result.Subject == "Faalangst")
+                    {
+                        @foreach (var signup in Model)
+                        {
+                            @if (@signup.Subject == "Faalangst")
+                            {
+                                <tr>
+                                    <td>@signup.FirstName</td>
+                                    <td>@signup.Infix</td>
+                                    <td>@signup.LastName</td>
+                                    <td>@signup.Email</td>
+                                    <td>@signup.Subject</td>
+                                    <td>@signup.Message</td>
+                                    <form method="post" asp-controller="SignUp" asp-action="AcceptSignUp">
+                                        <td class="text-center"><button class="btn btn-sm btn-success">Accepteren</button></td>
+                                        <input type="hidden" name="firstname" value="@signup.FirstName"></input>
+                                        <input type="hidden" name="email" value="@signup.Email">
+                                        <input type="hidden" name="Id" value="@signup.Id">
+                                        <input type="hidden" name="Subject" value="@signup.Subject"></input>
+                                    </form>
+                                    <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.Id">
+                                        <td class="text-center"><button class="btn btn-sm btn-danger">Weigeren</button></td>
+                                        <input type="hidden" name="firstname" value="@signup.FirstName"></input>
+                                        <input type="hidden" name="email" value="@signup.Email">
+                                    </form>
+                                </tr>
+                            }
+                        }
+                    }
+                    @if (UserManager.GetUserAsync(User).Result.Subject == "ASS")
+                    {
+                        @foreach (var signup in Model)
+                        {
+                            @if (@signup.Subject == "ASS")
+                            {
+                                <tr>
+                                    <td>@signup.FirstName</td>
+                                    <td>@signup.Infix</td>
+                                    <td>@signup.LastName</td>
+                                    <td>@signup.Email</td>
+                                    <td>@signup.Subject</td>
+                                    <td>@signup.Message</td>
+                                    <form method="post" asp-controller="SignUp" asp-action="AcceptSignUp">
+                                        <td class="text-center"><button class="btn btn-sm btn-success">Accepteren</button></td>
+                                        <input type="hidden" name="firstname" value="@signup.FirstName"></input>
+                                        <input type="hidden" name="email" value="@signup.Email">
+                                        <input type="hidden" name="Id" value="@signup.Id">
+                                        <input type="hidden" name="Subject" value="@signup.Subject"></input>
+                                    </form>
+                                    <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.Id">
+                                        <td class="text-center"><button class="btn btn-sm btn-danger">Weigeren</button></td>
+                                        <input type="hidden" name="firstname" value="@signup.FirstName"></input>
+                                        <input type="hidden" name="email" value="@signup.Email">
+                                    </form>
+                                </tr>
+                            }
+                        }
+                    }
+                     @if (UserManager.GetUserAsync(User).Result.Subject == "hoogbegaafd")
+                    {
+                        @foreach (var signup in Model)
+                        {
+                            @if (@signup.Subject == "hoogbegaafd")
+                            {
+                                <tr>
+                                    <td>@signup.FirstName</td>
+                                    <td>@signup.Infix</td>
+                                    <td>@signup.LastName</td>
+                                    <td>@signup.Email</td>
+                                    <td>@signup.Subject</td>
+                                    <td>@signup.Message</td>
+                                    <form method="post" asp-controller="SignUp" asp-action="AcceptSignUp">
+                                        <td class="text-center"><button class="btn btn-sm btn-success">Accepteren</button></td>
+                                        <input type="hidden" name="firstname" value="@signup.FirstName"></input>
+                                        <input type="hidden" name="email" value="@signup.Email">
+                                        <input type="hidden" name="Id" value="@signup.Id">
+                                        <input type="hidden" name="Subject" value="@signup.Subject"></input>
+                                    </form>
+                                    <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.Id">
+                                        <td class="text-center"><button class="btn btn-sm btn-danger">Weigeren</button></td>
+                                        <input type="hidden" name="firstname" value="@signup.FirstName"></input>
+                                        <input type="hidden" name="email" value="@signup.Email">
+                                    </form>
+                                </tr>
+                            }
+                        }
+                    }
+                    
                 </tbody>
             </table>
         </div>
