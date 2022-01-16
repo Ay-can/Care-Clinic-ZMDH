@@ -1,0 +1,44 @@
+<div class="modal" id="NewRoom" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nieuwe zelfhulpgroep</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-controller="ChatSystem" asp-action="CreateRoom" method="post">
+                    <div class="form-group">
+                        <label for="name" class="col-form-label">Naam:</label><span class="required"> *</span>
+                        <input class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject" class="col-form-label">Onderwerp:</label><span class="required"> *</span>
+                        <select class="custom-select" id="subject" name="subject" required>
+                            <option value="" selected>Kies een onderwerp</option>
+                            <option value="ADD">ADD</option>
+                            <option value="ASS">ASS</option>
+                            <option value="Faalangst">Faalangst</option>
+                            <option value="Hoogbegaafdheid">Hoogbegaafdheid</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="age" class="col-form-label">Onderwerp:</label><span class="required"> *</span>
+                        <select class="custom-select" id="age" name="age" required>
+                            <option value="" selected>Kies leeftijdscategorie</option>
+                            <option value="12-">12-</option>
+                            <option value="12-15">12-15</option>
+                            <option value="15-16">15-16</option>
+                            <option value="17-18">17-18</option>
+                            <option value="18+">18+</option>
+                        </select>
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-primary lg-btn mt-3">Aanmaken</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
