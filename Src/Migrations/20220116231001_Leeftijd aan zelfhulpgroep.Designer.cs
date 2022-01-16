@@ -9,8 +9,8 @@ using Wdpr_Groep_E.Data;
 namespace Wdpr_Groep_E.Migrations
 {
     [DbContext(typeof(WdprContext))]
-    [Migration("20220115191715_Seeded Orthopedagogen")]
-    partial class SeededOrthopedagogen
+    [Migration("20220116231001_Leeftijd aan zelfhulpgroep")]
+    partial class Leeftijdaanzelfhulpgroep
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -312,6 +312,9 @@ namespace Wdpr_Groep_E.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("AgeGroup")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");

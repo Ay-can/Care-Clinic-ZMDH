@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Wdpr_Groep_E.Migrations
 {
-    public partial class SeededOrthopedagogen : Migration
+    public partial class ChatmetSignalRgemaakt : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

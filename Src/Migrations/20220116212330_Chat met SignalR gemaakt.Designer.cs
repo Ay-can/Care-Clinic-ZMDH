@@ -9,8 +9,8 @@ using Wdpr_Groep_E.Data;
 namespace Wdpr_Groep_E.Migrations
 {
     [DbContext(typeof(WdprContext))]
-    [Migration("20220115225534_Users per chat")]
-    partial class Usersperchat
+    [Migration("20220116212330_Chat met SignalR gemaakt")]
+    partial class ChatmetSignalRgemaakt
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
