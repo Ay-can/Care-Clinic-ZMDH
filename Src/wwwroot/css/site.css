@@ -29,6 +29,24 @@
   background-color: #0089fd !important;
 }
 
+.btn-primary:active, .btn-primary:focus, .btn-primary:active:focus {
+  box-shadow: 0 0 0 0.2rem rgb(0 137 253 / 50%) !important;
+}
+
+.btn-info {
+  border-color: var(--green);
+  background-color: var(--green);
+}
+
+.btn-info:hover, .btn-info:active, .btn-info:focus {
+  border-color: #2af576 !important;
+  background-color: #2af587 !important;
+}
+
+.btn-info:active, .btn-info:focus, .btn-info:active:focus {
+  box-shadow: 0 0 0 0.2rem rgb(42 245 186 / 50%) !important;
+}
+
 /* Load icon */
 .load {
   top: 0;
@@ -479,6 +497,10 @@ main {
   position: fixed;
   background-color: #FDFDFD;
   box-shadow: 0 -2px 4px -2px rgba(0 0 0 / .5);
+}
+
+.message-btn {
+  padding: .375rem 2rem;
 }
 
 .user-color {
