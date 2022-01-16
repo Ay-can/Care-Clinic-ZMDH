@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -18,7 +20,6 @@ namespace Wdpr_Groep_E.Services
             HttpClient.BaseAddress = new Uri(Url);
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
-       
         public async Task DeleteClient(string clientid)
         {
             
@@ -26,17 +27,34 @@ namespace Wdpr_Groep_E.Services
 
         }
 
-       
-
         public async Task<Client> GetClientObject(string clientid)
         {
-        var httpGet = await HttpClient.GetAsync(Key + urlParameters + clientid);
-        var httpResponse = await httpGet.Content.ReadAsAsync<Client>();
+             var httpGet = await HttpClient.GetAsync(Key + urlParameters + clientid);
+             var httpResponse = await httpGet.Content.ReadAsAsync<Client>();
 
-        return httpResponse;        
+            return httpResponse;        
 
         }
-        //Op dit moment werkt de post alleen als je een id erbij geeft, anders niet.. dit moet je fixen(met postman lukt het wel zonder id?)
+
+        public async Task<IEnumerable<string>> GetAllClients()
+        {
+            var httpGet = await HttpClient.GetAsync(Key);
+            var httpResponse = await httpGet.Content.ReadAsAsync<IEnumerable<string>>();
+            return httpResponse;
+        }
+
+        public async Task<string> CreateClientId()
+        {
+            var getClients = await GetAllClients();
+
+            var getLastClientId = getClients.Last();
+
+            int parseClienetId = int.Parse(getLastClientId) + 1;
+
+            return parseClienetId.ToString();
+
+
+        }
         public async Task PostClient(Client c)
         {
         await HttpClient.PostAsJsonAsync(Key,c);

@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using Wdpr_Groep_E.Models;
 
 namespace Wdpr_Groep_E.Services
 {
@@ -10,7 +12,7 @@ namespace Wdpr_Groep_E.Services
         string Base64(string message);
         string KeyHeader();
         Task<Referral> GetReferralObject(string birthDate, string bsn);
-
+        Task<IEnumerable<ReferralOverview>> GetAllReferrals();
 
     }
 

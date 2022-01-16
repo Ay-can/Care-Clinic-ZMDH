@@ -20,6 +20,7 @@ namespace Wdpr_Groep_E.Controllers
         public async Task<IActionResult> Index()
         {
             var GetRoles = await _roleManager.Roles.ToListAsync();
+            ZmdhApi api = new ZmdhApi();
             return View(GetRoles);
         }
 

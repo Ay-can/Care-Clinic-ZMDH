@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Wdpr_Groep_E.Models;
 using Wdpr_Groep_E.Services;
 
 public class Zorgdomein : IZorgdomein
@@ -52,6 +54,17 @@ Xkr7eT6cnWJp60Xlca65DmOdPYOr6X4eEED6eoF00q3T
         var Response = await getReferral.Content.ReadAsAsync<Referral>();
         return Response;
     }
+
+    public async Task<IEnumerable<ReferralOverview>> GetAllReferrals()
+    {
+        HttpClient.DefaultRequestHeaders.Add("key",KeyHeader());
+        
+        var getReferrals = await HttpClient.GetAsync(urlParameters);
+        var Response = await getReferrals.Content.ReadAsAsync<IEnumerable<ReferralOverview>>();
+
+        return Response;
+    }
+
 
     public RSAParameters GetRSAParameters()
     {

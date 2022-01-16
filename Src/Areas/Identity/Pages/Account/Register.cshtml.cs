@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 
 using Wdpr_Groep_E.Models;
+using Wdpr_Groep_E.Services;
 
 namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
 {
@@ -29,18 +30,20 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
 
         private readonly IFluentEmail _email;
+        private readonly IZmdhApi _zmdhApi;
 
         public RegisterModel(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender, IFluentEmail email)
+            IEmailSender emailSender, IFluentEmail email, IZmdhApi zmdhApi)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
             _email = email;
+            _zmdhApi = zmdhApi;
         }
 
         [BindProperty]
