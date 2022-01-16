@@ -11,6 +11,8 @@ namespace Wdpr_Groep_E.Services
          Task DeleteClient(string clientid);
          Task PutClient(Client c);
         
+         Task<IEnumerable<string>> GetAllClients();
+         Task<string> CreateClientId();
         
     }
 
