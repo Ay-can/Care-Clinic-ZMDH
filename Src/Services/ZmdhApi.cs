@@ -20,15 +20,12 @@ namespace Wdpr_Groep_E.Services
             HttpClient.BaseAddress = new Uri(Url);
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
-       
         public async Task DeleteClient(string clientid)
         {
             
             await HttpClient.DeleteAsync(Key + urlParameters + clientid);
 
         }
-
-       
 
         public async Task<Client> GetClientObject(string clientid)
         {
