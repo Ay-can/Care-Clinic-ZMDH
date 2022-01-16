@@ -64,11 +64,11 @@
                     }
                     @if (User.IsInRole("Orthopedagoog"))
                     {
-                       <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="SignUp" asp-action="OverView">
                                 <span class="material-icons-round">people</span>Aanmeldingen
                             </a>
-                        </li> 
+                        </li>
                     }
                 </ul>
                 <ul class="navbar-nav">
@@ -88,22 +88,22 @@
             {
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <form asp-controller="SignUp" asp-action="Index">
-                            <button class="nav-link btn btn-link btn-primary signup-btn">
-                                <span class="material-icons-round d-flex align-items-center">drive_file_rename_outline</span>Maak hier een afspraak!
-                            </button>
-                        </form>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login" title="Inloggen op uw ZMDH account.">
                             <span class="material-icons-round d-flex align-items-center">login</span>Login
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" title="Maak een nieuw account aan.">
-                            <span class="material-icons-round d-flex align-items-center">person_add</span>Registreer
-                        </a>
+                        <form asp-controller="SignUp" asp-action="Index">
+                            <button class="nav-link btn btn-link btn-primary signup-btn">
+                                <span class="material-icons-round d-flex align-items-center">drive_file_rename_outline</span>Meld je aan!
+                            </button>
+                        </form>
                     </li>
+                    @* <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" title="Maak een nieuw account aan.">
+                        <span class="material-icons-round d-flex align-items-center">person_add</span>Registreer
+                        </a>
+                        </li> *@
                 </ul>
             }
         </div>

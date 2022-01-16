@@ -13,7 +13,6 @@ using Wdpr_Groep_E.Models;
 
 namespace Wdpr_Groep_E.Controllers
 {
-    [Authorize(Roles = "Orthopedagoog")]
     public class SignUpController : Controller
     {
         private readonly ILogger<SignUpController> _logger;
@@ -54,33 +53,32 @@ namespace Wdpr_Groep_E.Controllers
             await sender.SendAsync();
             return RedirectToAction("Index", "Home");
         }
+
         [HttpGet]
+        [Authorize(Roles = "Orthopedagoog")]
         public IActionResult OverView()
         {
-            
             return View(_context.SignUps.ToList());
         }
 
         [HttpPost]
         public IActionResult AcceptSignUp(string firstname, string email, int Id, string Subject)
         {
-                var user = new AppUser { UserName = firstname + "69" , Email = email};
-                var result =  _userManager.CreateAsync(user, "Test123!");
-                DeleteSignUp(Id);
-                return RedirectToAction("OverView","SignUp");
+            var user = new AppUser { UserName = firstname + "69", Email = email };
+            var result = _userManager.CreateAsync(user, "Test123!");
+            DeleteSignUp(Id);
+            return RedirectToAction("OverView", "SignUp");
         }
 
-         [HttpPost]
+        [HttpPost]
         public IActionResult DeleteSignUp(int id)
         {
-            var getSignUp =  _context.SignUps.Single(s => s.Id == id);
-           
+            var getSignUp = _context.SignUps.Single(s => s.Id == id);
+
             _context.SignUps.Remove(getSignUp);
             _context.SaveChanges();
             return RedirectToAction("OverView");
         }
-
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
