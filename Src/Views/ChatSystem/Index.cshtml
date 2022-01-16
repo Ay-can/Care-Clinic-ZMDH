@@ -16,22 +16,21 @@
 <div class="container-fluid manage pt-3 pb-3">
     <div class="row">
         <div class="col">
-            @if (User.IsInRole("Orthopedagoog"))
-            {
-                <div class="mb-3">
-                    <button class="btn btn-primary lg-btn" type="button" data-toggle="modal" data-target="#NewGroupChat">Nieuwe zelfhulpgroep</button>
-                </div>
-            }
             <h1>@ViewData["Title"]</h1>
-            @* <form method="post" asp-action="AddRole" asp-controller="RoleSystem">
-                <div class="input-group">
-                <input name="Name" class="form-control"></input>
-                <span class="input-group-btn pl-3">
-                <button class="btn btn-primary">Rol Toevoegen</button>
-                </span>
-                </div>
-                </form> *@
         </div>
+        @if (User.IsInRole("Orthopedagoog"))
+        {
+            <div class="col-auto">
+                <div class="mb-3">
+                    <button class="btn btn-info lg-btn" type="button" data-toggle="modal" data-target="#NewRoom">Nieuwe zelfhulpgroep</button>
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="mb-3">
+                    <button class="btn btn-primary lg-btn" type="button" data-toggle="modal" data-target="#NewPrivateRoom">Nieuwe privéchat</button>
+                </div>
+            </div>
+        }
     </div>
     <div class="row">
         <div class="col">
@@ -40,8 +39,17 @@
                     <tr>
                         <th>Chatnaam</th>
                         <th>Onderwerp</th>
-                        <th>Aantal Deelnemers</th>
-                        <th>Opties</th>
+                        <th>Deelnemers</th>
+                        <th>Leeftijdscategorie</th>
+                        @if (User.IsInRole("Tiener") || User.IsInRole("Kind"))
+                        {
+                            <th>Deelnemen</th>
+                        }
+                        @if (User.IsInRole("Moderator"))
+                        {
+                            <th>Gebruikers</th>
+                            <th>Verwijder</th>
+                        }
                     </tr>
                 </thead>
                 <tbody>
@@ -50,21 +58,29 @@
                         <tr>
                             <td>@chat.Name</td>
                             <td>@chat.Subject</td>
-                            <td>Aantal users tellen</td>
-                            <td class="text-center">
-                                @if (User.IsInRole("Tiener") || User.IsInRole("Kind"))
-                                {
+                            <td>@chat.Users.Count()</td>
+                            <td>@chat.AgeGroup</td>
+                            @if (User.IsInRole("Tiener") || User.IsInRole("Kind"))
+                            {
+                                <td class="text-center">
                                     <form asp-controller="ChatSystem" asp-action="JoinChat" asp-route-id="@chat.Id" method="get">
                                         <button class="btn btn-sm btn-primary">Deelnemen</button>
                                     </form>
-                                }
-                                @if (User.IsInRole("Moderator"))
-                                {
+                                </td>
+                            }
+                            @if (User.IsInRole("Moderator"))
+                            {
+                                <td class="text-center">
+                                    <form asp-controller="ChatSystem" asp-action="Users" asp-route-id="@chat.Id">
+                                        <button class="btn btn-sm btn-info">Gebruikers</button>
+                                    </form>
+                                </td>
+                                <td class="text-center">
                                     <form asp-controller="ChatSystem" asp-action="DeleteChat" asp-route-id="@chat.Id">
                                         <button class="btn btn-sm btn-danger">Verwijder</button>
                                     </form>
-                                }
-                            </td>
+                                </td>
+                            }
                         </tr>
                     }
                 </tbody>
@@ -73,36 +89,5 @@
     </div>
 </div>
 
-<div class="modal" id="NewGroupChat" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Nieuwe groepschat</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form asp-controller="ChatSystem" asp-action="CreateGroupChat" method="post">
-                    <div class="form-group">
-                        <label for="name" class="col-form-label">Naam chat:</label>
-                        <input class="form-control" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="subject" class="col-form-label">Onderwerp:</label>
-                        <select class="custom-select" id="subject" name="subject" required>
-                            <option value="" selected>Kies een onderwerp</option>
-                            <option value="ADD">ADD</option>
-                            <option value="ASS">ASS</option>
-                            <option value="Faalangst">Faalangst</option>
-                            <option value="Hoogbegaafdheid">Hoogbegaafdheid</option>
-                        </select>
-                    </div>
-                    <div class="form-group text-center">
-                        <button type="submit" class="btn btn-primary lg-btn mt-3">Aanmaken</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+<partial name="../Shared/Modals/CreateRoomModal" />
+<partial name="../Shared/Modals/CreatePrivateRoomModal" />

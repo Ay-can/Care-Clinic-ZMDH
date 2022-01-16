@@ -30,7 +30,6 @@ namespace Wdpr_Groep_E
             services.AddDbContext<WdprContext>(options => options.UseSqlite("Data Source=demo.db"));
             // services.AddDbContext<WdprContext>(options => options.UseSqlServer("Data Source=SQL5109.site4now.net;Initial Catalog=db_a7f252_zmdh;User Id=db_a7f252_zmdh_admin;Password=Aycan123!"));
             services.AddRazorPages();
-            services.AddSignalR();
             services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<WdprContext>()
                 .AddDefaultTokenProviders()
@@ -44,9 +43,9 @@ namespace Wdpr_Groep_E
                     Port = 587,
                     Credentials = new NetworkCredential("zmdh.hulp@gmail.com", "Zmdh123!")
                 });
-
-           services.AddSingleton<IZmdhApi,ZmdhApi>();
-           services.AddSingleton<IZorgdomein,Zorgdomein>();
+            services.AddSingleton<IZmdhApi, ZmdhApi>();
+            services.AddSingleton<IZorgdomein, Zorgdomein>();
+            services.AddSignalR();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -66,10 +65,10 @@ namespace Wdpr_Groep_E
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-                endpoints.MapHub<ChatHub>("/ChatHub");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapHub<ChatHub>("/chatHub");
             });
         }
     }
