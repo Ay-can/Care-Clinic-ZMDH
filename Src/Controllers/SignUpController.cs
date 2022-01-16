@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentEmail.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using Wdpr_Groep_E.Models;
 
 namespace Wdpr_Groep_E.Controllers
 {
+    [Authorize(Roles = "Orthopedagoog")]
     public class SignUpController : Controller
     {
         private readonly ILogger<SignUpController> _logger;
