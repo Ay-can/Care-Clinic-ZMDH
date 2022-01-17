@@ -12,6 +12,7 @@ namespace Wdpr_Groep_E.Data
         }
 
         public DbSet<SignUp> SignUps { get; set; }
+        public DbSet<SignUpChild> SignUpChildren {get;set;}
 
         public DbSet<Chat> Chats { get; set; }
         public DbSet<Message> Messages { get; set; }

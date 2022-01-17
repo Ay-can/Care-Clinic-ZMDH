@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -51,18 +52,49 @@ namespace Wdpr_Groep_E.Controllers
 
             var sender = _email
                 .To(email)
-                .Subject("Afspraak succesvol aangevraagd")
-                .Body($"Uw afspraak voor een intake gesprek over {subject} is succesvol ontvangen, U krijgt zo snel mogelijk antwoord van de orthopedagoog.");
+                .Subject("Aanmelding  account succesvol aangevraagd")
+                .Body($"Uw aanmelding voor een zmdh account over {subject} is succesvol ontvangen, U krijgt zo snel mogelijk antwoord van de orthopedagoog.");
 
             await sender.SendAsync();
             return RedirectToAction("Index", "Home");
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateSignUpWithChild(string firstname, string lastname, string infix, string email, string phone, string subject, string message, string childUsername, string childFirstname, string childInfix, string childLastname)
+        {
+            _context.Add(new SignUp() {
+               FirstName = firstname,
+               LastName = lastname,
+               Infix = infix,
+               Email = email,
+               PhoneNumber = phone,
+               Subject = subject,
+               Message = message,
+               Children = new List<SignUpChild>() {new SignUpChild() {
+                   Username = childFirstname,
+                   FirstName = childFirstname,
+                   Infix = childInfix,
+                   LastName = childLastname,
+                   Subject = subject
+               }}
+            });
+            _context.SaveChanges();
+
+            var sender = _email
+                .To(email)
+                .Subject("Aanmelding ouder en kind succesvol aangevraagd")
+                .Body($"Uw aanmelding voor een zmdh account over {subject} is succesvol ontvangen, U krijgt zo snel mogelijk antwoord van de orthopedagoog.");
+
+            await sender.SendAsync();
+
+            return RedirectToAction("Index","Home");
+
         }
 
         [HttpGet]
         [Authorize(Roles = "Orthopedagoog")]
         public IActionResult Overview()
         {
-            return View(_context.SignUps.ToList());
+            return View(_context.SignUps.Include(s => s.Children).ToList());
         }
 
         [HttpPost]

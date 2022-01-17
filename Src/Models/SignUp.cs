@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Wdpr_Groep_E.Models
@@ -35,5 +37,8 @@ namespace Wdpr_Groep_E.Models
         [Display(Name = "Bericht")]
         [StringLength(250)]
         public string Message { get; set; }
+
+        public List<SignUpChild> Children { get; set; }
+        
     }
 }
