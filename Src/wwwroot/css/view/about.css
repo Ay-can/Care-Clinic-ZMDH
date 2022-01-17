@@ -1,0 +1,42 @@
+/* About */
+.about-card {
+  border-radius: .25rem;
+  background-color: var(--white_4);
+  border: solid 1px rgba(0 0 0 / .25);
+  -webkit-box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
+  box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
+}
+
+.about-card img, about-card figure img {
+  width: 100%;
+  border-radius: .25rem;
+}
+
+.about-card figure figcaption {
+  font-weight: 600;
+  text-align: center;
+}
+
+.about-card p {
+  overflow: hidden;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+@media screen and (max-width: 767.98px) {
+  .head-row {
+    flex-direction: column-reverse;
+  }
+
+  .head-row .about-card {
+    flex-grow: 0;
+    margin-bottom: 1rem;
+  }
+
+  .head-row .about-card img {
+    width: auto;
+    height: 12rem;
+  }
+}

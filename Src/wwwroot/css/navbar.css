@@ -2,7 +2,7 @@
   z-index: 1;
   width: 100%;
   position: fixed;
-  background-color: #FDFDFD;
+  background-color: var(--white_1);
   /* border-bottom: solid 1px rgba(0 0 0 / .25); */
   box-shadow: 0 2px 4px -2px rgba(0 0 0 / .5);
 }
@@ -29,13 +29,9 @@
   border: 1px solid transparent;
 }
 
-.nav-link:not(.signup-btn):hover, .nav-link:not(.signup-btn):focus {
-  background-color: #EFEFEF;
+.nav-link:hover, .nav-link:focus {
+  background-color: var(--white_5);
   box-shadow: inset 0 2px 4px -2px rgba(0 0 0 / .5);
-}
-
-.signup-btn {
-  color: #FFF !important;
 }
 
 .navbar a {

@@ -18,19 +18,28 @@
         <div class="col">
             <h1>@ViewData["Title"]</h1>
         </div>
-        @if (User.IsInRole("Orthopedagoog"))
-        {
-            <div class="col-auto">
-                <div class="mb-3">
-                    <button class="btn btn-info lg-btn" type="button" data-toggle="modal" data-target="#NewRoom">Nieuwe zelfhulpgroep</button>
-                </div>
-            </div>
-            <div class="col-auto">
-                <div class="mb-3">
-                    <button class="btn btn-primary lg-btn" type="button" data-toggle="modal" data-target="#NewPrivateRoom">Nieuwe privéchat</button>
-                </div>
-            </div>
-        }
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col">
+            <section>
+                <form asp-controller="ChatSystem" asp-action="Index" method="get">
+                    <label for="search">Zoeken:</label>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input class="form-control" id="search" name="search" placeholder="Zoeken" />
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-auto">
+                            <div class="form-group text-center">
+                                <input type="submit" class="btn btn-primary message-btn" value="Zoeken" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
     </div>
     <div class="row">
         <div class="col">
@@ -63,7 +72,7 @@
                             @if (User.IsInRole("Tiener") || User.IsInRole("Kind"))
                             {
                                 <td class="text-center">
-                                    <form asp-controller="ChatSystem" asp-action="JoinChat" asp-route-id="@chat.Id" method="get">
+                                    <form asp-controller="ChatSystem" asp-action="JoinRoom" asp-route-id="@chat.Id" method="get">
                                         <button class="btn btn-sm btn-primary">Deelnemen</button>
                                     </form>
                                 </td>
@@ -87,7 +96,14 @@
             </table>
         </div>
     </div>
+    @if (User.IsInRole("Orthopedagoog"))
+    {
+        <div class="row">
+            <div class="col text-center">
+                <button class="btn btn-primary lg-btn" type="button" data-toggle="modal" data-target="#NewRoom">Nieuwe zelfhulpgroep</button>
+            </div>
+        </div>
+    }
 </div>
 
 <partial name="../Shared/Modals/CreateRoomModal" />
-<partial name="../Shared/Modals/CreatePrivateRoomModal" />

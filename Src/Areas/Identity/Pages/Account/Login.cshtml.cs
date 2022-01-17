@@ -2,17 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net.Mail;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using System.Net.Mail;
-
 using Wdpr_Groep_E.Models;
 
 namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
@@ -98,7 +97,8 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("Successvol ingelogd.");
-                    return LocalRedirect(returnUrl);
+                    // return LocalRedirect(returnUrl);
+                    return RedirectToAction("Index", "Message", new { Type = "Success", Message = "Successvol ingelogd!", Redirect = returnUrl, Timeout = 2000 });
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -112,7 +112,8 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Inloggen mislukt.");
-                    return Page();
+                    return RedirectToAction("Index", "Message", new { Type = "Failed", Message = "Verkeerd ingevoerde gegevens, probeer opnieuw!", Redirect = "Identity/Account/Login", Timeout = 3000 });
+                    // return Page();
                 }
             }
 

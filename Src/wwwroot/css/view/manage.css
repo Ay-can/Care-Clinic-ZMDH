@@ -1,0 +1,22 @@
+/* Manage */
+.manage th {
+  padding: .25rem .5rem;
+  vertical-align: middle;
+}
+
+.manage td {
+  padding: .25rem .5rem;
+  vertical-align: middle;
+}
+
+.manage td .btn {
+  color: #FFF;
+}
+
+.manage input {
+  border-radius: .25rem !important;
+}
+
+.manage table {
+  border: none;
+}

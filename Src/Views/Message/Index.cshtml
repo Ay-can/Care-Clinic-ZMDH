@@ -1,0 +1,21 @@
+@{
+    ViewData["Title"] = "Bericht";
+}
+
+<div class="no-access">
+    @if (ViewData["Type"].ToString() == "Success")
+    {
+        <h1 class="text-success pb-3">Geslaagd!</h1>
+    }
+    else if (ViewData["Type"].ToString() == "Failed")
+    {
+        <h1 class="text-danger pb-3">Mislukt!</h1>
+    }
+    <p>@ViewData["Message"]</p>
+</div>
+
+<script>
+    window.setTimeout(function () {
+        window.location.href = '@ViewData["Redirect"]';
+    }, @ViewData["Timeout"]);
+</script>
