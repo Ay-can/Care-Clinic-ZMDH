@@ -24,10 +24,10 @@
         @RenderBody()
     </main>
 
-    <div class="accessibility">
+    <div class="accessibility" tabindex="1">
         <input type="checkbox" class="d-none" id="accessibilitySwitch">
-        <label class="accessibility-label" for="accessibilitySwitch" tabindex="0">
-            <span class="material-icons-round" title="Klik hier om accessibility modus in te schakelen.">accessibility</span>
+        <label class="accessibility-label" for="accessibilitySwitch" aria-label="Toegankelijkheid">
+            <span class="material-icons-round" title="Klik hier om toegangkelijkheid in te schakelen." aria-hidden="true">accessibility</span>
         </label>
     </div>
 

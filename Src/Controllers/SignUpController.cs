@@ -30,6 +30,10 @@ namespace Wdpr_Groep_E.Controllers
 
         public IActionResult Index() => View();
 
+        public IActionResult Client() => View();
+
+        public IActionResult Child() => View();
+
         [HttpPost]
         public async Task<IActionResult> CreateSignUp(string firstname, string lastname, string infix, string email, string phone, string subject, string message)
         {
@@ -56,7 +60,7 @@ namespace Wdpr_Groep_E.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Orthopedagoog")]
-        public IActionResult OverView()
+        public IActionResult Overview()
         {
             return View(_context.SignUps.ToList());
         }
@@ -67,7 +71,7 @@ namespace Wdpr_Groep_E.Controllers
             var user = new AppUser { UserName = firstname + "69", Email = email };
             var result = _userManager.CreateAsync(user, "Test123!");
             DeleteSignUp(Id);
-            return RedirectToAction("OverView", "SignUp");
+            return RedirectToAction("Overview", "SignUp");
         }
 
         [HttpPost]
@@ -77,7 +81,7 @@ namespace Wdpr_Groep_E.Controllers
 
             _context.SignUps.Remove(getSignUp);
             _context.SaveChanges();
-            return RedirectToAction("OverView");
+            return RedirectToAction("Overview");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

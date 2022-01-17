@@ -1,76 +1,62 @@
 @{
-    ViewData["Title"] = "Afspraak maken";
+    ViewData["Title"] = "Aanmelden bij ZMDH!";
 }
 
 <div class="container page">
     <h1 class="text-center">@ViewData["Title"]</h1>
     <div class="row">
         <div class="col">
-            <section>
-                <form action="/SignUp/CreateSignUp" method="post">
-                    <h4>Meld je aan voor een intake gesprek.</h4>
-                    <hr />
-                    <div class="form-row">
-                        <div class="col-12 col-md-4">
-                            <div class="form-group">
-                                <label for="firstname">Voornaam:</label><span class="required"> *</span>
-                                <input class="form-control" id="firstname" name="firstname" placeholder="Voornaam"
-                                    required />
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-5 col-md-3">
-                            <div class="form-group">
-                                <label for="infix">Tussenvoegsel:</label>
-                                <input class="form-control" id="infix" name="infix" placeholder="Tussenvoegsel" />
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-7 col-md-5">
-                            <div class="form-group">
-                                <label for="lastname">Achternaam:</label><span class="required"> *</span>
-                                <input class="form-control" id="lastname" name="lastname" placeholder="Achternaam"
-                                    required />
-                            </div>
+            <div class="row signup-row">
+                <div class="col signup-card d-flex justify-content-center align-items-center">
+                    <div class="row">
+                        <div class="col text-center">
+                            <h2 class="mb-3">Je eigen account</h2>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                                <label for="email">E-mail:</label><span class="required"> *</span>
-                                <input type="email" class="form-control" id="email" name="email"
-                                    placeholder="E-mailadres" required />
-                            </div>
-                        </div>
-                        <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                                <label for="phone">Telefoonnummer:</label>
-                                <input type="tel" class="form-control" id="phone" name="phone"
-                                    placeholder="Telefoonnummer" />
-                            </div>
+                    <div class="row mt-3 mb-3">
+                        <div class="col">
+                            <ul>
+                                <li>Je moet 16+ zijn.</li>
+                                <li>Je krijgt toegang tot zelfhulpgroepen met anderen van jouw leeftijd.</li>
+                            </ul>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                                <label for="subject">Onderwerp:</label><span class="required"> *</span>
-                                <select class="custom-select" id="subject" name="subject" required>
-                                    <option value="" selected>Kies een onderwerp</option>
-                                    <option value="ADD">ADD</option>
-                                    <option value="ASS">ASS</option>
-                                    <option value="Faalangst">Faalangst</option>
-                                    <option value="Hoogbegaafdheid">Hoogbegaafdheid</option>
-                                </select>
-                            </div>
+                    <div class="row">
+                        <div class="col">
+                            <form asp-controller="SignUp" asp-action="Client">
+                                <button class="nav-link btn btn-link btn-primary signup-btn d-flex align-items-center">
+                                    <span class="material-icons-round" aria-hidden="true">drive_file_rename_outline</span>Meld je aan!
+                                </button>
+                            </form>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="message">Bericht:</label><span class="required"> *</span>
-                        <textarea rows="3" class="form-control" id="message" name="message" required></textarea>
+                </div>
+                <div class="col signup-card d-flex justify-content-center align-items-center">
+                    <div class="row">
+                        <div class="col text-center">
+                            <h2 class="mb-3">Een account voor mijn kind</h2>
+                        </div>
                     </div>
-                    <div class="form-group text-center">
-                        <button type="submit" class="btn btn-primary lg-btn mt-3">Afspraak maken</button>
+                    <div class="row mt-3 mb-3">
+                        <div class="col">
+                            <ul>
+                                <li>Je kind moet onder de 16 zijn.</li>
+                                <li>Je kind krijgt toegang tot zelfhulpgroepen met anderen van jouw leeftijd.</li>
+                                <li>U krijgt uw eigen ouder account waar u de chatfrequentie kan zien van uw kind.</li>
+                            </ul>
+                        </div>
                     </div>
-                </form>
-            </section>
+                    <div class="row">
+                        <div class="col">
+                            <form asp-controller="SignUp" asp-action="Child">
+                                <button class="nav-link btn btn-link btn-primary signup-btn d-flex align-items-center">
+                                    <span class="material-icons-round" aria-hidden="true">drive_file_rename_outline</span>Meld je kind aan!
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
