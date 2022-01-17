@@ -22,6 +22,10 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
 
         public static string PersonalData => "PersonalData";
 
+        public static string Payment => "Payment";
+
+        public static string BSN => "BSN";
+
         public static string TwoFactorAuthentication => "TwoFactorAuthentication";
 
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Index);
@@ -37,6 +41,10 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
         public static string ExternalLoginsNavClass(ViewContext viewContext) => PageNavClass(viewContext, ExternalLogins);
 
         public static string PersonalDataNavClass(ViewContext viewContext) => PageNavClass(viewContext, PersonalData);
+
+        public static string PaymentNavClass(ViewContext viewContext) => PageNavClass(viewContext, Payment);
+
+        public static string BSNNavClass(ViewContext viewContext) => PageNavClass(viewContext, BSN);
 
         public static string TwoFactorAuthenticationNavClass(ViewContext viewContext) => PageNavClass(viewContext, TwoFactorAuthentication);
 
