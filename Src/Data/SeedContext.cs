@@ -13,9 +13,11 @@ namespace Wdpr_Groep_E.Data
             //We maken rollen aan en vervolgens voegen we ze toe.
             await roleManager.CreateAsync(new IdentityRole("Orthopedagoog"));
             await roleManager.CreateAsync(new IdentityRole("Moderator"));
-            await roleManager.CreateAsync(new IdentityRole("TestUser"));
+            await roleManager.CreateAsync(new IdentityRole("Ouder"));
             await roleManager.CreateAsync(new IdentityRole("Tiener"));
             await roleManager.CreateAsync(new IdentityRole("Kind"));
+
+            await roleManager.CreateAsync(new IdentityRole("TestUser"));
         }
 
         public static async Task CreateModeratorAsync(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
@@ -97,6 +99,31 @@ namespace Wdpr_Groep_E.Data
             };
             await userManager.CreateAsync(Joseph, "Test123!");
             await userManager.AddToRoleAsync(Joseph, "Orthopedagoog");
+        }
+
+        public static async Task CreateUsers(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            var Hans = new AppUser
+            {
+                UserName = "Hans2207",
+                Email = "hans@mail.nl",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                Subject = "Hoogbegaafdheid"
+            };
+            await userManager.CreateAsync(Hans, "Test123!");
+            await userManager.AddToRoleAsync(Hans, "Tiener");
+
+            var Sara = new AppUser
+            {
+                UserName = "Sara2004",
+                Email = "sara@mail.nl",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                Subject = "ADD"
+            };
+            await userManager.CreateAsync(Sara, "Test123!");
+            await userManager.AddToRoleAsync(Sara, "Kind");
         }
     }
 }
