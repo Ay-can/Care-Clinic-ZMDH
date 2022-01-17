@@ -8,15 +8,10 @@
 <div class="container-fluid manage pt-3 pb-3">
     <div class="row">
         <div class="col">
-            @if (User.IsInRole("Tiener") || User.IsInRole("Kind"))
-            {
-                <div class="mb-3">
-                    <button class="btn btn-primary lg-btn" type="button" data-toggle="modal" data-target="#JoinPrivateRoom">Voeg privéchat toe</button>
-                </div>
-            }
             <h1>@ViewData["Title"]</h1>
         </div>
     </div>
+    <hr />
     <div class="row">
         <div class="col">
             <table class="table table-sm table-striped table-bordered mt-3">
@@ -55,8 +50,20 @@
                     <button class="btn btn-primary lg-btn">Zelfhulpgroepen</button>
                 </form>
             </div>
+            <div class="col text-center">
+                <button class="btn btn-primary lg-btn" type="button" data-toggle="modal" data-target="#JoinPrivateRoom">Voeg privéchat toe</button>
+            </div>
+        </div>
+    }
+    @if (User.IsInRole("Orthopedagoog"))
+    {
+        <div class="row">
+            <div class="col text-center">
+                <button class="btn btn-primary lg-btn" type="button" data-toggle="modal" data-target="#NewPrivateRoom">Nieuwe privéchat maken</button>
+            </div>
         </div>
     }
 </div>
 
 <partial name="../Shared/Modals/JoinPrivateRoomModal" />
+<partial name="../Shared/Modals/CreatePrivateRoomModal" />
