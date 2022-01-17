@@ -1,122 +1,122 @@
 .accessibility {
-    z-index: 2;
-    left: 1rem;
-    bottom: 3rem;
-    color: #FFF;
-    width: 2.5rem;
-    height: 2.5rem;
-    position: fixed;
-    border-radius: .25rem;
-    background-color: var(--blue);
-    border: solid 1px rgba(0 0 0 / .25);
-    -webkit-box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
-    box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
+  z-index: 2;
+  left: 1rem;
+  bottom: 3rem;
+  color: #FFF;
+  width: 2.5rem;
+  height: 2.5rem;
+  position: fixed;
+  border-radius: .25rem;
+  background-color: var(--blue);
+  border: solid 1px rgba(0 0 0 / .25);
+  -webkit-box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
+  box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
 }
 
 .accessibility-label {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Accessibility
 ----------------------------------------------------------------------------- */
 
 [accessibility=on] h1 {
-    font-size: 3.2rem;
+  font-size: 3.2rem;
 }
 
 [accessibility=on] h2 {
-    font-size: 2.6rem;
+  font-size: 2.6rem;
 }
 
 [accessibility=on] h4 {
-    font-size: 2rem;
+  font-size: 2rem;
 }
 
 [accessibility=on] h5 {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 
 [accessibility=on] p {
-    font-size: 1.4rem;
+  font-size: 1.4rem;
 }
 
 [accessibility=on] figcaption, [accessibility=on] label, [accessibility=on] li, [accessibility=on] .btn, [accessibility=on] .scroll-down {
-    font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 
 [accessibility=on] a {
-    color: #000;
+  color: #000;
 }
 
 [accessibility=on] .accessibility {
-    color: #FFF;
-    background-color: var(--green);
-    -webkit-box-shadow: inset 0 2px 4px -2px rgb(0 0 0 / .5);
-    box-shadow: inset 0 2px 4px -2px rgb(0 0 0 / .5);
+  color: #FFF;
+  background-color: var(--green);
+  -webkit-box-shadow: inset 0 2px 4px -2px rgb(0 0 0 / .5);
+  box-shadow: inset 0 2px 4px -2px rgb(0 0 0 / .5);
 }
 
 [accessibility=on] .btn:focus {
-    outline: 5px auto -webkit-focus-ring-color;
+  outline: 5px auto -webkit-focus-ring-color;
 }
 
 [accessibility=on] .btn {
-    color: #000 !important;
-    border: 1px solid #000;
-    background-color: #FFF;
+  color: #000 !important;
+  border: 1px solid #000;
+  background-color: #FFF;
 }
 
 [accessibility=on] .btn:hover, [accessibility=on] .btn:focus {
-    color: #000 !important;
-    border: 1px solid #000 !important;
-    background-color: #EFEFEF !important;
+  color: #000 !important;
+  border: 1px solid #000 !important;
+  background-color: var(--grey_1) !important;
 }
 
 [accessibility=on] .head-card p {
-    font-size: 2.2rem;
+  font-size: 2.2rem;
 }
 
 [accessibility=on] .home-card {
-    color: #000;
-    background-color: #FFF;
+  color: #000;
+  background-color: #FFF;
 }
 
 [accessibility=on] footer a {
-    font-size: .8rem;
+  font-size: .8rem;
 }
 
 [accessibility=on] .page .btn {
-    font-size: 1.2rem;
-    padding: .5rem 6rem;
+  font-size: 1.2rem;
+  padding: .5rem 6rem;
 }
 
 [accessibility=on] main {
-    min-height: calc(100vh - 3rem);
+  min-height: calc(100vh - 3rem);
 }
 
 [accessibility=on] footer {
-    line-height: 3rem;
+  line-height: 3rem;
 }
 
 [accessibility=on] footer svg {
-    font-size: 1.8rem;
+  font-size: 1.8rem;
 }
 
 [accessibility=on] .page span, [accessibility=on] .page a, [accessibility=on] .page small, [accessibility=on] .manage th, [accessibility=on] .manage td, [accessibility=on] footer a {
-    font-size: 1.2rem;
+  font-size: 1.2rem;
 }
 
 [accessibility=on] .manage td .btn {
-    font-size: 1.2rem;
-    padding: .25rem 2rem;
+  font-size: 1.2rem;
+  padding: .25rem 2rem;
 }
 
 @media screen and (min-width: 1200px) {
-    [accessibility=on] .home-bg {
-        min-height: 55rem;
-    }
+  [accessibility=on] .home-bg {
+    min-height: 55rem;
+  }
 }

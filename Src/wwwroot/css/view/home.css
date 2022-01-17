@@ -1,0 +1,174 @@
+/* Homepage */
+.home-bg {
+  display: flex;
+  padding: 8rem 0;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+  background-size: cover;
+  justify-content: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: top center;
+  background-image: url("../../img/home-bg.jpg");
+}
+
+.home-bg:before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background: rgba(0 0 0 / .5);
+}
+
+.head-card {
+  display: flex;
+  padding: 0 2rem;
+  margin-bottom: 4rem;
+  align-items: center;
+  border-radius: .25rem;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.head-card>h2 {
+  color: #FFF;
+  font-size: 1.5rem;
+}
+
+.head-card>img {
+  width: 30rem;
+  margin-bottom: 2rem;
+  filter: drop-shadow(0 1px 1px rgba(0 0 0 / .25));
+}
+
+.home-container {
+  padding: 0 4rem;
+}
+
+.home-row {
+  gap: 4rem;
+}
+
+#home-body {
+  margin: 2rem 0;
+  padding: 2rem 0;
+}
+
+#home-body img {
+  border-radius: .25rem;
+}
+
+.home-card {
+  color: #FFF;
+  border-radius: .25rem;
+  padding: 3rem 2rem 2rem;
+  background-color: rgba(255 255 255 / .05);
+}
+
+.home-banner {
+  padding: 0;
+  display: flex;
+  height: 12.5vh;
+  min-height: 5rem;
+  align-items: center;
+  background-color: var(--white_4);
+  -webkit-box-shadow: inset 0 0 4px -2px #000;
+  box-shadow: inset 0 0 4px -2px #000;
+}
+
+.home-banner button {
+  column-gap: .5rem;
+  display: inline-flex;
+}
+
+.home-text-col {
+  padding: 0 4rem;
+}
+
+.scroll-down a {
+  color: #000;
+  display: inline-flex;
+  text-decoration: none;
+  flex-direction: column;
+}
+
+.scroll-down a:hover {
+  color: rgba(0 0 0 / .75);
+}
+
+.home-body {
+  height: 200vh;
+}
+
+@media screen and (max-width: 767.98px) {
+  .home-bg {
+    padding: 6rem 0;
+  }
+
+  .head-card>img {
+    max-width: 20rem;
+  }
+
+  .head-card>h2 {
+    font-size: 1.2rem;
+  }
+
+  .home-card>h2 {
+    font-size: 1.8rem;
+  }
+
+  .home-text-col {
+    padding: 0 2rem;
+  }
+}
+
+@media screen and (max-width: 575.98px) {
+  .home-bg {
+    padding: 4rem 0;
+  }
+
+  .home-container {
+    padding: 0 2rem;
+  }
+
+  .home-banner {
+    padding: 0 2rem;
+  }
+
+  .home-row {
+    flex-direction: column;
+  }
+
+  .home-card {
+    font-size: .9rem;
+  }
+
+  .home-text-col {
+    padding: 0;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .home-bg {
+    padding: 0;
+    min-height: 45rem;
+    height: calc(87.5vh - 4rem);
+  }
+
+  .home-container {
+    padding: 0 8rem;
+  }
+
+  .home-row {
+    gap: 8rem;
+  }
+
+  .home-card {
+    font-size: 1.1rem;
+  }
+
+  .home-text-col {
+    padding: 0 8rem;
+  }
+}

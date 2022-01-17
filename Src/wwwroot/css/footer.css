@@ -3,7 +3,7 @@
   font-size: .75rem;
   line-height: 2rem;
   align-items: center;
-  background-color: #FDFDFD;
+  background-color: var(--white_1);
   /* border-top: solid 1px rgba(0 0 0 / .25); */
   box-shadow: 0 -2px 4px -2px rgba(0 0 0 / .5);
 }
@@ -11,27 +11,4 @@
 .footer a {
   color: inherit;
   text-decoration: none;
-}
-
-.icon {
-  height: 100%;
-  outline: none;
-}
-
-.icon-twitter:hover {
-  color: #1DA1F2;
-}
-
-.icon-facebook:hover {
-  color: #3b5998;
-}
-
-.icon-instagram:hover {
-  color: #e1306c;
-}
-
-.footer svg {
-  height: 100%;
-  font-size: 1.4rem;
-  filter: drop-shadow(0 1px 1px rgba(0 0 0 / .25));
 }
