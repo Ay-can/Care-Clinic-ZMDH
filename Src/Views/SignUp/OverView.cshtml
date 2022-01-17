@@ -18,6 +18,7 @@
                         <th>Tussenvoegsel</th>
                         <th>Achternaam</th>
                         <th>Email</th>
+                        <th>Telefoonnummer</th>
                         <th>Onderwerp</th>
                         <th>Bericht</th>
                     </tr>
@@ -34,6 +35,7 @@
                                     <td>@signup.Infix</td>
                                     <td>@signup.LastName</td>
                                     <td>@signup.Email</td>
+                                    <td>@signup.PhoneNumber</td>
                                     <td>@signup.Subject</td>
                                     <td>@signup.Message</td>
                                     <form method="post" asp-controller="SignUp" asp-action="AcceptSignUp">
@@ -110,7 +112,7 @@
                             }
                         }
                     }
-                     @if (UserManager.GetUserAsync(User).Result.Subject == "Hoogbegaafdheid")
+                    @if (UserManager.GetUserAsync(User).Result.Subject == "Hoogbegaafdheid")
                     {
                         @foreach (var signup in Model)
                         {
@@ -139,7 +141,6 @@
                             }
                         }
                     }
-                    
                 </tbody>
             </table>
         </div>

@@ -1,0 +1,87 @@
+@{
+    ViewData["Title"] = "Aanmelden";
+}
+
+<div class="container page">
+    <h1 class="text-center">@ViewData["Title"]</h1>
+    <div class="row">
+        <div class="col">
+            <section>
+                <form action="/SignUp/CreateSignUp" method="post">
+                    <h4>Meld jezelf aan bij ZMDH.</h4>
+                    <hr />
+                    <div class="form-row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="username">Gebruikersnaam:</label><span class="required"> *</span>
+                                <input class="form-control" id="username" name="username" placeholder="Gebruikersnaam" required />
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="birthdate">Geboortedatum:</label><span class="required"> *</span>
+                                <input type="date" class="form-control" id="birthdate" name="birthdate" required />
+                                <small class="d-block pt-1">Om u aan te melden bij ZMDH moet u minstens 16 jaar oud zijn.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-12 col-md-4">
+                            <div class="form-group">
+                                <label for="firstname">Voornaam:</label><span class="required"> *</span>
+                                <input class="form-control" id="firstname" name="firstname" placeholder="Voornaam" required />
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-5 col-md-3">
+                            <div class="form-group">
+                                <label for="infix">Tussenvoegsel:</label>
+                                <input class="form-control" id="infix" name="infix" placeholder="Tussenvoegsel" />
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-7 col-md-5">
+                            <div class="form-group">
+                                <label for="lastname">Achternaam:</label><span class="required"> *</span>
+                                <input class="form-control" id="lastname" name="lastname" placeholder="Achternaam" required />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="email">E-mail:</label><span class="required"> *</span>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="E-mailadres" required />
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="phone">Telefoonnummer:</label>
+                                <input type="tel" minlength="10" maxlength="10" class="form-control" id="phone" name="phone" placeholder="Telefoonnummer" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="subject">Onderwerp:</label><span class="required"> *</span>
+                                <select class="custom-select" id="subject" name="subject" required>
+                                    <option value="" selected>Kies een onderwerp</option>
+                                    <option value="ADD">ADD</option>
+                                    <option value="ASS">ASS</option>
+                                    <option value="Faalangst">Faalangst</option>
+                                    <option value="Hoogbegaafdheid">Hoogbegaafdheid</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Bericht:</label><span class="required"> *</span>
+                        <textarea rows="3" class="form-control" id="message" name="message" required></textarea>
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-primary lg-btn mt-3">Aanmelden</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</div>
