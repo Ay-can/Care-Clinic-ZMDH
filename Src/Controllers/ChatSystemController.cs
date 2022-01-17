@@ -26,17 +26,26 @@ namespace Wdpr_Groep_E.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(string search)
         {
             if (User.IsInRole("Orthopedagoog"))
-                return View(_context.Chats.ToList());
+                return View(await Search(_context.Chats, search).ToListAsync());
             else
             {
-                return View(_context.Chats
-                    .Include(c => c.Users)
-                    .Where(c => !c.Users.Any(u => u.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value))
-                    .ToList());
+                return View(
+                    await Search(
+                        _context.Chats.Include(c => c.Users)
+                        .Where(c => !c.Users.Any(
+                            u => u.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value)
+                            ), search).ToListAsync());
             }
+        }
+
+        public IQueryable<Chat> Search(IQueryable<Chat> chats, string search)
+        {
+            if (search != null)
+                chats = chats.Where(c => c.Subject.Contains(search) || c.AgeGroup.Contains(search));
+            return chats;
         }
 
         public IActionResult Users(int id) => View(_context.ChatUsers.Include(c => c.User).Include(c => c.Chat).Where(u => u.ChatId == id).ToList());
@@ -79,10 +88,16 @@ namespace Wdpr_Groep_E.Controllers
                 chat.Users.Add(new ChatUser { UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value });
                 _context.Chats.Add(chat);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Chat", "Chat", new { id = chat.Id });
+                return RedirectToAction("Chat", "Chat", new { Id = chat.Id });
             }
             else
-                return RedirectToAction("Index", "Message", new { type = "Failed", message = "Deze gebruiker bestaat niet", redirect = "ChatSystem", timeout = 3000 });
+                return RedirectToAction("Index", "Message", new
+                {
+                    Type = "Failed",
+                    Message = "Deze gebruiker bestaat niet.",
+                    Redirect = "ChatSystem",
+                    Timeout = 3000
+                });
         }
 
         private int GenerateChatId()
@@ -109,7 +124,7 @@ namespace Wdpr_Groep_E.Controllers
             });
 
             await _context.SaveChangesAsync();
-            return RedirectToAction("Chat", "Chat", new { id = id });
+            return RedirectToAction("Chat", "Chat", new { Id = id });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
