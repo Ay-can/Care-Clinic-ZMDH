@@ -23,11 +23,7 @@ namespace Wdpr_Groep_E.Controllers
         private readonly ILogger<ChatController> _logger;
         private readonly WdprContext _context;
 
-        public ChatController(
-            IHubContext<ChatHub> chatHubContext,
-            UserManager<AppUser> userManager,
-            ILogger<ChatController> logger,
-            WdprContext context)
+        public ChatController(IHubContext<ChatHub> chatHubContext, UserManager<AppUser> userManager, ILogger<ChatController> logger, WdprContext context)
         {
             _chatContext = chatHubContext;
             _userManager = userManager;
@@ -70,22 +66,22 @@ namespace Wdpr_Groep_E.Controllers
 
         // SignalR methodes
 
-        [HttpPost("[controller]/[action]/{connectionId}/{roomName}")]
-        public async Task<IActionResult> JoinRoom(string connectionId, string roomName)
+        [HttpPost("[controller]/[action]/{connectionId}/{roomId}")]
+        public async Task<IActionResult> JoinRoom(string connectionId, string roomId)
         {
-            await _chatContext.Groups.AddToGroupAsync(connectionId, roomName);
+            await _chatContext.Groups.AddToGroupAsync(connectionId, roomId);
             return Ok();
         }
 
-        [HttpPost("[controller]/[action]/{connectionId}/{roomName}")]
-        public async Task<IActionResult> LeaveRoom(string connectionId, string roomName)
+        [HttpPost("[controller]/[action]/{connectionId}/{roomId}")]
+        public async Task<IActionResult> LeaveRoom(string connectionId, string roomId)
         {
-            await _chatContext.Groups.RemoveFromGroupAsync(connectionId, roomName);
+            await _chatContext.Groups.RemoveFromGroupAsync(connectionId, roomId);
             return Ok();
         }
 
         [HttpPost("[controller]/[action]")]
-        public async Task<IActionResult> SendMessage(int id, string room, string text)
+        public async Task<IActionResult> SendMessage(int id, string text)
         {
             var message = new Message
             {
@@ -96,10 +92,7 @@ namespace Wdpr_Groep_E.Controllers
             };
             _context.Messages.Add(message);
             await _context.SaveChangesAsync();
-
-            await _chatContext.Clients.Group(room)
-                .SendAsync("ReceiveMessage", message);
-
+            await _chatContext.Clients.Group(id.ToString()).SendAsync("ReceiveMessage", message);
             return Ok();
         }
 

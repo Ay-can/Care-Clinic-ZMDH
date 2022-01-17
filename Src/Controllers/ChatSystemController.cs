@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
@@ -18,10 +19,7 @@ namespace Wdpr_Groep_E.Controllers
         private readonly ILogger<ChatSystemController> _logger;
         private readonly WdprContext _context;
 
-        public ChatSystemController(
-            ILogger<ChatSystemController> logger,
-            UserManager<AppUser> userManager,
-            WdprContext context)
+        public ChatSystemController(ILogger<ChatSystemController> logger, UserManager<AppUser> userManager, WdprContext context)
         {
             _userManager = userManager;
             _context = context;
@@ -49,17 +47,16 @@ namespace Wdpr_Groep_E.Controllers
         {
             var chat = new Chat()
             {
+                Id = GenerateChatId(),
                 Name = name,
                 Type = ChatType.Room,
                 Subject = subject,
                 AgeGroup = age
             };
-
             chat.Users.Add(new ChatUser
             {
                 UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value
             });
-
             _context.Chats.Add(chat);
             await _context.SaveChangesAsync();
             return RedirectToAction("Chat", "Chat", new { id = chat.Id });
@@ -70,8 +67,9 @@ namespace Wdpr_Groep_E.Controllers
         {
             var chat = new Chat
             {
-                Name = _userManager.GetUserAsync(User).Result.UserName,
-                // Type = _userManager.GetUserAsync(User).Result.Subject,
+                Id = GenerateChatId(),
+                Name = "Chat tussen " + _userManager.GetUserAsync(User).Result.UserName + " en " + name,
+                Subject = _userManager.GetUserAsync(User).Result.Subject,
                 Type = ChatType.Private
             };
             var clientId = _userManager.Users.FirstOrDefault(u => u.UserName == name)?.Id;
@@ -84,12 +82,25 @@ namespace Wdpr_Groep_E.Controllers
                 return RedirectToAction("Chat", "Chat", new { id = chat.Id });
             }
             else
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Message", new { type = "Failed", message = "Deze gebruiker bestaat niet", redirect = "ChatSystem", timeout = 3000 });
+        }
+
+        private int GenerateChatId()
+        {
+            var id = new Random().Next(10000, 99999);
+            while (true)
+            {
+                if (_context.Chats.Any(c => c.Id == id))
+                    id = new Random().Next(10000, 99999);
+                else
+                    break;
+            }
+            return id;
         }
 
         [HttpGet]
         [Authorize(Roles = "Tiener, Kind")]
-        public async Task<IActionResult> JoinChat(int id)
+        public async Task<IActionResult> JoinRoom(int id)
         {
             _context.ChatUsers.Add(new ChatUser
             {

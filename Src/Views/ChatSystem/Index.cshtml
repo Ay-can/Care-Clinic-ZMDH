@@ -63,7 +63,7 @@
                             @if (User.IsInRole("Tiener") || User.IsInRole("Kind"))
                             {
                                 <td class="text-center">
-                                    <form asp-controller="ChatSystem" asp-action="JoinChat" asp-route-id="@chat.Id" method="get">
+                                    <form asp-controller="ChatSystem" asp-action="JoinRoom" asp-route-id="@chat.Id" method="get">
                                         <button class="btn btn-sm btn-primary">Deelnemen</button>
                                     </form>
                                 </td>

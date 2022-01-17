@@ -4,13 +4,14 @@
 @{
     ViewData["Title"] = Model.Name;
 }
-<div class="container pt-3">
+<div class="container chat-head pt-3">
     <div class="row">
         <div class="col">
             <h2>@ViewData["Title"]</h2>
         </div>
     </div>
-    <hr />
+</div>
+<div class="container chat pt-3 pb-3">
     <div class="row">
         <div class="col messages">
             @foreach (var message in Model.Messages)
@@ -33,22 +34,21 @@
         </div>
     </div>
 </div>
-<div class="message-row">
+<div class="message-row d-flex justify-content-center align-items-center">
     <div class="container pt-3 pb-3">
         <div class="row">
             <div class="col">
                 <form onsubmit="sendMessage(event)" asp-controller="Chat" asp-action="CreateMessage" method="post">
                     <input type="hidden" name="id" value="@Model.Id" />
-                    <input type="hidden" name="room" value="@Model.Name" />
                     <label for="text">Bericht:</label><span class="required"> *</span>
                     <div class="form-row">
-                        <div class="col">
+                        <div class="col-12 col-md">
                             <div class="form-group">
                                 <input type="text" class="form-control" id="text" name="text" />
                             </div>
                         </div>
-                        <div class="col-auto">
-                            <div class="form-group">
+                        <div class="col-12 col-md-auto">
+                            <div class="form-group text-center">
                                 <input type="submit" class="btn btn-primary message-btn" value="Bericht verzenden" />
                             </div>
                         </div>
@@ -87,11 +87,13 @@
                 </div>
             `;
         }
-        document.querySelector('.messages').appendChild(message);
+        var messages = document.querySelector('.messages');
+        messages.appendChild(message);
+        messages.animate({ scrollTop: 5000 }, 2000);
     });
 
     var joinRoom = function () {
-        axios.post('/Chat/JoinRoom/' + _connectionId + '/@Model.Name', null)
+        axios.post('/Chat/JoinRoom/' + _connectionId + '/@Model.Id', null)
             .then(res => {
                 console.log("Zelfhulpgroep gejoined!", res);
             }).catch(err => {
