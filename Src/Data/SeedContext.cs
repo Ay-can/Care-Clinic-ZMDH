@@ -59,7 +59,8 @@ namespace Wdpr_Groep_E.Data
                 UserName = "AngelaVanHeringa",
                 Email = "angela@zmdh.nl",
                 EmailConfirmed = true,
-                PhoneNumberConfirmed = true
+                PhoneNumberConfirmed = true,
+                Subject = "ADD"
             };
             await userManager.CreateAsync(Angela, "Test123!");
             await userManager.AddToRoleAsync(Angela, "Orthopedagoog");
@@ -69,7 +70,8 @@ namespace Wdpr_Groep_E.Data
                 UserName = "GijsBroekman",
                 Email = "gijs@zmdh.nl",
                 EmailConfirmed = true,
-                PhoneNumberConfirmed = true
+                PhoneNumberConfirmed = true,
+                Subject = "Faalangst"
             };
             await userManager.CreateAsync(Gijs, "Test123!");
             await userManager.AddToRoleAsync(Gijs, "Orthopedagoog");
@@ -79,7 +81,8 @@ namespace Wdpr_Groep_E.Data
                 UserName = "JantinusVerduin",
                 Email = "jantinus@zmdh.nl",
                 EmailConfirmed = true,
-                PhoneNumberConfirmed = true
+                PhoneNumberConfirmed = true,
+                Subject = "ASS"
             };
             await userManager.CreateAsync(Jantinus, "Test123!");
             await userManager.AddToRoleAsync(Jantinus, "Orthopedagoog");
@@ -89,7 +92,8 @@ namespace Wdpr_Groep_E.Data
                 UserName = "JosephVanDerVliet",
                 Email = "joseph@zmdh.nl",
                 EmailConfirmed = true,
-                PhoneNumberConfirmed = true
+                PhoneNumberConfirmed = true,
+                Subject = "Hoogbegaafdheid"
             };
             await userManager.CreateAsync(Joseph, "Test123!");
             await userManager.AddToRoleAsync(Joseph, "Orthopedagoog");
