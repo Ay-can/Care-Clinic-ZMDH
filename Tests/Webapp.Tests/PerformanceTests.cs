@@ -16,7 +16,6 @@ namespace Webapp.Tests
             _output = output;
         }
 
-        // Alleen nog de url aanpassen wanneer de website online staat op line 19.
         public long LaadtijdHomepageTijdInitialize()
         {
             WebClient client = new WebClient();
@@ -26,7 +25,7 @@ namespace Webapp.Tests
             Stopwatch timer = new Stopwatch();
             timer.Start();
 
-            Stream data = client.OpenRead("https://www.google.com");
+            Stream data = client.OpenRead("http://aycan070-001-site1.ctempurl.com/");
             StreamReader reader = new StreamReader(data);
             string s = reader.ReadToEnd();
 
@@ -34,13 +33,12 @@ namespace Webapp.Tests
             return timer.ElapsedMilliseconds;
         }
 
-        // Nog checken welke laadtijd in milliseconden een goede laadtijd is.
         [Fact]
         public void LaadtijdHomepageTijd()
         {
             long result = LaadtijdHomepageTijdInitialize();
             _output.WriteLine("Laadtijd homepage: " + result + "ms");
-            Assert.True(result < 1000);
+            Assert.True(result < 500);
         }
     }
 }
