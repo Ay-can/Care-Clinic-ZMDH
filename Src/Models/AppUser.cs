@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Microsoft.AspNetCore.Identity;
 
 namespace Wdpr_Groep_E.Models
@@ -24,6 +25,6 @@ namespace Wdpr_Groep_E.Models
         public string City { get; set; }
         public string Subject { get; set; }
         public string IBAN { get; set; }
-        public ICollection<AppUser> Children { get; set; }
+        public Collection<AppUser> Children { get; set; }
     }
 }

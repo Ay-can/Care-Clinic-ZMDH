@@ -39,23 +39,55 @@
                                     <td>@signup.PhoneNumber</td>
                                     <td>@signup.Subject</td>
                                     <td>@signup.Message</td>
-                                     @foreach (var child in @signup.Children)
-                                     {
-                                         <td>@child.FirstName @child.Infix @child.LastName @child.Username</td>
-                                     }                      
-                                    <form method="post" asp-controller="SignUp" asp-action="AcceptSignUp">
+                                    
+                                         <form method="post" asp-controller="SignUp" asp-action="AcceptSignUp">
                                         <td class="text-center"><button class="btn btn-sm btn-success">Accepteren</button></td>
+                                        <input type="hidden" name="username" value="@signup.UserName"></input>
                                         <input type="hidden" name="firstname" value="@signup.FirstName"></input>
+                                        <input type="hidden" name="lastname" value="@signup.LastName"></input>
+                                        <input type="hidden" name="birthdate" value="@signup.BirthDate"></input>
+                                        <input type="hidden" name="phone" value="@signup.PhoneNumber"></input>
+                                        <input type="hidden" name="infix" value="@signup.Infix"></input>
                                         <input type="hidden" name="email" value="@signup.Email">
                                         <input type="hidden" name="Id" value="@signup.Id">
                                         <input type="hidden" name="Subject" value="@signup.Subject"></input>
-                                    </form>
+
+                                         </form>
+                                     
+                                    @if (signup.Children != null)
+                                    {
+                                        
+                                    
+                                     @foreach (var child in @signup?.Children)
+                                     {
+                                         <td>@child.FirstName @child.Infix @child.LastName @child.Username</td>
+                                     }                      
+                                     <form method="post" asp-controller="SignUp" asp-action="AcceptSignUpWithChildren">
+                                        <td class="text-center"><button class="btn btn-sm btn-success">met kind</button></td>
+                                        <input type="hidden" name="username" value="@signup.UserName"></input>
+                                        <input type="hidden" name="firstname" value="@signup.FirstName"></input>
+                                        <input type="hidden" name="lastname" value="@signup.LastName"></input>
+                                        <input type="hidden" name="birthdate" value="@signup.BirthDate"></input>
+                                        <input type="hidden" name="phone" value="@signup.PhoneNumber"></input>
+                                        <input type="hidden" name="infix" value="@signup.Infix"></input>
+                                        <input type="hidden" name="email" value="@signup.Email">
+                                        <input type="hidden" name="Id" value="@signup.Id">
+                                        <input type="hidden" name="Subject" value="@signup.Subject"></input>
+                                         <input type="hidden" name="childFirstname" value="@signup.Children.SingleOrDefault()?.FirstName"></input>
+                                        <input type="hidden" name="childInfix" value="@signup.Children?.SingleOrDefault()?.Infix"></input>
+                                        <input type="hidden" name="childLastname" value="@signup.Children.SingleOrDefault()?.LastName"></input>
+                                        <input type="hidden" name="childUsername" value="@signup.Children.SingleOrDefault()?.Username"></input>
+                                        <input type="hidden" name="childId" value="@signup.Children.SingleOrDefault()?.Id"></input>
+                                    </form> 
                                     <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.Id">
                                         <td class="text-center"><button class="btn btn-sm btn-danger">Weigeren</button></td>
                                         <input type="hidden" name="firstname" value="@signup.FirstName"></input>
                                         <input type="hidden" name="email" value="@signup.Email">
                                     </form>
+                                    }
                                 </tr>
+                                    
+                                    
                             }
                         }
                     }
