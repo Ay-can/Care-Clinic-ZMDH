@@ -26,11 +26,11 @@
 ----------------------------------------------------------------------------- */
 
 [accessibility=on] h1 {
-  font-size: 3.2rem;
+  font-size: 3.25rem;
 }
 
 [accessibility=on] h2 {
-  font-size: 2.6rem;
+  font-size: 2.5rem;
 }
 
 [accessibility=on] h4 {
@@ -42,11 +42,13 @@
 }
 
 [accessibility=on] p {
-  font-size: 1.4rem;
+  font-size: 1.375rem;
 }
 
-[accessibility=on] figcaption, [accessibility=on] label, [accessibility=on] li, [accessibility=on] .btn, [accessibility=on] .scroll-down {
-  font-size: 1.2rem;
+[accessibility=on] figcaption, [accessibility=on] label,
+[accessibility=on] li, [accessibility=on] .btn,
+[accessibility=on] .scroll-down, [accessibility=on] .form-control {
+  font-size: 1.25rem;
 }
 
 [accessibility=on] a {
@@ -77,7 +79,7 @@
 }
 
 [accessibility=on] .head-card p {
-  font-size: 2.2rem;
+  font-size: 2.25rem;
 }
 
 [accessibility=on] .home-card {
@@ -86,33 +88,39 @@
 }
 
 [accessibility=on] footer a {
-  font-size: .8rem;
+  font-size: .75rem;
 }
 
 [accessibility=on] .page .btn {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   padding: .5rem 6rem;
 }
 
 [accessibility=on] main {
-  min-height: calc(100vh - 3rem);
+  min-height: calc(100vh - 2.5rem);
 }
 
 [accessibility=on] footer {
-  line-height: 3rem;
+  line-height: 2.25rem;
 }
 
 [accessibility=on] footer svg {
-  font-size: 1.8rem;
+  font-size: 1.75rem;
 }
 
-[accessibility=on] .page span, [accessibility=on] .page a, [accessibility=on] .page small, [accessibility=on] .manage th, [accessibility=on] .manage td, [accessibility=on] footer a {
-  font-size: 1.2rem;
+[accessibility=on] .page span, [accessibility=on] .page a,
+[accessibility=on] .page small, [accessibility=on] .manage th,
+[accessibility=on] .manage td, [accessibility=on] footer a,
+[accessibility=on] .manage td .btn, [accessibility=on] .message-head {
+  font-size: 1.25rem;
 }
 
 [accessibility=on] .manage td .btn {
-  font-size: 1.2rem;
   padding: .25rem 2rem;
+}
+
+[accessibility=on] .chat {
+  height: calc(100vh - 20.375rem);
 }
 
 @media screen and (min-width: 1200px) {
