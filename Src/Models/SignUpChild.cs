@@ -4,7 +4,9 @@ namespace Wdpr_Groep_E.Models
 {
     public class SignUpChild
     {
-         public int Id { get; set; }
+        
+         public string Id { get; set; }
+        
         [Required]
         [Display(Name ="Gebruikersnaam")]
          public string Username { get; set; }
@@ -32,11 +34,13 @@ namespace Wdpr_Groep_E.Models
 
         [Required(ErrorMessage = "Kies uw onderwerp.")]
         [Display(Name = "Onderwerp")]
+        [Key]
         public string Subject { get; set; }
 
         // [Required(ErrorMessage = "Voer uw reden voor een afspraak in")]
         // [Display(Name = "Bericht")]
         // [StringLength(250)]
         // public string Message { get; set; }
+        public SignUp Signup { get; set; }
     }
 }

@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 
 using Wdpr_Groep_E.Data;
 using Wdpr_Groep_E.Models;
+using Wdpr_Groep_E.Services;
 
 namespace Wdpr_Groep_E.Controllers
 {
@@ -22,13 +23,16 @@ namespace Wdpr_Groep_E.Controllers
         private readonly IFluentEmail _email;
         private readonly WdprContext _context;
         private readonly UserManager<AppUser> _userManager;
+        private readonly IZmdhApi _api;
 
-        public SignUpController(ILogger<SignUpController> logger, IFluentEmail email, WdprContext context, UserManager<AppUser> userManager)
+        public SignUpController(ILogger<SignUpController> logger, IFluentEmail email, WdprContext context, UserManager<AppUser> userManager,
+        IZmdhApi api)
         {
             _logger = logger;
             _email = email;
             _context = context;
             _userManager = userManager;
+            _api = api;
         }
 
         public IActionResult Index() => View();
@@ -52,6 +56,7 @@ namespace Wdpr_Groep_E.Controllers
                 BirthDate = birthdate,
                 UserName = username
 
+
             });
             _context.SaveChanges();
 
@@ -66,25 +71,33 @@ namespace Wdpr_Groep_E.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSignUpWithChild(string firstname, string lastname, string infix, string email, string phone, string subject, string message, string childUsername, string childFirstname, string childInfix, string childLastname)
         {
-            _context.Add(new SignUp()
-            {
-                FirstName = firstname,
-                LastName = lastname,
-                Infix = infix,
-                Email = email,
-                PhoneNumber = phone,
-                Subject = subject,
-                Message = message,
-                UserName = firstname + lastname,
-                Children = new Collection<SignUpChild>() {new SignUpChild() {
+            var UniqueId = int.Parse(_api.CreateClientId().Result);
+            var UniqueChildId = UniqueId + 1;
+            System.Console.WriteLine(UniqueId);
+            System.Console.WriteLine(UniqueChildId);
+
+            SignUp CreateSignUp = new SignUp();
+
+            CreateSignUp.FirstName = firstname;
+            CreateSignUp.LastName = lastname;
+            CreateSignUp.Infix = infix;
+            CreateSignUp.Email = email;
+            CreateSignUp.PhoneNumber = phone;
+            CreateSignUp.Subject = subject;
+            CreateSignUp.Message = message;
+            CreateSignUp.UserName = firstname + lastname;
+            CreateSignUp.Id = UniqueId.ToString();
+
+            CreateSignUp.Children = new Collection<SignUpChild>() {new SignUpChild() {
                    Username = childFirstname,
                    FirstName = childFirstname,
                    Infix = childInfix,
                    LastName = childLastname,
-                   Subject = subject
-               }}
-            });
-            _context.SaveChanges();
+                   Subject = subject,
+                   Id = UniqueChildId.ToString()}};
+
+            _context.Add(CreateSignUp);
+            await _context.SaveChangesAsync();
 
             var sender = _email
                 .To(email)
@@ -105,20 +118,23 @@ namespace Wdpr_Groep_E.Controllers
         }
 
         [HttpPost]
-        public IActionResult AcceptSignUpWithChildren(string firstname, string infix, string lastname, string email, int Id, string Subject, string childFirstname, string childInfix, string childLastname, string childUsername, int childId, DateTime birthdate, string phone)
+        public IActionResult AcceptSignUpWithChildren(string firstname, string infix, string lastname, string email, string Subject, string childFirstname, string childInfix, string childLastname, string childUsername, DateTime birthdate, string phone, string Id, string childId)
         {
-            var child = new AppUser() { UserName = childUsername, FirstName = childFirstname, LastName = childLastname, Infix = childInfix, Email = email, Subject = Subject, BirthDate = birthdate};
-            var user = new AppUser { UserName = email, Email = email, Children = new Collection<AppUser>() { child }, FirstName = firstname, LastName = lastname, Infix = infix , Subject = Subject,  PhoneNumber = phone};
+
+
+            var child = new AppUser() { UserName = childUsername, FirstName = childFirstname, LastName = childLastname, Infix = childInfix, Email = "", Subject = Subject, BirthDate = birthdate };
+            _context.SaveChanges();
+            var user = new AppUser { UserName = email, Email = email, Children = new Collection<AppUser>() { child }, FirstName = firstname, LastName = lastname, Infix = infix, Subject = Subject, PhoneNumber = phone, };
 
             var createUser = _userManager.CreateAsync(user, "Test123!");
             var createChildUser = _userManager.CreateAsync(child, "Test123!");
-             DeleteSignUp(Id);
-            DeleteSignUpWithChildren(childId);
+            DeleteSignUp(Id);
+            // DeleteSignUpWithChildren(childId);
             return RedirectToAction("Overview", "SignUp");
         }
 
         [HttpPost]
-        public IActionResult AcceptSignUp(int Id, string username, DateTime birthdate, string firstname, string infix, string lastname, string email, string phone, string subject)
+        public IActionResult AcceptSignUp(string Id, string username, DateTime birthdate, string firstname, string infix, string lastname, string email, string phone, string subject)
         {
             var user = new AppUser
             {
@@ -130,6 +146,7 @@ namespace Wdpr_Groep_E.Controllers
                 Email = email,
                 PhoneNumber = phone,
                 Subject = subject,
+                Id = _api.CreateClientId().Result
             };
             var createUser = _userManager.CreateAsync(user, "Test123!");
             //role toevoegen
@@ -139,20 +156,20 @@ namespace Wdpr_Groep_E.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeleteSignUp(int id)
+        public IActionResult DeleteSignUp(string id)
         {
             var getSignUp = _context.SignUps.Single(s => s.Id == id);
             _context.SignUps.Remove(getSignUp);
             _context.SaveChanges();
             return RedirectToAction("Overview");
         }
-        [HttpPost] IActionResult DeleteSignUpWithChildren(int childId)
-        {
-            var getChildSignUp = _context.SignUpChildren.Single(s => s.Id == childId);
-            _context.SignUpChildren.Remove(getChildSignUp);
-            _context.SaveChanges();
-            return RedirectToAction("Overview");
-        }
+        // [HttpPost] IActionResult DeleteSignUpWithChildren(int childId)
+        // {
+        //     var getChildSignUp = _context.SignUpChildren.Single(s => s.Id == childId);
+        //     _context.SignUpChildren.Remove(getChildSignUp);
+        //     _context.SaveChanges();
+        //     return RedirectToAction("Overview");
+        // }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
