@@ -5,7 +5,7 @@ namespace Wdpr_Groep_E.Models
     public class SignUpChild
     {
         
-         public string Id { get; set; }
+         public int Id { get; set; }
         
         [Required]
         [Display(Name ="Gebruikersnaam")]

@@ -8,7 +8,7 @@ namespace Wdpr_Groep_E.Models
     public class SignUp
     {
         
-        public string Id { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Vul uw {0} in.")]
         [Display(Name = "Voornaam")]

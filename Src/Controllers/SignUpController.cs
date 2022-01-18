@@ -86,7 +86,7 @@ namespace Wdpr_Groep_E.Controllers
             CreateSignUp.Subject = subject;
             CreateSignUp.Message = message;
             CreateSignUp.UserName = firstname + lastname;
-            CreateSignUp.Id = UniqueId.ToString();
+         
 
             CreateSignUp.Children = new Collection<SignUpChild>() {new SignUpChild() {
                    Username = childFirstname,
@@ -94,7 +94,7 @@ namespace Wdpr_Groep_E.Controllers
                    Infix = childInfix,
                    LastName = childLastname,
                    Subject = subject,
-                   Id = UniqueChildId.ToString()}};
+                   }};
 
             _context.Add(CreateSignUp);
             await _context.SaveChangesAsync();
@@ -114,11 +114,12 @@ namespace Wdpr_Groep_E.Controllers
         [Authorize(Roles = "Orthopedagoog")]
         public IActionResult Overview()
         {
+            _context.SaveChangesAsync();
             return View(_context.SignUps.Include(s => s.Children).ToList());
         }
 
         [HttpPost]
-        public IActionResult AcceptSignUpWithChildren(string firstname, string infix, string lastname, string email, string Subject, string childFirstname, string childInfix, string childLastname, string childUsername, DateTime birthdate, string phone, string Id, string childId)
+        public async Task<IActionResult> AcceptSignUpWithChildren(string firstname, string infix, string lastname, string email, string Subject, string childFirstname, string childInfix, string childLastname, string childUsername, DateTime birthdate, string phone, int Id, string childId)
         {
 
 
@@ -128,13 +129,14 @@ namespace Wdpr_Groep_E.Controllers
 
             var createUser = _userManager.CreateAsync(user, "Test123!");
             var createChildUser = _userManager.CreateAsync(child, "Test123!");
-            DeleteSignUp(Id);
-            // DeleteSignUpWithChildren(childId);
+            _context.ChangeTracker.Clear();
+            await _context.SaveChangesAsync();
+            await DeleteSignUp(Id);
             return RedirectToAction("Overview", "SignUp");
         }
 
         [HttpPost]
-        public IActionResult AcceptSignUp(string Id, string username, DateTime birthdate, string firstname, string infix, string lastname, string email, string phone, string subject)
+        public async Task<IActionResult> AcceptSignUpAsync(int Id, string username, DateTime birthdate, string firstname, string infix, string lastname, string email, string phone, string subject)
         {
             var user = new AppUser
             {
@@ -146,21 +148,21 @@ namespace Wdpr_Groep_E.Controllers
                 Email = email,
                 PhoneNumber = phone,
                 Subject = subject,
-                Id = _api.CreateClientId().Result
             };
             var createUser = _userManager.CreateAsync(user, "Test123!");
             //role toevoegen
-            DeleteSignUp(Id);
+            await _context.SaveChangesAsync();
+            await DeleteSignUp(Id);
             return RedirectToAction("Overview", "SignUp");
 
         }
 
         [HttpPost]
-        public IActionResult DeleteSignUp(string id)
+        public  async Task<IActionResult> DeleteSignUp(int id)
         {
             var getSignUp = _context.SignUps.Single(s => s.Id == id);
-            _context.SignUps.Remove(getSignUp);
-            _context.SaveChanges();
+            _context.Remove(getSignUp);
+           await _context.SaveChangesAsync();
             return RedirectToAction("Overview");
         }
         // [HttpPost] IActionResult DeleteSignUpWithChildren(int childId)
