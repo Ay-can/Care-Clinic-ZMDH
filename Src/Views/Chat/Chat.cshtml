@@ -7,7 +7,7 @@
 <div class="container chat-head pt-3">
     <div class="row">
         <div class="col">
-            <h2>@ViewData["Title"]</h2>
+            <h2 class="chat-head">@ViewData["Title"]</h2>
         </div>
     </div>
 </div>
@@ -19,14 +19,14 @@
                 @if (message.Name == UserManager.GetUserName(User))
                 {
                     <div class="text-right">
-                        <header><strong class="user-color">@message.Name</strong> <span>@DateTime.Now.ToString("HH:mm")</span></header>
+                        <header class="message-head"><strong class="user-color">@message.Name</strong> <span>@DateTime.Now.ToString("HH:mm")</span></header>
                         <p>@message.Text</p>
                     </div>
                 }
                 else
                 {
                     <div>
-                        <header><strong>@message.Name</strong> <span>@DateTime.Now.ToString("HH:mm")</span></header>
+                        <header class="message-head"><strong>@message.Name</strong> <span>@DateTime.Now.ToString("HH:mm")</span></header>
                         <p>@message.Text</p>
                     </div>
                 }
@@ -44,7 +44,7 @@
                     <div class="form-row">
                         <div class="col-12 col-md">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="text" name="text" />
+                                <input type="text" class="form-control" id="text" name="text" placeholder="Bericht" />
                             </div>
                         </div>
                         <div class="col-12 col-md-auto">
@@ -64,6 +64,9 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script>
+    var chat = document.querySelector('.chat');
+    chat.scrollTop = chat.scrollHeight;
+
     var connection = new signalR.HubConnectionBuilder()
         .withUrl("/chatHub")
         .build();
@@ -71,31 +74,30 @@
     var _connectionId = '';
 
     connection.on("ReceiveMessage", function (data) {
+        var parsedTime = new Date(data.time).toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
         var message = document.createElement('div');
         if (data.name == '@UserManager.GetUserName(User)') {
             message.innerHTML = `
                 <div class="text-right">
-                    <strong class="user-color">${data.name}</strong> <span>${new Date(data.time).toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' })}</span>
+                    <header class="message-head"><strong class="user-color">${data.name}</strong> <span>${parsedTime}</span></header>
                     <p>${data.text}</p>
                 </div>
             `;
         } else {
             message.innerHTML = `
                 <div>
-                    <strong>${data.name}</strong> <span>${new Date(data.time).toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' })}</span>
+                    <header class="message-head"><strong>${data.name}</strong> <span>${parsedTime}</span></header>
                     <p>${data.text}</p>
                 </div>
             `;
         }
-        var messages = document.querySelector('.messages');
-        messages.appendChild(message);
-        messages.animate({ scrollTop: 5000 }, 2000);
+        document.querySelector('.messages').appendChild(message);
     });
 
     var joinRoom = function () {
         axios.post('/Chat/JoinRoom/' + _connectionId + '/@Model.Id', null)
             .then(res => {
-                console.log("Zelfhulpgroep gejoined!", res);
+                console.log("Zelfhulpgroep gejoind!", res);
             }).catch(err => {
                 console.log("Error tijdens joinen zelfhulpgroep!", err);
             });
@@ -115,13 +117,19 @@
     var sendMessage = function (event) {
         event.preventDefault();
         var data = new FormData(event.target);
-        document.getElementById('text').value = '';
-        axios.post('/Chat/SendMessage', data)
-            .then(res => {
-                console.log("Bericht verzonden!", res);
-            }).catch(err => {
-                console.log("Error tijdens verzenden bericht!", err);
-            });
+        if (data.get('text') == '') {
+            alert('Gelieve een bericht in te vullen!');
+            return;
+        } else {
+            document.getElementById('text').value = '';
+            axios.post('/Chat/SendMessage', data)
+                .then(res => {
+                    chat.scrollTop = chat.scrollHeight;
+                    console.log("Bericht verzonden!", res);
+                }).catch(err => {
+                    console.log("Error tijdens verzenden bericht!", err);
+                });
+        }
     }
 </script>
 }

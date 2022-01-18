@@ -112,7 +112,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Inloggen mislukt.");
-                    return RedirectToAction("Index", "Message", new { Type = "Failed", Message = "Verkeerd ingevoerde gegevens, probeer opnieuw!", Redirect = "Identity/Account/Login", Timeout = 3000 });
+                    return RedirectToAction("Index", "Message", new { Type = "Failed", Message = "Verkeerd ingevoerde gegevens, probeer opnieuw!", Redirect = "Identity/Account/Login", Timeout = 2000 });
                     // return Page();
                 }
             }
