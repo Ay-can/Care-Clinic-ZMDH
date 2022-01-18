@@ -41,73 +41,96 @@ namespace Wdpr_Groep_E.Controllers
 
         public IActionResult Child() => View();
 
-        [HttpPost]
-        public async Task<IActionResult> CreateSignUp(string firstname, string lastname, string infix, string email, string phone, string subject, string message, DateTime birthdate, string username)
+        // [HttpPost]
+        // public async Task<IActionResult> CreateSignUp(string firstname, string lastname, string infix, string email, string phone, string subject, string message, DateTime birthdate, string username)
+        // {
+        //     _context.Add(new SignUp()
+        //     {
+        //         FirstName = firstname,
+        //         LastName = lastname,
+        //         Infix = infix,
+        //         PhoneNumber = phone,
+        //         Subject = subject,
+        //         Message = message,
+        //         Email = email,
+        //         BirthDate = birthdate,
+        //         UserName = username
+        //     });
+        //     _context.SaveChanges();
+
+        //     var sender = _email
+        //         .To(email)
+        //         .Subject("Aanmelding  account succesvol aangevraagd")
+        //         .Body($"Uw aanmelding voor een zmdh account over {subject} is succesvol ontvangen, U krijgt zo snel mogelijk antwoord van de orthopedagoog.");
+
+        //     await sender.SendAsync();
+        //     return RedirectToAction("Index", "Home");
+        // }
+         [HttpPost]
+        public async Task<IActionResult> CreateSignUpV2(SignUp s)
         {
             _context.Add(new SignUp()
             {
-                FirstName = firstname,
-                LastName = lastname,
-                Infix = infix,
-                PhoneNumber = phone,
-                Subject = subject,
-                Message = message,
-                Email = email,
-                BirthDate = birthdate,
-                UserName = username
-
-
+                FirstName = s.FirstName,
+                LastName = s.LastName,
+                Infix = s.Infix,
+                PhoneNumber = s.PhoneNumber,
+                Subject = s.Subject,
+                Message = s.Message,
+                Email = s.Email,
+                BirthDate = s.BirthDate,
+                UserName = s.UserName
             });
-            _context.SaveChanges();
+             _context.SaveChanges();
 
             var sender = _email
-                .To(email)
+                .To(s.Email)
                 .Subject("Aanmelding  account succesvol aangevraagd")
-                .Body($"Uw aanmelding voor een zmdh account over {subject} is succesvol ontvangen, U krijgt zo snel mogelijk antwoord van de orthopedagoog.");
-
-            await sender.SendAsync();
+                .Body($"Uw aanmelding voor een zmdh account over {s.Subject} is succesvol ontvangen, U krijgt zo snel mogelijk antwoord van de orthopedagoog.");
+             await sender.SendAsync();
             return RedirectToAction("Index", "Home");
         }
         [HttpPost]
-        public async Task<IActionResult> CreateSignUpWithChild(string firstname, string lastname, string infix, string email, string phone, string subject, string message, string childUsername, string childFirstname, string childInfix, string childLastname)
+        public async Task<IActionResult> CreateSignUpWithChildV2(SignUp s, SignUpChild c)
         {
-            var UniqueId = int.Parse(_api.CreateClientId().Result);
-            var UniqueChildId = UniqueId + 1;
-            System.Console.WriteLine(UniqueId);
-            System.Console.WriteLine(UniqueChildId);
+    
+            // var UniqueId = int.Parse(_api.CreateClientId().Result);
+            // var UniqueChildId = UniqueId + 1;
+            // System.Console.WriteLine(UniqueId);
+            // System.Console.WriteLine(UniqueChildId);
 
-            SignUp CreateSignUp = new SignUp();
+            // SignUp CreateSignUp = new SignUp();
 
-            CreateSignUp.FirstName = firstname;
-            CreateSignUp.LastName = lastname;
-            CreateSignUp.Infix = infix;
-            CreateSignUp.Email = email;
-            CreateSignUp.PhoneNumber = phone;
-            CreateSignUp.Subject = subject;
-            CreateSignUp.Message = message;
-            CreateSignUp.UserName = firstname + lastname;
-         
-
-            CreateSignUp.Children = new Collection<SignUpChild>() {new SignUpChild() {
-                   Username = childFirstname,
-                   FirstName = childFirstname,
-                   Infix = childInfix,
-                   LastName = childLastname,
-                   Subject = subject,
-                   }};
-
-            _context.Add(CreateSignUp);
+            _context.Add(new SignUp(){
+                FirstName = s.FirstName,
+                LastName = s.LastName,
+                Infix = s.Infix,
+                Email = s.Email,
+                PhoneNumber = s.PhoneNumber,
+                Subject = s.Subject,
+                Message = s.Message,
+                UserName = s.Email,
+                Children = new Collection<SignUpChild>() {
+                   new SignUpChild() {
+                       ChildUserName = c.ChildUserName,
+                       ChildFirstName = c.ChildFirstName,
+                       ChildLastName = c.ChildLastName,
+                       ChildInfix = c.ChildInfix,
+                       ChildBirthDate = c.ChildBirthDate,
+                       Subject = c.Subject
+                   }
+                }
+            });
+            
             await _context.SaveChangesAsync();
-
             var sender = _email
-                .To(email)
+                .To(s.Email)
                 .Subject("Aanmelding ouder en kind succesvol aangevraagd")
-                .Body($"Uw aanmelding voor een zmdh account over {subject} is succesvol ontvangen, U krijgt zo snel mogelijk antwoord van de orthopedagoog.");
+                .Body($"Uw aanmelding voor een zmdh account over {s.Subject} is succesvol ontvangen, U krijgt zo snel mogelijk antwoord van de orthopedagoog.");
 
             await sender.SendAsync();
 
             return RedirectToAction("Index", "Home");
-
         }
 
         [HttpGet]
@@ -158,20 +181,13 @@ namespace Wdpr_Groep_E.Controllers
         }
 
         [HttpPost]
-        public  async Task<IActionResult> DeleteSignUp(int id)
+        public async Task<IActionResult> DeleteSignUp(int id)
         {
             var getSignUp = _context.SignUps.Single(s => s.Id == id);
             _context.Remove(getSignUp);
-           await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return RedirectToAction("Overview");
         }
-        // [HttpPost] IActionResult DeleteSignUpWithChildren(int childId)
-        // {
-        //     var getChildSignUp = _context.SignUpChildren.Single(s => s.Id == childId);
-        //     _context.SignUpChildren.Remove(getChildSignUp);
-        //     _context.SaveChanges();
-        //     return RedirectToAction("Overview");
-        // }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
