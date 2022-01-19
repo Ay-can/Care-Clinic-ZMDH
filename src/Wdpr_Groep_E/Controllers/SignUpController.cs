@@ -23,14 +23,15 @@ namespace Wdpr_Groep_E.Controllers
         private readonly IFluentEmail _email;
         private readonly WdprContext _context;
         private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IZmdhApi _api;
 
-        public SignUpController(ILogger<SignUpController> logger, IFluentEmail email, WdprContext context, UserManager<AppUser> userManager,
-        IZmdhApi api)
+        public SignUpController(ILogger<SignUpController> logger, IFluentEmail email, WdprContext context, RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager, IZmdhApi api)
         {
             _logger = logger;
             _email = email;
             _context = context;
+            _roleManager = roleManager;
             _userManager = userManager;
             _api = api;
         }
@@ -208,7 +209,16 @@ namespace Wdpr_Groep_E.Controllers
             await _userManager.AddToRoleAsync(user, "Tiener");
             // Api
             await _context.SaveChangesAsync();
+            var sender = _email
+                .To(s.Email)
+                .Subject("Aanmelding goedgekeurd")
+                .Body($"Uw aanmelding voor een zmdh account over {s.Subject} is goedgekeurd, U kunt inloggen met dit wachtwoord: Test123!.");
+
+            // ChatSystemController chatSystem = new ChatSystemController(_email, _userManager, _roleManager, _context);
+            // var chat = chatSystem.CreatePrivateRoom(s.UserName);
+
             await DeleteSignUp(s.TempId);
+            await sender.SendAsync();
             return RedirectToAction("Overview", "SignUp");
         }
 

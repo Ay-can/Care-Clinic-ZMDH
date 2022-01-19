@@ -18,17 +18,16 @@ namespace Wdpr_Groep_E.Controllers
     {
         private readonly IFluentEmail _email;
         private readonly UserManager<AppUser> _userManager;
-        private readonly ILogger<ChatSystemController> _logger;
+        // private readonly ILogger<ChatSystemController> _logger;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly WdprContext _context;
 
-        public ChatSystemController(ILogger<ChatSystemController> logger, IFluentEmail email, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, WdprContext context)
+        public ChatSystemController(IFluentEmail email, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, WdprContext context)
         {
             _email = email;
             _userManager = userManager;
             _roleManager = roleManager;
             _context = context;
-            _logger = logger;
         }
 
         public async Task<IActionResult> Index(string search)
@@ -78,19 +77,14 @@ namespace Wdpr_Groep_E.Controllers
         public async Task<IActionResult> BlockUser(string id, int chat)
         {
             _context.ChatUsers.FirstOrDefault(u => u.UserId == id && u.ChatId == chat).IsBlocked = true;
-
-            var subject = _context.Chats.Where(c => c.Id == chat).SingleOrDefault().Subject;
-
             var careGiver = _context.Users.SingleOrDefault(u => u.Id == id).CareGiver;
             var careGiverEmail = _context.Users.SingleOrDefault(u => u.Id == careGiver).Email;
-
             var sender = _email
                 .To(careGiverEmail)
                 .Subject("Cliënt geblokkeerd")
                 .Body($"Uw cliënt: {_userManager.FindByIdAsync(id).Result.UserName} is geblokkeerd door een moderator in de chat: {_context.Chats.SingleOrDefault(c => c.Id == chat).Name}.");
-
             await _context.SaveChangesAsync();
-            // await sender.SendAsync();
+            await sender.SendAsync();
             return RedirectToAction("Users", new { id = chat });
         }
 
@@ -106,16 +100,16 @@ namespace Wdpr_Groep_E.Controllers
         [Authorize(Roles = "Orthopedagoog")]
         public async Task<IActionResult> CreatePrivateRoom(string name)
         {
-            var chat = new Chat
-            {
-                Id = GenerateChatId(),
-                Name = "Chat tussen " + _userManager.GetUserAsync(User).Result.UserName + " en " + name,
-                Subject = _userManager.GetUserAsync(User).Result.Subject,
-                Type = ChatType.Private
-            };
             var clientId = _userManager.Users.SingleOrDefault(u => u.UserName == name)?.Id;
             if (clientId != null)
             {
+                var chat = new Chat
+                {
+                    Id = GenerateChatId(),
+                    Name = "Chat tussen " + _userManager.GetUserAsync(User).Result.UserName + " en " + name,
+                    Subject = _userManager.GetUserAsync(User).Result.Subject,
+                    Type = ChatType.Private
+                };
                 var sender = _email
                     .To(_userManager.Users.SingleOrDefault(u => u.UserName == name)?.Email)
                     .Subject("Chat aanvraag")
@@ -194,7 +188,7 @@ namespace Wdpr_Groep_E.Controllers
             return RedirectToAction("Chat", "Chat", new { Id = id });
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        // public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
