@@ -1,3 +1,6 @@
+@model IEnumerable<Subject>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
 @{
     ViewData["Title"] = "Kind aanmelden";
 }
@@ -98,12 +101,32 @@
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 <label for="subject">Onderwerp:</label><span class="required"> *</span>
-                                <select class="custom-select" id="subject" name="Subject" required>
+
+                                <select onchange="subjectSelect(this.value)" class="custom-select" id="subject" name="Subject" required>
+
                                     <option value="" selected>Kies een onderwerp</option>
-                                    <option value="ADD">ADD</option>
-                                    <option value="ASS">ASS</option>
-                                    <option value="Faalangst">Faalangst</option>
-                                    <option value="Hoogbegaafdheid">Hoogbegaafdheid</option>
+                                    @foreach (var subject in Model)
+                                    {
+                                        <option value="@subject.Name">@subject.Name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6">
+                            <div class="form-group">
+                                <label for="ortho">Orthopedagoog:</label><span class="required"> *</span>
+                                <select class="custom-select" id="ortho" name="ortho" required>
+                                    <option value="" selected>Kies een orthopedagoog</option>
+                                    @foreach (var ortho in UserManager.GetUsersInRoleAsync("Orthopedagoog").Result)
+                                    {
+                                        @foreach (var subject in Model)
+                                        {
+                                            @if (subject.Name == ortho.Subject)
+                                            {
+                                                <option data-option="@ortho.Subject" value="@ortho.Id">@ortho.FirstName @ortho.Infix @ortho.LastName</option>
+                                            }
+                                        }
+                                    }
                                 </select>
                             </div>
                         </div>
@@ -116,3 +139,19 @@
         </div>
     </div>
 </div>
+
+<script>
+    var ortho = document.getElementById("ortho");
+    var options = ortho.querySelectorAll("option");
+
+    function subjectSelect(value) {
+        ortho.innerHTML = "";
+        for (var i = 0; i < options.length; i++) {
+            if (options[i].getAttribute("data-option") == value) {
+                ortho.appendChild(options[i]);
+            }
+        }
+    }
+
+    subjectSelect(document.getElementById("subject").value);
+</script>

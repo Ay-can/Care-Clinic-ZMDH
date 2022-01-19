@@ -19,14 +19,28 @@
                 @if (message.Name == UserManager.GetUserName(User))
                 {
                     <div class="text-right">
-                        <header class="message-head"><strong class="user-color">@message.Name</strong> <span>@DateTime.Now.ToString("HH:mm")</span></header>
+                        <header class="message-head">
+                            <strong class="user-color">@message.Name</strong>
+                            <span>@DateTime.Now.ToString("HH:mm")</span>
+                        </header>
                         <p>@message.Text</p>
                     </div>
                 }
                 else
                 {
                     <div>
-                        <header class="message-head"><strong>@message.Name</strong> <span>@DateTime.Now.ToString("HH:mm")</span></header>
+                        <header class="message-head">
+                            <strong>@message.Name</strong>
+                            <span>@DateTime.Now.ToString("HH:mm")</span>
+                            <span class="material-icons-round text-danger report">
+                                <form onsubmit="reportUser(event)" asp-controller="ReportSystem" asp-action="ReportUser" method="post">
+                                    <input type="hidden" name="chat" value="@Model.Id" />
+                                    <input type="hidden" name="name" value="@message.Name" />
+                                    <input type="hidden" name="text" value="@message.Text" />
+                                    <button type="submit">flag</button>
+                                </form>
+                            </span>
+                        </header>
                         <p>@message.Text</p>
                     </div>
                 }
@@ -59,6 +73,8 @@
     </div>
 </div>
 
+<partial name="../Shared/Modals/ReportUserModal" />
+
 @section Scripts {
 <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -67,10 +83,7 @@
     var chat = document.querySelector('.chat');
     chat.scrollTop = chat.scrollHeight;
 
-    var connection = new signalR.HubConnectionBuilder()
-        .withUrl("/chatHub")
-        .build();
-
+    var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
     var _connectionId = '';
 
     connection.on("ReceiveMessage", function (data) {
@@ -79,14 +92,23 @@
         if (data.name == '@UserManager.GetUserName(User)') {
             message.innerHTML = `
                 <div class="text-right">
-                    <header class="message-head"><strong class="user-color">${data.name}</strong> <span>${parsedTime}</span></header>
+                    <header class="message-head">
+                        <strong class="user-color">${data.name}</strong>
+                        <span>${parsedTime}</span>
+                    </header>
                     <p>${data.text}</p>
                 </div>
             `;
         } else {
             message.innerHTML = `
                 <div>
-                    <header class="message-head"><strong>${data.name}</strong> <span>${parsedTime}</span></header>
+                    <header class="message-head">
+                        <strong>${data.name}</strong>
+                        <span>${parsedTime}</span>
+                        <span class="material-icons-round text-danger report">
+                            <a data-toggle="modal" data-target="#ReportUser">flag</a>
+                        </span>
+                    </header>
                     <p>${data.text}</p>
                 </div>
             `;
@@ -130,6 +152,18 @@
                     console.log("Error tijdens verzenden bericht!", err);
                 });
         }
+    }
+
+    var reportUser = function (event) {
+        event.preventDefault();
+        var data = new FormData(event.target);
+        axios.post('/ReportSystem/ReportUser', data)
+            .then(res => {
+                $('#ReportUser').modal('show');
+                console.log("Gebruiker gerapporteerd!", res);
+            }).catch(err => {
+                console.log("Error tijdens rapporteren gebruiker!", err);
+            });
     }
 </script>
 }

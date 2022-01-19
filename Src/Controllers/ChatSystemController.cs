@@ -19,12 +19,14 @@ namespace Wdpr_Groep_E.Controllers
         private readonly IFluentEmail _email;
         private readonly UserManager<AppUser> _userManager;
         private readonly ILogger<ChatSystemController> _logger;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly WdprContext _context;
 
-        public ChatSystemController(ILogger<ChatSystemController> logger, IFluentEmail email, UserManager<AppUser> userManager, WdprContext context)
+        public ChatSystemController(ILogger<ChatSystemController> logger, IFluentEmail email, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, WdprContext context)
         {
             _email = email;
             _userManager = userManager;
+            _roleManager = roleManager;
             _context = context;
             _logger = logger;
         }
@@ -71,6 +73,33 @@ namespace Wdpr_Groep_E.Controllers
             return RedirectToAction("Chat", "Chat", new { id = chat.Id });
         }
 
+        [HttpPost]
+        [Authorize(Roles = "Moderator")]
+        public async Task<IActionResult> BlockUser(string id, int chat)
+        {
+            _context.ChatUsers.FirstOrDefault(u => u.UserId == id && u.ChatId == chat).IsBlocked = true;
+
+            var subject = _context.Chats.Where(c => c.Id == chat).SingleOrDefault().Subject;
+
+            // var sender = _email
+            //     .To()
+            //     .Subject("Cliënt geblokkeerd")
+            //     .Body($"Uw cliënt: {_userManager.FindByIdAsync(id).Result.UserName} is geblokkeerd door een moderator in de chat: {_context.Chats.Where(c => c.Id == chat).SingleOrDefault().Name}.");
+
+            await _context.SaveChangesAsync();
+            // await sender.SendAsync();
+            return RedirectToAction("Users", new { id = chat });
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Moderator")]
+        public IActionResult UnblockUser(string id, int chat)
+        {
+            _context.ChatUsers.FirstOrDefault(u => u.UserId == id && u.ChatId == chat).IsBlocked = false;
+            _context.SaveChanges();
+            return RedirectToAction("Users", new { id = chat });
+        }
+
         [Authorize(Roles = "Orthopedagoog")]
         public async Task<IActionResult> CreatePrivateRoom(string name)
         {
@@ -81,11 +110,11 @@ namespace Wdpr_Groep_E.Controllers
                 Subject = _userManager.GetUserAsync(User).Result.Subject,
                 Type = ChatType.Private
             };
-            var clientId = _userManager.Users.FirstOrDefault(u => u.UserName == name)?.Id;
+            var clientId = _userManager.Users.SingleOrDefault(u => u.UserName == name).Id;
             if (clientId != null)
             {
                 var sender = _email
-                    .To(_userManager.Users.FirstOrDefault(u => u.UserName == name)?.Email)
+                    .To(_userManager.Users.SingleOrDefault(u => u.UserName == name).Email)
                     .Subject("Chat aanvraag")
                     .Body($"{_userManager.GetUserAsync(User).Result.UserName} heeft een chat aangevraagd. Gebruik de volgende code om de chat te joinen: {chat.Id}");
                 chat.Users.Add(new ChatUser { UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value });
@@ -100,14 +129,14 @@ namespace Wdpr_Groep_E.Controllers
                     Type = "Failed",
                     Message = "Deze gebruiker bestaat niet.",
                     Redirect = "ChatSystem",
-                    Timeout = 2000
+                    Timeout = 2500
                 });
         }
 
         [Authorize(Roles = "Tiener, Kind")]
         public async Task<IActionResult> JoinPrivateRoom(int id)
         {
-            var chat = _context.Chats.Include(c => c.Users).FirstOrDefault(c => c.Id == id);
+            var chat = _context.Chats.Include(c => c.Users).SingleOrDefault(c => c.Id == id);
             if (chat != null)
             {
                 if (chat.Type == ChatType.Private)
@@ -122,7 +151,7 @@ namespace Wdpr_Groep_E.Controllers
                         Type = "Failed",
                         Message = "Deze chat is niet privé.",
                         Redirect = "Chat",
-                        Timeout = 2000
+                        Timeout = 2500
                     });
             }
             else
@@ -131,7 +160,7 @@ namespace Wdpr_Groep_E.Controllers
                     Type = "Failed",
                     Message = "Deze chat bestaat niet.",
                     Redirect = "Chat",
-                    Timeout = 2000
+                    Timeout = 2500
                 });
         }
 

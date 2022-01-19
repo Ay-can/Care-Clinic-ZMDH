@@ -20,6 +20,16 @@ namespace Wdpr_Groep_E.Data
             await roleManager.CreateAsync(new IdentityRole("TestUser"));
         }
 
+        public static async Task CreateSubjects(WdprContext context)
+        {
+            if (context.Subjects.Any()) return;
+            await context.Subjects.AddAsync(new Subject { Name = "ADD" });
+            await context.Subjects.AddAsync(new Subject { Name = "ASS" });
+            await context.Subjects.AddAsync(new Subject { Name = "Faalangst" });
+            await context.Subjects.AddAsync(new Subject { Name = "Hoogbegaafdheid" });
+            await context.SaveChangesAsync();
+        }
+
         public static async Task CreateModeratorAsync(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             //nog aanpassen wanneer default AppUser is veranderd.
@@ -59,6 +69,9 @@ namespace Wdpr_Groep_E.Data
             var Angela = new AppUser
             {
                 UserName = "AngelaVanHeringa",
+                FirstName = "Angela",
+                Infix = "van",
+                LastName = "Heringa",
                 Email = "angela@zmdh.nl",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
@@ -70,6 +83,8 @@ namespace Wdpr_Groep_E.Data
             var Gijs = new AppUser
             {
                 UserName = "GijsBroekman",
+                FirstName = "Gijs",
+                LastName = "Broekman",
                 Email = "gijs@zmdh.nl",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
@@ -81,6 +96,8 @@ namespace Wdpr_Groep_E.Data
             var Jantinus = new AppUser
             {
                 UserName = "JantinusVerduin",
+                FirstName = "Jantinus",
+                LastName = "Verduin",
                 Email = "jantinus@zmdh.nl",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
@@ -92,6 +109,9 @@ namespace Wdpr_Groep_E.Data
             var Joseph = new AppUser
             {
                 UserName = "JosephVanDerVliet",
+                FirstName = "Joseph",
+                Infix = "van der",
+                LastName = "Vliet",
                 Email = "joseph@zmdh.nl",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,

@@ -37,9 +37,11 @@ namespace Wdpr_Groep_E.Controllers
 
         public IActionResult Index() => View();
 
-        public IActionResult Client() => View();
+        public IActionResult Client() => View(_context.Subjects);
 
-        public IActionResult Child() => View();
+
+        public IActionResult Child() => View(_context.Subjects);
+
         [HttpPost]
         public async Task<IActionResult> CreateSignUp(SignUp s)
         {

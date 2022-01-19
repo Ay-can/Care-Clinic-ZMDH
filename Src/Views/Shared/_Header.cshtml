@@ -7,7 +7,7 @@
         <a class="navbar-brand mr-3" asp-controller="Home" asp-action="Index" tabindex="-1" aria-disabled="true">
             <img src="~/img/logo.svg" alt="ZMDH logo">
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Naviagatie menuknop">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Navigatie menuknop">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="navbar-collapse collapse d-xl-inline-flex justify-content-between">
@@ -45,7 +45,7 @@
                     {
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="ChatSystem" asp-action="Index">
-                                <span class="material-icons-round" aria-hidden="true">feedback</span>Zelfhulpgroepen
+                                <span class="material-icons-round" aria-hidden="true">feedback</span>
                             </a>
                         </li>
                     }
@@ -53,12 +53,17 @@
                     {
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="UserSystem" asp-action="Index">
-                                <span class="material-icons-round" aria-hidden="true">people</span>Gebruikers
+                                <span class="material-icons-round" aria-hidden="true">people</span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="RoleSystem" asp-action="Index">
-                                <span class="material-icons-round" aria-hidden="true">assignment_ind</span>Rollen
+                                <span class="material-icons-round" aria-hidden="true">assignment_ind</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="ReportSystem" asp-action="Index">
+                                <span class="material-icons-round" aria-hidden="true">flag</span>
                             </a>
                         </li>
                     }
@@ -66,7 +71,7 @@
                     {
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="SignUp" asp-action="Overview">
-                                <span class="material-icons-round" aria-hidden="true">people</span>Aanmeldingen
+                                <span class="material-icons-round" aria-hidden="true">people</span>
                             </a>
                         </li>
                     }
