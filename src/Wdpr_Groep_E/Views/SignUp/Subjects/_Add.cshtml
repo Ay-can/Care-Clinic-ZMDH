@@ -1,0 +1,79 @@
+@model List<Wdpr_Groep_E.Models.SignUp>;
+
+@foreach (var signup in Model)
+{
+    @if (signup.Subject == "ADD")
+    {
+        <tr>
+            <td>@signup.FirstName</td>
+            <td>@signup.Infix</td>
+            <td>@signup.LastName</td>
+            <td>@signup.Email</td>
+            <td>@signup.PhoneNumber</td>
+            <td>@signup.Subject</td>
+            <td>@signup.Message</td>
+            @if (signup.Children.SingleOrDefault() == null)
+            {
+                <td></td>
+                <form method="post" asp-controller="SignUp" asp-action="AcceptSignUp">
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-success">Accepteren</button>
+                    </td>
+                    <input type="hidden" name="UserName" value="@signup.UserName" />
+                    <input type="hidden" name="FirstName" value="@signup.FirstName" />
+                    <input type="hidden" name="LastName" value="@signup.LastName" />
+                    <input type="hidden" name="BirthDate" value="@signup.BirthDate" />
+                    <input type="hidden" name="PhoneNumber" value="@signup.PhoneNumber" />
+                    <input type="hidden" name="Infix" value="@signup.Infix" />
+                    <input type="hidden" name="Email" value="@signup.Email" />
+                    <input type="hidden" name="Id" value="@signup.Id" />
+                    <input type="hidden" name="Subject" value="@signup.Subject" />
+                    <input type="hidden" name="TempId" value="@signup.TempId" />
+                    <input type="hidden" name="careGiver" value="@signup.CareGiver" />
+                </form>
+                <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.TempId">
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-danger">Weigeren</button>
+                    </td>
+                    <input type="hidden" name="firstname" value="@signup.FirstName" />
+                    <input type="hidden" name="email" value="@signup.Email" />
+                </form>
+            }
+            else
+            {
+                @foreach (var child in signup?.Children)
+                {
+                    <td>
+                        <div class="p-0">Gebruikersnaam: @child.ChildUserName</div>
+                        <div class="p-0">Naam: @child.ChildFirstName @child.ChildInfix @child.ChildLastName</div>
+                        <div class="p-0">Leeftijd: @(DateTime.Now.Year - child.ChildBirthDate.Year)</div>
+                    </td>
+                }
+                <form method="post" asp-controller="SignUp" asp-action="AcceptSignUpWithChildren">
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-success">Accepteren</button>
+                    </td>
+                    <input type="hidden" name="UserName" value="@signup.UserName" />
+                    <input type="hidden" name="FirstName" value="@signup.FirstName" />
+                    <input type="hidden" name="LastName" value="@signup.LastName" />
+                    <input type="hidden" name="BirthDate" value="@signup.BirthDate" />
+                    <input type="hidden" name="PhoneNumber" value="@signup.PhoneNumber" />
+                    <input type="hidden" name="Infix" value="@signup.Infix" />
+                    <input type="hidden" name="Email" value="@signup.Email" />
+                    <input type="hidden" name="Subject" value="@signup.Subject" />
+                    <input type="hidden" name="TempId" value="@signup.TempId" />
+                    <input type="hidden" name="careGiver" value="@signup.CareGiver" />
+                    <input type="hidden" name="ChildFirstName" value="@signup.Children.SingleOrDefault()?.ChildFirstName" />
+                    <input type="hidden" name="ChildInfix" value="@signup.Children?.SingleOrDefault()?.ChildInfix" />
+                    <input type="hidden" name="ChildLastName" value="@signup.Children.SingleOrDefault()?.ChildLastName" />
+                    <input type="hidden" name="ChildUserName" value="@signup.Children.SingleOrDefault()?.ChildUserName" />
+                    <input type="hidden" name="ChildBirthDate" value="@signup.Children.SingleOrDefault()?.ChildBirthDate" />
+                    <input type="hidden" name="TempChildId" value="@signup.Children.SingleOrDefault().TempChildId" />
+                </form>
+                <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.TempId">
+                    <td class="text-center"><button class="btn btn-sm btn-danger">Weigeren</button></td>
+                </form>
+            }
+        </tr>
+    }
+}
