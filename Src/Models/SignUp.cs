@@ -51,6 +51,10 @@ namespace Wdpr_Groep_E.Models
 
         public Collection<SignUpChild> Children { get; set; }
         public string TempId { get; set; } = Guid.NewGuid().ToString();
+
+        [Required]
+        [Display(Name ="Orthopedagoog")]
+        public string CareGiver { get; set; }
         
     }
 }
