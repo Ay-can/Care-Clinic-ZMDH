@@ -1,11 +1,11 @@
-using System.Net;
-using System.IO;
-using System.Diagnostics;
-using Xunit;
 using System;
+using System.Diagnostics;
+using System.IO;
+using System.Net;
+using Xunit;
 using Xunit.Abstractions;
 
-namespace Webapp.Tests
+namespace Wdpr_Groep_E.Tests
 {
     public class PerformanceTests
     {

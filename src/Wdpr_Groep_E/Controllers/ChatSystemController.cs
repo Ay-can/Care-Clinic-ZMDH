@@ -81,10 +81,13 @@ namespace Wdpr_Groep_E.Controllers
 
             var subject = _context.Chats.Where(c => c.Id == chat).SingleOrDefault().Subject;
 
-            // var sender = _email
-            //     .To()
-            //     .Subject("Cliënt geblokkeerd")
-            //     .Body($"Uw cliënt: {_userManager.FindByIdAsync(id).Result.UserName} is geblokkeerd door een moderator in de chat: {_context.Chats.Where(c => c.Id == chat).SingleOrDefault().Name}.");
+            var careGiver = _context.Users.SingleOrDefault(u => u.Id == id).CareGiver;
+            var careGiverEmail = _context.Users.SingleOrDefault(u => u.Id == careGiver).Email;
+
+            var sender = _email
+                .To(careGiverEmail)
+                .Subject("Cliënt geblokkeerd")
+                .Body($"Uw cliënt: {_userManager.FindByIdAsync(id).Result.UserName} is geblokkeerd door een moderator in de chat: {_context.Chats.SingleOrDefault(c => c.Id == chat).Name}.");
 
             await _context.SaveChangesAsync();
             // await sender.SendAsync();
@@ -110,11 +113,11 @@ namespace Wdpr_Groep_E.Controllers
                 Subject = _userManager.GetUserAsync(User).Result.Subject,
                 Type = ChatType.Private
             };
-            var clientId = _userManager.Users.SingleOrDefault(u => u.UserName == name).Id;
+            var clientId = _userManager.Users.SingleOrDefault(u => u.UserName == name)?.Id;
             if (clientId != null)
             {
                 var sender = _email
-                    .To(_userManager.Users.SingleOrDefault(u => u.UserName == name).Email)
+                    .To(_userManager.Users.SingleOrDefault(u => u.UserName == name)?.Email)
                     .Subject("Chat aanvraag")
                     .Body($"{_userManager.GetUserAsync(User).Result.UserName} heeft een chat aangevraagd. Gebruik de volgende code om de chat te joinen: {chat.Id}");
                 chat.Users.Add(new ChatUser { UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value });

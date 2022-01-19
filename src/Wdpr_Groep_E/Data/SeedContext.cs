@@ -51,19 +51,6 @@ namespace Wdpr_Groep_E.Data
             }
         }
 
-        public static async Task CreateTestUserAsync(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
-        {
-            var TestUser = new AppUser
-            {
-                UserName = "test",
-                Email = "test@gmail.com",
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = true
-            };
-            await userManager.CreateAsync(TestUser, "Test123!");
-            await userManager.AddToRoleAsync(TestUser, "TestUser");
-        }
-
         public static async Task CreateOrthopedagogen(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             var Angela = new AppUser
@@ -121,15 +108,16 @@ namespace Wdpr_Groep_E.Data
             await userManager.AddToRoleAsync(Joseph, "Orthopedagoog");
         }
 
-        public static async Task CreateUsers(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task CreateUsers(WdprContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             var Hans = new AppUser
             {
                 UserName = "Hans2207",
-                Email = "hans@mail.nl",
+                Email = "iwan2510@gmail.com",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
-                Subject = "Hoogbegaafdheid"
+                Subject = "Hoogbegaafdheid",
+                CareGiver = context.Users.Where(u => u.Subject == "Hoogbegaafdheid").FirstOrDefault().Id
             };
             await userManager.CreateAsync(Hans, "Test123!");
             await userManager.AddToRoleAsync(Hans, "Tiener");
@@ -137,10 +125,11 @@ namespace Wdpr_Groep_E.Data
             var Sara = new AppUser
             {
                 UserName = "Sara2004",
-                Email = "sara@mail.nl",
+                Email = "iwan2510@gmail.com",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
-                Subject = "ADD"
+                Subject = "ADD",
+                CareGiver = context.Users.Where(u => u.Subject == "ADD").FirstOrDefault().Id
             };
             await userManager.CreateAsync(Sara, "Test123!");
             await userManager.AddToRoleAsync(Sara, "Kind");

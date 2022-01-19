@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Src/Wdpr-Groep-E.csproj",
+                "${workspaceFolder}/src/Wdpr_Groep_E/Wdpr-Groep-E.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Src/Wdpr-Groep-E.csproj",
+                "${workspaceFolder}/src/Wdpr_Groep_E/Wdpr-Groep-E.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Src/Wdpr-Groep-E.csproj",
+                "${workspaceFolder}/src/Wdpr_Groep_E/Wdpr-Groep-E.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

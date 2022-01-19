@@ -26,9 +26,8 @@ namespace Wdpr_Groep_E
                     await SeedContext.CreateSubjects(getContext);
                     await SeedContext.CreateRolesAsync(getUserManager, getRoleManager);
                     await SeedContext.CreateModeratorAsync(getUserManager, getRoleManager);
-                    await SeedContext.CreateTestUserAsync(getUserManager, getRoleManager);
                     await SeedContext.CreateOrthopedagogen(getUserManager, getRoleManager);
-                    await SeedContext.CreateUsers(getUserManager, getRoleManager);
+                    await SeedContext.CreateUsers(getContext, getUserManager, getRoleManager);
                 }
                 catch
                 {

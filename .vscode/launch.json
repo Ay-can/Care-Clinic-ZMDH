@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Src/bin/Debug/net5.0/Wdpr-Groep-E.dll",
+            "program": "${workspaceFolder}/src/Wdpr_Groep_E/bin/Debug/net5.0/Wdpr-Groep-E.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/Src",
+            "cwd": "${workspaceFolder}/src/Wdpr_Groep_E",
             "stopAtEntry": false,
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
