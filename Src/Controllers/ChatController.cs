@@ -43,10 +43,23 @@ namespace Wdpr_Groep_E.Controllers
         [HttpGet("[controller]/{id}")]
         public IActionResult Chat(int id)
         {
-            var chat = _context.Chats
-                .Include(c => c.Messages)
-                .FirstOrDefault(c => c.Id == id);
-            return View(chat);
+            if (!_context.ChatUsers.Where(c => c.UserId == HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value && c.ChatId == id).SingleOrDefault().IsBlocked)
+            {
+                var chat = _context.Chats
+                    .Include(c => c.Messages)
+                    .FirstOrDefault(c => c.Id == id);
+                return View(chat);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Message", new
+                {
+                    Type = "Failed",
+                    Message = "U bent geblokkeerd in deze chat.",
+                    Redirect = "Chat",
+                    Timeout = 2500
+                });
+            }
         }
 
         [HttpPost]
@@ -65,6 +78,7 @@ namespace Wdpr_Groep_E.Controllers
         }
 
         // SignalR methodes
+        // ---------------------------------------------------------------------------------
 
         [HttpPost("[controller]/[action]/{connectionId}/{roomId}")]
         public async Task<IActionResult> JoinRoom(string connectionId, string roomId)
@@ -95,6 +109,8 @@ namespace Wdpr_Groep_E.Controllers
             await _chatContext.Clients.Group(id.ToString()).SendAsync("ReceiveMessage", message);
             return Ok();
         }
+
+        // ---------------------------------------------------------------------------------
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });

@@ -37,6 +37,17 @@
   color: var(--blue);
 }
 
+.report button {
+  padding: 0;
+  border: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  background: none;
+  outline: inherit;
+  font-size: .75rem;
+}
+
 @media screen and (max-width: 767.98px) {
   .chat {
     height: calc(100vh - 21.25rem);
