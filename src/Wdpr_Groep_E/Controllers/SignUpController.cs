@@ -23,14 +23,15 @@ namespace Wdpr_Groep_E.Controllers
         private readonly IFluentEmail _email;
         private readonly WdprContext _context;
         private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IZmdhApi _api;
 
-        public SignUpController(ILogger<SignUpController> logger, IFluentEmail email, WdprContext context, UserManager<AppUser> userManager,
-        IZmdhApi api)
+        public SignUpController(ILogger<SignUpController> logger, IFluentEmail email, WdprContext context, RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager, IZmdhApi api)
         {
             _logger = logger;
             _email = email;
             _context = context;
+            _roleManager = roleManager;
             _userManager = userManager;
             _api = api;
         }
@@ -56,32 +57,43 @@ namespace Wdpr_Groep_E.Controllers
             {
                 if (!_userManager.Users.Any(u => u.UserName == s.UserName))
                 {
-                    _context.Add(new SignUp()
+                    if (!(s.BirthDate > DateTime.Now.AddYears(-16)))
                     {
-                        FirstName = s.FirstName,
-                        LastName = s.LastName,
-                        Infix = s.Infix,
-                        PhoneNumber = s.PhoneNumber,
-                        Subject = s.Subject,
-                        Message = s.Message,
-                        Email = s.Email,
-                        BirthDate = s.BirthDate,
-                        UserName = s.UserName,
-                        CareGiver = careGiver
-                    });
-                    await _context.SaveChangesAsync();
-                    var sender = _email
-                        .To(s.Email)
-                        .Subject("Aanmelding  account succesvol aangevraagd")
-                        .Body($"Uw aanmelding voor een zmdh account over {s.Subject} is succesvol ontvangen, U krijgt zo snel mogelijk antwoord van de orthopedagoog.");
-                    await sender.SendAsync();
-                    return RedirectToAction("Index", "Message", new
-                    {
-                        Type = "Success",
-                        Message = "Uw aanmelding is successvol verzonden.",
-                        Redirect = "Home",
-                        Timeout = 2500
-                    });
+                        _context.Add(new SignUp()
+                        {
+                            FirstName = s.FirstName,
+                            LastName = s.LastName,
+                            Infix = s.Infix,
+                            PhoneNumber = s.PhoneNumber,
+                            Subject = s.Subject,
+                            Message = s.Message,
+                            Email = s.Email,
+                            BirthDate = s.BirthDate,
+                            UserName = s.UserName,
+                            CareGiver = careGiver
+                        });
+                        await _context.SaveChangesAsync();
+                        var sender = _email
+                            .To(s.Email)
+                            .Subject("Aanmelding  account succesvol aangevraagd")
+                            .Body($"Uw aanmelding voor een zmdh account over {s.Subject} is succesvol ontvangen, U krijgt zo snel mogelijk antwoord van de orthopedagoog.");
+                        await sender.SendAsync();
+                        return RedirectToAction("Index", "Message", new
+                        {
+                            Type = "Success",
+                            Message = "Uw aanmelding is successvol verzonden.",
+                            Redirect = "Home",
+                            Timeout = 2500
+                        });
+                    }
+                    else
+                        return RedirectToAction("Index", "Message", new
+                        {
+                            Type = "Failed",
+                            Message = "U moet ouder dan 16 zijn om u aan te melden, laat anders je ouders/verzorgers je aanmelden.",
+                            Redirect = "SignUp/Client",
+                            Timeout = 5000
+                        });
                 }
                 else
                     return RedirectToAction("Index", "Message", new
@@ -109,42 +121,53 @@ namespace Wdpr_Groep_E.Controllers
             {
                 if (!_userManager.Users.Any(u => u.UserName == s.UserName))
                 {
-                    _context.Add(new SignUp()
+                    if (!(s.BirthDate < DateTime.Now.AddYears(-16)))
                     {
-                        FirstName = s.FirstName,
-                        LastName = s.LastName,
-                        Infix = s.Infix,
-                        Email = s.Email,
-                        PhoneNumber = s.PhoneNumber,
-                        Subject = s.Subject,
-                        Message = s.Message,
-                        UserName = s.Email,
-                        CareGiver = careGiver,
-                        Children = new Collection<SignUpChild>() {
-                    new SignUpChild() {
-                       ChildUserName = c.ChildUserName,
-                       ChildFirstName = c.ChildFirstName,
-                       ChildLastName = c.ChildLastName,
-                       ChildInfix = c.ChildInfix,
-                       ChildBirthDate = c.ChildBirthDate,
-                       Subject = c.Subject,
-                       CareGiver = careGiver
+                        _context.Add(new SignUp()
+                        {
+                            FirstName = s.FirstName,
+                            LastName = s.LastName,
+                            Infix = s.Infix,
+                            Email = s.Email,
+                            PhoneNumber = s.PhoneNumber,
+                            Subject = s.Subject,
+                            Message = s.Message,
+                            UserName = s.Email,
+                            CareGiver = careGiver,
+                            Children = new Collection<SignUpChild>() {
+                                new SignUpChild() {
+                                ChildUserName = c.ChildUserName,
+                                ChildFirstName = c.ChildFirstName,
+                                ChildLastName = c.ChildLastName,
+                                ChildInfix = c.ChildInfix,
+                                ChildBirthDate = c.ChildBirthDate,
+                                Subject = c.Subject,
+                                CareGiver = careGiver
+                                }
+                            }
+                        });
+                        await _context.SaveChangesAsync();
+                        var sender = _email
+                            .To(s.Email)
+                            .Subject("Aanmelding ouder en kind succesvol aangevraagd")
+                            .Body($"Uw aanmelding voor een zmdh account over {s.Subject} is succesvol ontvangen, U krijgt zo snel mogelijk antwoord van de orthopedagoog.");
+                        await sender.SendAsync();
+                        return RedirectToAction("Index", "Message", new
+                        {
+                            Type = "Success",
+                            Message = "De aanmelding voor uw kind is successvol verzonden.",
+                            Redirect = "Home",
+                            Timeout = 2500
+                        });
                     }
-                }
-                    });
-                    await _context.SaveChangesAsync();
-                    var sender = _email
-                        .To(s.Email)
-                        .Subject("Aanmelding ouder en kind succesvol aangevraagd")
-                        .Body($"Uw aanmelding voor een zmdh account over {s.Subject} is succesvol ontvangen, U krijgt zo snel mogelijk antwoord van de orthopedagoog.");
-                    await sender.SendAsync();
-                    return RedirectToAction("Index", "Message", new
-                    {
-                        Type = "Success",
-                        Message = "De aanmelding voor uw kind is successvol verzonden.",
-                        Redirect = "Home",
-                        Timeout = 2500
-                    });
+                    else
+                        return RedirectToAction("Index", "Message", new
+                        {
+                            Type = "Failed",
+                            Message = "Uw kind is oud genoeg om een eigen account aan te maken.",
+                            Redirect = "SignUp/Child",
+                            Timeout = 2500
+                        });
                 }
                 else
                     return RedirectToAction("Index", "Message", new
@@ -182,10 +205,20 @@ namespace Wdpr_Groep_E.Controllers
                 Subject = s.Subject,
                 CareGiver = careGiver
             };
-            var createUser = _userManager.CreateAsync(user, "Test123!");
+            await _userManager.CreateAsync(user, "Test123!");
+            await _userManager.AddToRoleAsync(user, "Tiener");
             // Api
             await _context.SaveChangesAsync();
+            var sender = _email
+                .To(s.Email)
+                .Subject("Aanmelding goedgekeurd")
+                .Body($"Uw aanmelding voor een zmdh account over {s.Subject} is goedgekeurd, U kunt inloggen met dit wachtwoord: Test123!.");
+
+            // ChatSystemController chatSystem = new ChatSystemController(_email, _userManager, _roleManager, _context);
+            // var chat = chatSystem.CreatePrivateRoom(s.UserName);
+
             await DeleteSignUp(s.TempId);
+            await sender.SendAsync();
             return RedirectToAction("Overview", "SignUp");
         }
 

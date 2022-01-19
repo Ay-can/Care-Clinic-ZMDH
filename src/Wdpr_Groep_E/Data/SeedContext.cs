@@ -35,7 +35,7 @@ namespace Wdpr_Groep_E.Data
             //nog aanpassen wanneer default AppUser is veranderd.
             var Moderator = new AppUser
             {
-                UserName = "Moderator@email.com",
+                UserName = "Moderator",
                 Email = "Moderator@email.com",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
@@ -59,7 +59,7 @@ namespace Wdpr_Groep_E.Data
                 FirstName = "Angela",
                 Infix = "van",
                 LastName = "Heringa",
-                Email = "zmdh.hulp@gmail.com",
+                Email = "angela@zmdh.nl",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 Subject = "ADD"
@@ -72,7 +72,7 @@ namespace Wdpr_Groep_E.Data
                 UserName = "GijsBroekman",
                 FirstName = "Gijs",
                 LastName = "Broekman",
-                Email = "zmdh.hulp@gmail.com",
+                Email = "gijs@zmdh.nl",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 Subject = "Faalangst"
@@ -85,7 +85,7 @@ namespace Wdpr_Groep_E.Data
                 UserName = "JantinusVerduin",
                 FirstName = "Jantinus",
                 LastName = "Verduin",
-                Email = "zmdh.hulp@gmail.com",
+                Email = "jantinus@zmdh.nl",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 Subject = "ASS"
@@ -99,7 +99,7 @@ namespace Wdpr_Groep_E.Data
                 FirstName = "Joseph",
                 Infix = "van der",
                 LastName = "Vliet",
-                Email = "zmdh.hulp@gmail.com",
+                Email = "joseph@zmdh.nl",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 Subject = "Hoogbegaafdheid"
@@ -110,10 +110,22 @@ namespace Wdpr_Groep_E.Data
 
         public static async Task CreateUsers(WdprContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
+            var Test = new AppUser
+            {
+                UserName = "Test",
+                Email = "zmdh.hulp@gmail.com",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                Subject = "Faalangst",
+                CareGiver = context.Users.Where(u => u.Subject == "Faalangst").FirstOrDefault().Id
+            };
+            await userManager.CreateAsync(Test, "Test123!");
+            await userManager.AddToRoleAsync(Test, "Tiener");
+
             var Hans = new AppUser
             {
                 UserName = "Hans2207",
-                Email = "zmdh.hulp@gmail.com",
+                Email = "hans@mail.nl",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 Subject = "Hoogbegaafdheid",
@@ -125,7 +137,7 @@ namespace Wdpr_Groep_E.Data
             var Sara = new AppUser
             {
                 UserName = "Sara2004",
-                Email = "zmdh.hulp@gmail.com",
+                Email = "sara@mail.nl",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 Subject = "ADD",

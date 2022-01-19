@@ -32,7 +32,8 @@
                             <td>@report.Text</td>
                             <td>@report.Date.ToString("dd/MM/yyyy")</td>
                             <td class="text-center">
-                                <form method="post" asp-controller="ChatSystem" asp-action="BlockUser" asp-route-id="@UserManager.FindByNameAsync(report.Name).Id">
+                                <form method="post" asp-controller="ReportSystem" asp-action="BlockReportedUser" asp-route-id='@UserManager.Users.SingleOrDefault(u => u.UserName == report.Name).Id'>
+                                    <input type="hidden" name="report" value="@report.Id" />
                                     <input type="hidden" name="chat" value="@report.ChatId" />
                                     <button class="btn btn-sm btn-danger">Blokkeren</button>
                                 </form>

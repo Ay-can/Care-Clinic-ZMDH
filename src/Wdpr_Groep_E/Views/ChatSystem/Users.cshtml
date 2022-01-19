@@ -1,4 +1,6 @@
 @model IEnumerable<ChatUser>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
 @{
     ViewData["Title"] = "Gebruikers in chat";
 }
@@ -12,7 +14,7 @@
     <hr />
     <div class="row">
         <div class="col">
-            <table class="table table-sm table-striped table-bordered mt-3">
+            <table class="table table-sm table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>Naam</th>
@@ -27,33 +29,36 @@
                 <tbody>
                     @foreach (var user in Model)
                     {
-                        <tr>
-                            <td>@user.User.UserName</td>
-                            <td>@user.Chat.Messages.Count()</td>
-                            @if (User.IsInRole("Moderator"))
-                            {
-                                @if (user.IsBlocked)
+                        @if (!UserManager.IsInRoleAsync(user.User, "Orthopedagoog").Result)
+                        {
+                            <tr>
+                                <td>@user.User.UserName</td>
+                                <td>@user.Chat.Messages.Count()</td>
+                                @if (User.IsInRole("Moderator"))
                                 {
-                                    <td class="text-center">
-                                        <form asp-controller="ChatSystem" asp-action="UnblockUser" asp-route-id="@user.User.Id" method="post">
-                                            <input type="hidden" name="chat" value="@user.ChatId" />
-                                            <button class="btn btn-sm btn-success">Deblokkeren</button>
-                                        </form>
-                                    </td>
-                                    <td></td>
+                                    @if (user.IsBlocked)
+                                    {
+                                        <td class="text-center">
+                                            <form asp-controller="ChatSystem" asp-action="UnblockUser" asp-route-id="@user.User.Id" method="post">
+                                                <input type="hidden" name="chat" value="@user.ChatId" />
+                                                <button class="btn btn-sm btn-success">Deblokkeren</button>
+                                            </form>
+                                        </td>
+                                        <td></td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                        <td class="text-center">
+                                            <form asp-controller="ChatSystem" asp-action="BlockUser" asp-route-id="@user.User.Id" method="post">
+                                                <input type="hidden" name="chat" value="@user.ChatId" />
+                                                <button class="btn btn-sm btn-danger">Blokkeren</button>
+                                            </form>
+                                        </td>
+                                    }
                                 }
-                                else
-                                {
-                                    <td></td>
-                                    <td class="text-center">
-                                        <form asp-controller="ChatSystem" asp-action="BlockUser" asp-route-id="@user.User.Id" method="post">
-                                            <input type="hidden" name="chat" value="@user.ChatId" />
-                                            <button class="btn btn-sm btn-danger">Blokkeren</button>
-                                        </form>
-                                    </td>
-                                }
-                            }
-                        </tr>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>
