@@ -1,14 +1,23 @@
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Wdpr_Groep_E.Models
 {
     public class SignUp
     {
+        
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Vul uw {0} in.")]
         [Display(Name = "Voornaam")]
         public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Vul uw {0} in.")]
+        [Display(Name = "Gebruikersnaam")]
+        public string UserName { get; set; }
 
         [Display(Name = "Tussenvoegsel")]
         public string Infix { get; set; }
@@ -35,5 +44,13 @@ namespace Wdpr_Groep_E.Models
         [Display(Name = "Bericht")]
         [StringLength(250)]
         public string Message { get; set; }
+        [Required(ErrorMessage ="Vul uw geboortedatum in")]
+        [Display(Name ="Geboortedatum")]
+
+        public DateTime BirthDate { get; set; }
+
+        public Collection<SignUpChild> Children { get; set; }
+        public string TempId { get; set; } = Guid.NewGuid().ToString();
+        
     }
 }

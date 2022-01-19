@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col">
             <section>
-                <form action="/SignUp/CreateSignUp" method="post">
+                <form action="/SignUp/CreateSignUpWithChild" method="post">
                     <p class="pb-3">
                         Voer hieronder uw eigen gegevens in, wij maken ook een account voor u aan
                         waarmee u de chatfrequentie van uw kind(eren) kunt inzien.
@@ -18,19 +18,19 @@
                         <div class="col-12 col-md-4">
                             <div class="form-group">
                                 <label for="firstname">Voornaam:</label><span class="required"> *</span>
-                                <input class="form-control" id="firstname" name="firstname" placeholder="Voornaam" required />
+                                <input class="form-control" id="firstname" name="FirstName" placeholder="Voornaam" required />
                             </div>
                         </div>
                         <div class="col-12 col-sm-5 col-md-3">
                             <div class="form-group">
                                 <label for="infix">Tussenvoegsel:</label>
-                                <input class="form-control" id="infix" name="infix" placeholder="Tussenvoegsel" />
+                                <input class="form-control" id="infix" name="Infix" placeholder="Tussenvoegsel" />
                             </div>
                         </div>
                         <div class="col-12 col-sm-7 col-md-5">
                             <div class="form-group">
                                 <label for="lastname">Achternaam:</label><span class="required"> *</span>
-                                <input class="form-control" id="lastname" name="lastname" placeholder="Achternaam" required />
+                                <input class="form-control" id="lastname" name="LastName" placeholder="Achternaam" required />
                             </div>
                         </div>
                     </div>
@@ -38,19 +38,19 @@
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 <label for="email">E-mail:</label><span class="required"> *</span>
-                                <input type="email" class="form-control" id="email" name="email" placeholder="E-mailadres" required />
+                                <input type="email" class="form-control" id="email" name="Email" placeholder="E-mailadres" required />
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 <label for="phone">Telefoonnummer:</label>
-                                <input type="tel" minlength="10" maxlength="10" class="form-control" id="phone" name="phone" placeholder="Telefoonnummer" />
+                                <input type="tel" minlength="10" maxlength="10" class="form-control" id="phone" name="PhoneNumber" placeholder="Telefoonnummer" />
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="message">Bericht:</label><span class="required"> *</span>
-                        <textarea rows="3" class="form-control" id="message" name="message" required></textarea>
+                        <textarea rows="3" class="form-control" id="message" name="Message" required></textarea>
                     </div>
                     <p class="pt-3 pb-3 mt-3">
                         Voer hier onder de gegevens van uw kind in dat u wilt aanmelden. Wij maken dan een account
@@ -63,13 +63,13 @@
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 <label for="username">Gebruikersnaam:</label><span class="required"> *</span>
-                                <input class="form-control" id="username" name="username" placeholder="Gebruikersnaam" required />
+                                <input class="form-control" id="username" name="ChildUserName" placeholder="Gebruikersnaam" required />
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 <label for="birthdate">Geboortedatum:</label><span class="required"> *</span>
-                                <input type="date" class="form-control" id="birthdate" name="birthdate" required />
+                                <input type="date" class="form-control" id="birthdate" name="ChildBirthdate" required />
                                 <small class="d-block pt-1">Om u aan te melden bij ZMDH moet u minstens 16 jaar oud zijn.</small>
                             </div>
                         </div>
@@ -78,19 +78,19 @@
                         <div class="col-12 col-md-4">
                             <div class="form-group">
                                 <label for="firstname">Voornaam:</label><span class="required"> *</span>
-                                <input class="form-control" id="firstname" name="firstname" placeholder="Voornaam" required />
+                                <input class="form-control" id="firstname" name="ChildFirstname" placeholder="Voornaam" required />
                             </div>
                         </div>
                         <div class="col-12 col-sm-5 col-md-3">
                             <div class="form-group">
                                 <label for="infix">Tussenvoegsel:</label>
-                                <input class="form-control" id="infix" name="infix" placeholder="Tussenvoegsel" />
+                                <input class="form-control" id="infix" name="ChildInfix" placeholder="Tussenvoegsel" />
                             </div>
                         </div>
                         <div class="col-12 col-sm-7 col-md-5">
                             <div class="form-group">
                                 <label for="lastname">Achternaam:</label><span class="required"> *</span>
-                                <input class="form-control" id="lastname" name="lastname" placeholder="Achternaam" required />
+                                <input class="form-control" id="lastname" name="ChildLastname" placeholder="Achternaam" required />
                             </div>
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 <label for="subject">Onderwerp:</label><span class="required"> *</span>
-                                <select class="custom-select" id="subject" name="subject" required>
+                                <select class="custom-select" id="subject" name="Subject" required>
                                     <option value="" selected>Kies een onderwerp</option>
                                     <option value="ADD">ADD</option>
                                     <option value="ASS">ASS</option>
