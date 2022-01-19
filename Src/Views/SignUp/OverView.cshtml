@@ -53,8 +53,9 @@
                                             <input type="hidden" name="Email" value="@signup.Email">
                                             <input type="hidden" name="Id" value="@signup.Id">
                                             <input type="hidden" name="Subject" value="@signup.Subject"></input>
+                                            <input type="hidden" name="TempId" value="@signup.TempId"></input>
                                         </form>
-                                        <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.Id">
+                                        <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.TempId">
                                             <td class="text-center"><button class="btn btn-sm btn-danger">Weigeren</button></td>
                                             <input type="hidden" name="firstname" value="@signup.FirstName"></input>
                                             <input type="hidden" name="email" value="@signup.Email">
@@ -66,7 +67,7 @@
                                         {
                                             <td>@child.ChildFirstName @child.ChildInfix @child.ChildLastName @child.ChildUserName</td>
                                         }
-                                        <form method="post" asp-controller="SignUp" asp-action="AcceptSignUpWithChildrenV2">
+                                        <form method="post" asp-controller="SignUp" asp-action="AcceptSignUpWithChildren">
                                             <td class="text-center"><button class="btn btn-sm btn-success">Accepteren</button></td>
                                             <input type="hidden" name="UserName" value="@signup.UserName"></input>
                                             <input type="hidden" name="FirstName" value="@signup.FirstName"></input>
@@ -90,7 +91,7 @@
 
                                             
                                         </form>
-                                        <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.Id">
+                                        <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.TempId">
                                             <td class="text-center"><button class="btn btn-sm btn-danger">Weigeren</button></td>
                                         </form>
                                     }
@@ -100,7 +101,6 @@
                             }
                         }
                     }
-
                     @if (UserManager.GetUserAsync(User).Result.Subject == "Faalangst")
                     {
                         @foreach (var signup in Model)
@@ -120,17 +120,18 @@
                                     {
                                         <form method="post" asp-controller="SignUp" asp-action="AcceptSignUp">
                                             <td class="text-center"><button class="btn btn-sm btn-success">Accepteren</button></td>
-                                            <input type="hidden" name="username" value="@signup.UserName"></input>
-                                            <input type="hidden" name="firstname" value="@signup.FirstName"></input>
-                                            <input type="hidden" name="lastname" value="@signup.LastName"></input>
-                                            <input type="hidden" name="birthdate" value="@signup.BirthDate"></input>
-                                            <input type="hidden" name="phone" value="@signup.PhoneNumber"></input>
-                                            <input type="hidden" name="infix" value="@signup.Infix"></input>
-                                            <input type="hidden" name="email" value="@signup.Email">
+                                            <input type="hidden" name="UserName" value="@signup.UserName"></input>
+                                            <input type="hidden" name="FirstName" value="@signup.FirstName"></input>
+                                            <input type="hidden" name="LastName" value="@signup.LastName"></input>
+                                            <input type="hidden" name="BirthDate" value="@signup.BirthDate"></input>
+                                            <input type="hidden" name="PhoneNumber" value="@signup.PhoneNumber"></input>
+                                            <input type="hidden" name="Infix" value="@signup.Infix"></input>
+                                            <input type="hidden" name="Email" value="@signup.Email">
                                             <input type="hidden" name="Id" value="@signup.Id">
+                                            <input type="hidden" name="TempId" value="@signup.TempId"></input>
                                             <input type="hidden" name="Subject" value="@signup.Subject"></input>
                                         </form>
-                                        <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.Id">
+                                        <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.TempId">
                                             <td class="text-center"><button class="btn btn-sm btn-danger">Weigeren</button></td>
                                             <input type="hidden" name="firstname" value="@signup.FirstName"></input>
                                             <input type="hidden" name="email" value="@signup.Email">
@@ -138,32 +139,35 @@
                                     }
                                     else
                                     {
-                                       @foreach (var child in @signup?.Children)
+                                        @foreach (var child in @signup?.Children)
                                         {
                                             <td>@child.ChildFirstName @child.ChildInfix @child.ChildLastName @child.ChildUserName</td>
                                         }
                                         <form method="post" asp-controller="SignUp" asp-action="AcceptSignUpWithChildren">
                                             <td class="text-center"><button class="btn btn-sm btn-success">Accepteren</button></td>
-                                            <input type="hidden" name="username" value="@signup.UserName"></input>
-                                            <input type="hidden" name="firstname" value="@signup.FirstName"></input>
-                                            <input type="hidden" name="lastname" value="@signup.LastName"></input>
-                                            <input type="hidden" name="birthdate" value="@signup.BirthDate"></input>
-                                            <input type="hidden" name="phone" value="@signup.PhoneNumber"></input>
-                                            <input type="hidden" name="infix" value="@signup.Infix"></input>
-                                            <input type="hidden" name="email" value="@signup.Email">
-                                            <input type="hidden" name="Id" value="@signup.Id">
+                                            <input type="hidden" name="UserName" value="@signup.UserName"></input>
+                                            <input type="hidden" name="FirstName" value="@signup.FirstName"></input>
+                                            <input type="hidden" name="LastName" value="@signup.LastName"></input>
+                                            <input type="hidden" name="BirthDate" value="@signup.BirthDate"></input>
+                                            <input type="hidden" name="PhoneNumber" value="@signup.PhoneNumber"></input>
+                                            <input type="hidden" name="Infix" value="@signup.Infix"></input>
+                                            <input type="hidden" name="Email" value="@signup.Email">
                                             <input type="hidden" name="Subject" value="@signup.Subject"></input>
-                                            <input type="hidden" name="childFirstname"
+                                            <input type="hidden" name="TempId" value="@signup.TempId"></input>
+                                            <input type="hidden" name="ChildFirstName"
                                             value="@signup.Children.SingleOrDefault()?.ChildFirstName"></input>
-                                            <input type="hidden" name="childInfix"
+                                            <input type="hidden" name="ChildInfix"
                                             value="@signup.Children?.SingleOrDefault()?.ChildInfix"></input>
-                                            <input type="hidden" name="childLastname"
+                                            <input type="hidden" name="ChildLastName"
                                              value="@signup.Children.SingleOrDefault()?.ChildLastName"></input>
-                                            <input type="hidden" name="childUsername"
+                                            <input type="hidden" name="ChildUserName"
                                             value="@signup.Children.SingleOrDefault()?.ChildUserName"></input>
-                                            <input type="hidden" name="childId" value="@signup.Children.SingleOrDefault()?.Id"></input>
+                                            <input type="hidden" name="ChildBirthDate" value="@signup.Children.SingleOrDefault()?.ChildBirthDate"></input>
+                                            <input type="hidden" name="TempChildId" value="@signup.Children.SingleOrDefault().TempChildId"></input>
+
+                                            
                                         </form>
-                                        <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.Id">
+                                        <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.TempId">
                                             <td class="text-center"><button class="btn btn-sm btn-danger">Weigeren</button></td>
                                         </form>
                                     }
@@ -173,7 +177,6 @@
                             }
                         }
                     }
-
                     @if (UserManager.GetUserAsync(User).Result.Subject == "ASS")
                     {
                         @foreach (var signup in Model)
@@ -193,17 +196,18 @@
                                     {
                                         <form method="post" asp-controller="SignUp" asp-action="AcceptSignUp">
                                             <td class="text-center"><button class="btn btn-sm btn-success">Accepteren</button></td>
-                                            <input type="hidden" name="username" value="@signup.UserName"></input>
-                                            <input type="hidden" name="firstname" value="@signup.FirstName"></input>
-                                            <input type="hidden" name="lastname" value="@signup.LastName"></input>
-                                            <input type="hidden" name="birthdate" value="@signup.BirthDate"></input>
-                                            <input type="hidden" name="phone" value="@signup.PhoneNumber"></input>
-                                            <input type="hidden" name="infix" value="@signup.Infix"></input>
-                                            <input type="hidden" name="email" value="@signup.Email">
+                                            <input type="hidden" name="UserName" value="@signup.UserName"></input>
+                                            <input type="hidden" name="FirstName" value="@signup.FirstName"></input>
+                                            <input type="hidden" name="LastName" value="@signup.LastName"></input>
+                                            <input type="hidden" name="BirthDate" value="@signup.BirthDate"></input>
+                                            <input type="hidden" name="PhoneNumber" value="@signup.PhoneNumber"></input>
+                                            <input type="hidden" name="Infix" value="@signup.Infix"></input>
+                                            <input type="hidden" name="Email" value="@signup.Email">
                                             <input type="hidden" name="Id" value="@signup.Id">
+                                            <input type="hidden" name="TempId" value="@signup.TempId"></input>
                                             <input type="hidden" name="Subject" value="@signup.Subject"></input>
                                         </form>
-                                        <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.Id">
+                                        <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.TempId">
                                             <td class="text-center"><button class="btn btn-sm btn-danger">Weigeren</button></td>
                                             <input type="hidden" name="firstname" value="@signup.FirstName"></input>
                                             <input type="hidden" name="email" value="@signup.Email">
@@ -211,32 +215,35 @@
                                     }
                                     else
                                     {
-                                       @foreach (var child in @signup?.Children)
+                                        @foreach (var child in @signup?.Children)
                                         {
                                             <td>@child.ChildFirstName @child.ChildInfix @child.ChildLastName @child.ChildUserName</td>
                                         }
                                         <form method="post" asp-controller="SignUp" asp-action="AcceptSignUpWithChildren">
                                             <td class="text-center"><button class="btn btn-sm btn-success">Accepteren</button></td>
-                                            <input type="hidden" name="username" value="@signup.UserName"></input>
-                                            <input type="hidden" name="firstname" value="@signup.FirstName"></input>
-                                            <input type="hidden" name="lastname" value="@signup.LastName"></input>
-                                            <input type="hidden" name="birthdate" value="@signup.BirthDate"></input>
-                                            <input type="hidden" name="phone" value="@signup.PhoneNumber"></input>
-                                            <input type="hidden" name="infix" value="@signup.Infix"></input>
-                                            <input type="hidden" name="email" value="@signup.Email">
-                                            <input type="hidden" name="Id" value="@signup.Id">
+                                            <input type="hidden" name="UserName" value="@signup.UserName"></input>
+                                            <input type="hidden" name="FirstName" value="@signup.FirstName"></input>
+                                            <input type="hidden" name="LastName" value="@signup.LastName"></input>
+                                            <input type="hidden" name="BirthDate" value="@signup.BirthDate"></input>
+                                            <input type="hidden" name="PhoneNumber" value="@signup.PhoneNumber"></input>
+                                            <input type="hidden" name="Infix" value="@signup.Infix"></input>
+                                            <input type="hidden" name="Email" value="@signup.Email">
                                             <input type="hidden" name="Subject" value="@signup.Subject"></input>
-                                            <input type="hidden" name="childFirstname"
+                                            <input type="hidden" name="TempId" value="@signup.TempId"></input>
+                                            <input type="hidden" name="ChildFirstName"
                                             value="@signup.Children.SingleOrDefault()?.ChildFirstName"></input>
-                                            <input type="hidden" name="childInfix"
+                                            <input type="hidden" name="ChildInfix"
                                             value="@signup.Children?.SingleOrDefault()?.ChildInfix"></input>
-                                            <input type="hidden" name="childLastname"
+                                            <input type="hidden" name="ChildLastName"
                                              value="@signup.Children.SingleOrDefault()?.ChildLastName"></input>
-                                            <input type="hidden" name="childUsername"
+                                            <input type="hidden" name="ChildUserName"
                                             value="@signup.Children.SingleOrDefault()?.ChildUserName"></input>
-                                            <input type="hidden" name="childId" value="@signup.Children.SingleOrDefault()?.Id"></input>
+                                            <input type="hidden" name="ChildBirthDate" value="@signup.Children.SingleOrDefault()?.ChildBirthDate"></input>
+                                            <input type="hidden" name="TempChildId" value="@signup.Children.SingleOrDefault().TempChildId"></input>
+
+                                            
                                         </form>
-                                        <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.Id">
+                                        <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.TempId">
                                             <td class="text-center"><button class="btn btn-sm btn-danger">Weigeren</button></td>
                                         </form>
                                     }
@@ -246,8 +253,7 @@
                             }
                         }
                     }
-
-                    @if (UserManager.GetUserAsync(User).Result.Subject == "Hoogbegaafdheid")
+                     @if (UserManager.GetUserAsync(User).Result.Subject == "Hoogbegaafdheid")
                     {
                         @foreach (var signup in Model)
                         {
@@ -266,50 +272,54 @@
                                     {
                                         <form method="post" asp-controller="SignUp" asp-action="AcceptSignUp">
                                             <td class="text-center"><button class="btn btn-sm btn-success">Accepteren</button></td>
-                                            <input type="hidden" name="username" value="@signup.UserName"></input>
-                                            <input type="hidden" name="firstname" value="@signup.FirstName"></input>
-                                            <input type="hidden" name="lastname" value="@signup.LastName"></input>
-                                            <input type="hidden" name="birthdate" value="@signup.BirthDate"></input>
-                                            <input type="hidden" name="phone" value="@signup.PhoneNumber"></input>
-                                            <input type="hidden" name="infix" value="@signup.Infix"></input>
-                                            <input type="hidden" name="email" value="@signup.Email">
+                                            <input type="hidden" name="UserName" value="@signup.UserName"></input>
+                                            <input type="hidden" name="FirstName" value="@signup.FirstName"></input>
+                                            <input type="hidden" name="LastName" value="@signup.LastName"></input>
+                                            <input type="hidden" name="BirthDate" value="@signup.BirthDate"></input>
+                                            <input type="hidden" name="PhoneNumber" value="@signup.PhoneNumber"></input>
+                                            <input type="hidden" name="Infix" value="@signup.Infix"></input>
+                                            <input type="hidden" name="Email" value="@signup.Email">
                                             <input type="hidden" name="Id" value="@signup.Id">
+                                            <input type="hidden" name="TempId" value="@signup.TempId"></input>
                                             <input type="hidden" name="Subject" value="@signup.Subject"></input>
                                         </form>
-                                        <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.Id">
+                                        <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.TempId">
                                             <td class="text-center"><button class="btn btn-sm btn-danger">Weigeren</button></td>
                                             <input type="hidden" name="firstname" value="@signup.FirstName"></input>
                                             <input type="hidden" name="email" value="@signup.Email">
                                         </form>
                                     }
-                                     else
+                                    else
                                     {
-                                       @foreach (var child in @signup?.Children)
+                                        @foreach (var child in @signup?.Children)
                                         {
                                             <td>@child.ChildFirstName @child.ChildInfix @child.ChildLastName @child.ChildUserName</td>
                                         }
                                         <form method="post" asp-controller="SignUp" asp-action="AcceptSignUpWithChildren">
                                             <td class="text-center"><button class="btn btn-sm btn-success">Accepteren</button></td>
-                                            <input type="hidden" name="username" value="@signup.UserName"></input>
-                                            <input type="hidden" name="firstname" value="@signup.FirstName"></input>
-                                            <input type="hidden" name="lastname" value="@signup.LastName"></input>
-                                            <input type="hidden" name="birthdate" value="@signup.BirthDate"></input>
-                                            <input type="hidden" name="phone" value="@signup.PhoneNumber"></input>
-                                            <input type="hidden" name="infix" value="@signup.Infix"></input>
-                                            <input type="hidden" name="email" value="@signup.Email">
-                                            <input type="hidden" name="Id" value="@signup.Id">
+                                            <input type="hidden" name="UserName" value="@signup.UserName"></input>
+                                            <input type="hidden" name="FirstName" value="@signup.FirstName"></input>
+                                            <input type="hidden" name="LastName" value="@signup.LastName"></input>
+                                            <input type="hidden" name="BirthDate" value="@signup.BirthDate"></input>
+                                            <input type="hidden" name="PhoneNumber" value="@signup.PhoneNumber"></input>
+                                            <input type="hidden" name="Infix" value="@signup.Infix"></input>
+                                            <input type="hidden" name="Email" value="@signup.Email">
                                             <input type="hidden" name="Subject" value="@signup.Subject"></input>
-                                            <input type="hidden" name="childFirstname"
+                                            <input type="hidden" name="TempId" value="@signup.TempId"></input>
+                                            <input type="hidden" name="ChildFirstName"
                                             value="@signup.Children.SingleOrDefault()?.ChildFirstName"></input>
-                                            <input type="hidden" name="childInfix"
+                                            <input type="hidden" name="ChildInfix"
                                             value="@signup.Children?.SingleOrDefault()?.ChildInfix"></input>
-                                            <input type="hidden" name="childLastname"
+                                            <input type="hidden" name="ChildLastName"
                                              value="@signup.Children.SingleOrDefault()?.ChildLastName"></input>
-                                            <input type="hidden" name="childUsername"
+                                            <input type="hidden" name="ChildUserName"
                                             value="@signup.Children.SingleOrDefault()?.ChildUserName"></input>
-                                            <input type="hidden" name="childId" value="@signup.Children.SingleOrDefault()?.Id"></input>
+                                            <input type="hidden" name="ChildBirthDate" value="@signup.Children.SingleOrDefault()?.ChildBirthDate"></input>
+                                            <input type="hidden" name="TempChildId" value="@signup.Children.SingleOrDefault().TempChildId"></input>
+
+                                            
                                         </form>
-                                        <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.Id">
+                                        <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.TempId">
                                             <td class="text-center"><button class="btn btn-sm btn-danger">Weigeren</button></td>
                                         </form>
                                     }
@@ -319,7 +329,6 @@
                             }
                         }
                     }
-
 
                 </tbody>
             </table>
