@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Wdpr_Groep_E.Models
 {
@@ -49,6 +50,7 @@ namespace Wdpr_Groep_E.Models
         public DateTime BirthDate { get; set; }
 
         public Collection<SignUpChild> Children { get; set; }
+        public string TempId { get; set; } = Guid.NewGuid().ToString();
         
     }
 }

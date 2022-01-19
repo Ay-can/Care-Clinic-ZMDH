@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Wdpr_Groep_E.Models
 {
@@ -25,11 +26,11 @@ namespace Wdpr_Groep_E.Models
 
         [Required(ErrorMessage = "Kies uw onderwerp.")]
         [Display(Name = "Onderwerp")]
-        [Key]
         public string Subject { get; set; }
         [Required(ErrorMessage ="U moet ouder dan 16 zijn.")]
         [Display(Name ="Leeftijd")]
         public DateTime ChildBirthDate { get; set; }
         public SignUp Signup { get; set; }
+        public string TempChildId { get; set; } = Guid.NewGuid().ToString();
     }
 }
