@@ -59,7 +59,7 @@ namespace Wdpr_Groep_E.Data
                 FirstName = "Angela",
                 Infix = "van",
                 LastName = "Heringa",
-                Email = "angela@zmdh.nl",
+                Email = "zmdh.hulp@gmail.com",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 Subject = "ADD"
@@ -72,7 +72,7 @@ namespace Wdpr_Groep_E.Data
                 UserName = "GijsBroekman",
                 FirstName = "Gijs",
                 LastName = "Broekman",
-                Email = "gijs@zmdh.nl",
+                Email = "zmdh.hulp@gmail.com",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 Subject = "Faalangst"
@@ -85,7 +85,7 @@ namespace Wdpr_Groep_E.Data
                 UserName = "JantinusVerduin",
                 FirstName = "Jantinus",
                 LastName = "Verduin",
-                Email = "jantinus@zmdh.nl",
+                Email = "zmdh.hulp@gmail.com",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 Subject = "ASS"
@@ -99,7 +99,7 @@ namespace Wdpr_Groep_E.Data
                 FirstName = "Joseph",
                 Infix = "van der",
                 LastName = "Vliet",
-                Email = "joseph@zmdh.nl",
+                Email = "zmdh.hulp@gmail.com",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 Subject = "Hoogbegaafdheid"
@@ -113,7 +113,7 @@ namespace Wdpr_Groep_E.Data
             var Hans = new AppUser
             {
                 UserName = "Hans2207",
-                Email = "iwan2510@gmail.com",
+                Email = "zmdh.hulp@gmail.com",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 Subject = "Hoogbegaafdheid",
@@ -125,7 +125,7 @@ namespace Wdpr_Groep_E.Data
             var Sara = new AppUser
             {
                 UserName = "Sara2004",
-                Email = "iwan2510@gmail.com",
+                Email = "zmdh.hulp@gmail.com",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 Subject = "ADD",
