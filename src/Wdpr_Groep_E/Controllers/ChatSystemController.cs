@@ -100,24 +100,29 @@ namespace Wdpr_Groep_E.Controllers
         [Authorize(Roles = "Orthopedagoog")]
         public async Task<IActionResult> CreatePrivateRoom(string name)
         {
+            var getCareGiverKey = _context.Users.Where(s => s.UserName == name).SingleOrDefault().CareGiver;
+            var getCareGiverName = _context.Users.SingleOrDefault(s => s.Id == getCareGiverKey).UserName;
+            var getCareGiverId = _context.Users.SingleOrDefault(s => s.Id == getCareGiverKey).Id;
+            var getCareGiverSubject = _context.Users.SingleOrDefault(s => s.Id == getCareGiverKey).Subject;
+
             var clientId = _userManager.Users.SingleOrDefault(u => u.UserName == name)?.Id;
             if (clientId != null)
             {
                 var chat = new Chat
                 {
                     Id = GenerateChatId(),
-                    Name = "Chat tussen " + _userManager.GetUserAsync(User).Result.UserName + " en " + name,
-                    Subject = _userManager.GetUserAsync(User).Result.Subject,
+                    Name = "Chat tussen " + getCareGiverName + " en " + name,
+                    Subject = getCareGiverSubject,
                     Type = ChatType.Private
                 };
                 var sender = _email
-                    .To(_userManager.Users.SingleOrDefault(u => u.UserName == name)?.Email)
+                    .To(_context.Users.SingleOrDefault(s => s.UserName == name).Email)
                     .Subject("Chat aanvraag")
-                    .Body($"{_userManager.GetUserAsync(User).Result.UserName} heeft een chat aangevraagd. Gebruik de volgende code om de chat te joinen: {chat.Id}");
-                chat.Users.Add(new ChatUser { UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value });
+                    .Body($"{getCareGiverName} heeft een chat aangevraagd. Gebruik de volgende code om de chat te joinen: {chat.Id}");
+                sender.Send();
+                chat.Users.Add(new ChatUser { UserId = getCareGiverId });
                 _context.Chats.Add(chat);
                 await _context.SaveChangesAsync();
-                await sender.SendAsync();
                 return RedirectToAction("Chat", "Chat", new { Id = chat.Id });
             }
             else

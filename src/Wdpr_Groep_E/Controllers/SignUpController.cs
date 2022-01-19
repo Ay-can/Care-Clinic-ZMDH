@@ -214,9 +214,8 @@ namespace Wdpr_Groep_E.Controllers
                 .Subject("Aanmelding goedgekeurd")
                 .Body($"Uw aanmelding voor een zmdh account over {s.Subject} is goedgekeurd, U kunt inloggen met dit wachtwoord: Test123!.");
 
-            // ChatSystemController chatSystem = new ChatSystemController(_email, _userManager, _roleManager, _context);
-            // var chat = chatSystem.CreatePrivateRoom(s.UserName);
-
+            ChatSystemController chatSystem = new ChatSystemController(_email, _userManager, _roleManager, _context);
+            var test = chatSystem.CreatePrivateRoom(s.UserName);
             await DeleteSignUp(s.TempId);
             await sender.SendAsync();
             return RedirectToAction("Overview", "SignUp");
