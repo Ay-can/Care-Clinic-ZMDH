@@ -21,7 +21,7 @@ using Wdpr_Groep_E.Services;
 
 namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
+    [Authorize(Roles = "Moderator")]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<AppUser> _signInManager;

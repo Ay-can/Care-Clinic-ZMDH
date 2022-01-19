@@ -92,7 +92,7 @@ namespace Wdpr_Groep_E.Controllers
                             Type = "Failed",
                             Message = "U moet ouder dan 16 zijn om u aan te melden, laat anders je ouders/verzorgers je aanmelden.",
                             Redirect = "SignUp/Client",
-                            Timeout = 5000
+                            Timeout = 3500
                         });
                 }
                 else
@@ -121,7 +121,7 @@ namespace Wdpr_Groep_E.Controllers
             {
                 if (!_userManager.Users.Any(u => u.UserName == s.UserName))
                 {
-                    if (!(s.BirthDate < DateTime.Now.AddYears(-16)))
+                    if (c.ChildBirthDate > DateTime.Now.AddYears(-16))
                     {
                         _context.Add(new SignUp()
                         {
