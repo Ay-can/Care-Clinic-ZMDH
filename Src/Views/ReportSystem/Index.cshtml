@@ -1,0 +1,51 @@
+@model IEnumerable<Report>;
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
+@{
+    ViewData["Title"] = "Reports inzien";
+}
+
+<div class="container-fluid manage pt-3 pb-3">
+    <div class="row">
+        <div class="col">
+            <h1>@ViewData["Title"]</h1>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col">
+            <table class="table table-sm table-striped table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>Gebruiker</th>
+                        <th>Bericht</th>
+                        <th>Datum</th>
+                        <th>Blokkeer</th>
+                        <th>Verwijder</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var report in Model)
+                    {
+                        <tr>
+                            <td>@report.Name</td>
+                            <td>@report.Text</td>
+                            <td>@report.Date.ToString("dd/MM/yyyy")</td>
+                            <td class="text-center">
+                                <form method="post" asp-controller="ChatSystem" asp-action="BlockUser" asp-route-id="@UserManager.FindByNameAsync(report.Name).Id">
+                                    <input type="hidden" name="chat" value="@report.ChatId" />
+                                    <button class="btn btn-sm btn-danger">Blokkeren</button>
+                                </form>
+                            </td>
+                            <td class="text-center">
+                                <form method="post" asp-controller="ReportSystem" asp-action="RemoveReport" asp-route-id="@report.Id">
+                                    <button class="btn btn-sm btn-danger">X</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,4 +1,3 @@
-@model IEnumerable<Caregiver>
 @{
     ViewData["Title"] = "Over Ons";
 }
@@ -23,35 +22,6 @@
         </div>
     </div>
     <div class="row mb-3">
-        @* @foreach (var caregiver in Model)
-            {
-            <div class="col-12 col-sm-6 col-lg-3">
-            <div class="row mx-0 my-3">
-            <div class="col-12 about-card pt-3">
-            <div class="row">
-            <div class="col-6 col-sm-12">
-            <figure class="mb-3">
-            <img src='~/img/@caregiver.FirstName + ".png"' alt="Foto van @caregiver.FirstName @caregiver.Infix? @caregiver.LastName">
-            <figcaption class="pt-1">@caregiver.FirstName @caregiver.Infix? @caregiver.LastName</figcaption>
-            </figure>
-            </div>
-            <div class="col-6 col-sm-12 my-auto">
-            <p>
-            Hallo mijn naam is Angela van Heringa, mijn geboorteplaats is in Delft en ik ben geboren
-            in 1990. Thuis leef ik met mijn man van 41 jaar, zijn naam is Joseph Van Der Vliet. Wij zijn blij met
-            onze 2 kinderen, een van 2 jaar en een van 4 jaar. Mijn ouders heb ik helaas verloren 5 jaar geleden. Ik
-            ben opgegroeid in Honselersdijk. Mijn passie is echt het helpen van jongeren die problemen hebben met
-            de omgang van 'normale dingen'. Die normale dingen zijn niet 'normaal' voor die kinderen. Zij vinden
-            dat een stuk lastiger, en dat vind ik erg interessant. Vooral ADD interesseert me het meest, omdat
-            mijn moeder dat ook had.
-            </p>
-            <p>Lees meer over mij <a asp-controller="About" asp-action='@caregiver.FirstName + "_" + @caregiver.Infix? + "_" + @caregiver.LastName' aria-label="Lees meer over Angela van Heringa">hier</a>!</p>
-            </div>
-            </div>
-            </div>
-            </div>
-            </div>
-            } *@
         <div class="col-12 col-sm-6 col-lg-3">
             <div class="row mx-0 my-3">
                 <div class="col-12 about-card pt-3">
@@ -195,7 +165,7 @@
             </div>
             <div class="row">
                 <div class="col-12 col-md-3 col-lg-2">
-                    <li>Laagrempelig:</li>
+                    <li>Laagdrempelig:</li>
                 </div>
                 <div class="col-12 col-md-9 col-lg-10">
                     <p>

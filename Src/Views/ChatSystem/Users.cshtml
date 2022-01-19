@@ -16,9 +16,11 @@
                 <thead>
                     <tr>
                         <th>Naam</th>
+                        <th>Aantal Berichten</th>
                         @if (User.IsInRole("Moderator"))
                         {
-                            <th>Verbannen</th>
+                            <th>Deblokkeren</th>
+                            <th>Blokkeren</th>
                         }
                     </tr>
                 </thead>
@@ -27,13 +29,29 @@
                     {
                         <tr>
                             <td>@user.User.UserName</td>
+                            <td>@user.Chat.Messages.Count()</td>
                             @if (User.IsInRole("Moderator"))
                             {
-                                <td class="text-center">
-                                    <form asp-controller="Chat" asp-action="RemoveUser" asp-route-id="@user.User.Id">
-                                        <button class="btn btn-sm btn-danger">Verbannen</button>
-                                    </form>
-                                </td>
+                                @if (user.IsBlocked)
+                                {
+                                    <td class="text-center">
+                                        <form asp-controller="ChatSystem" asp-action="UnblockUser" asp-route-id="@user.User.Id" method="post">
+                                            <input type="hidden" name="chat" value="@user.ChatId" />
+                                            <button class="btn btn-sm btn-success">Deblokkeren</button>
+                                        </form>
+                                    </td>
+                                    <td></td>
+                                }
+                                else
+                                {
+                                    <td></td>
+                                    <td class="text-center">
+                                        <form asp-controller="ChatSystem" asp-action="BlockUser" asp-route-id="@user.User.Id" method="post">
+                                            <input type="hidden" name="chat" value="@user.ChatId" />
+                                            <button class="btn btn-sm btn-danger">Blokkeren</button>
+                                        </form>
+                                    </td>
+                                }
                             }
                         </tr>
                     }

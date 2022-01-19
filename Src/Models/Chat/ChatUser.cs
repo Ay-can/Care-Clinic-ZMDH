@@ -7,5 +7,7 @@ namespace Wdpr_Groep_E.Models
 
         public int ChatId { get; set; }
         public Chat Chat { get; set; }
+
+        public bool IsBlocked { get; set; }
     }
 }

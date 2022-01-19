@@ -25,5 +25,7 @@ namespace Wdpr_Groep_E.Models
         public string Subject { get; set; }
 
         public string IBAN { get; set; }
+
+        public string WorkLocation { get; set; }
     }
 }
