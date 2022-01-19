@@ -43,7 +43,7 @@ namespace Wdpr_Groep_E.Controllers
         public IActionResult Child() => View(_context.Subjects);
 
         [HttpPost]
-        public async Task<IActionResult> CreateSignUp(SignUp s)
+        public async Task<IActionResult> CreateSignUp(SignUp s, string careGiver)
         {
             _context.Add(new SignUp()
             {
@@ -55,7 +55,8 @@ namespace Wdpr_Groep_E.Controllers
                 Message = s.Message,
                 Email = s.Email,
                 BirthDate = s.BirthDate,
-                UserName = s.UserName
+                UserName = s.UserName,
+                CareGiver = careGiver
             });
             _context.SaveChanges();
 
@@ -67,7 +68,7 @@ namespace Wdpr_Groep_E.Controllers
             return RedirectToAction("Index", "Home");
         }
         [HttpPost]
-        public async Task<IActionResult> CreateSignUpWithChild(SignUp s, SignUpChild c)
+        public async Task<IActionResult> CreateSignUpWithChild(SignUp s, SignUpChild c, string careGiver)
         {
             _context.Add(new SignUp()
             {
@@ -79,6 +80,7 @@ namespace Wdpr_Groep_E.Controllers
                 Subject = s.Subject,
                 Message = s.Message,
                 UserName = s.Email,
+                CareGiver = careGiver,
                 Children = new Collection<SignUpChild>() {
                    new SignUpChild() {
                        ChildUserName = c.ChildUserName,
@@ -86,7 +88,8 @@ namespace Wdpr_Groep_E.Controllers
                        ChildLastName = c.ChildLastName,
                        ChildInfix = c.ChildInfix,
                        ChildBirthDate = c.ChildBirthDate,
-                       Subject = c.Subject
+                       Subject = c.Subject,
+                       CareGiver = careGiver
                    }
                 }
             });
@@ -106,17 +109,18 @@ namespace Wdpr_Groep_E.Controllers
         [Authorize(Roles = "Orthopedagoog")]
         public IActionResult Overview()
         {
+
             _context.SaveChangesAsync();
             return View(_context.SignUps.Include(s => s.Children).ToList());
         }
         [HttpPost]
-        public async Task<IActionResult> AcceptSignUpWithChildren(SignUp s, SignUpChild c)
+        public async Task<IActionResult> AcceptSignUpWithChildren(SignUp s, SignUpChild c, string careGiver)
         {
 
 
-            var child = new AppUser() { UserName = c.ChildUserName, FirstName = c.ChildFirstName, LastName = c.ChildLastName, Infix = c.ChildInfix, Email = s.Email, Subject = c.Subject, BirthDate = c.ChildBirthDate };
+            var child = new AppUser() { UserName = c.ChildUserName, FirstName = c.ChildFirstName, LastName = c.ChildLastName, Infix = c.ChildInfix, Email = s.Email, Subject = c.Subject, BirthDate = c.ChildBirthDate, CareGiver = careGiver};
             _context.SaveChanges();
-            var user = new AppUser { UserName = s.FirstName + s.LastName, Email = s.Email, Children = new Collection<AppUser>() { child }, FirstName = s.FirstName, LastName = s.LastName, Infix = s.Infix, Subject = s.Subject, PhoneNumber = s.PhoneNumber };
+            var user = new AppUser { UserName = s.FirstName + s.LastName, Email = s.Email, Children = new Collection<AppUser>() { child }, FirstName = s.FirstName, LastName = s.LastName, Infix = s.Infix, Subject = s.Subject, PhoneNumber = s.PhoneNumber, CareGiver = careGiver };
 
             var createUser = _userManager.CreateAsync(user, "Test123!");
             var createChildUser = _userManager.CreateAsync(child, "Test123!");
@@ -126,7 +130,7 @@ namespace Wdpr_Groep_E.Controllers
             return RedirectToAction("Overview", "SignUp");
         }
         [HttpPost]
-        public async Task<IActionResult> AcceptSignUpAsync(SignUp s)
+        public async Task<IActionResult> AcceptSignUpAsync(SignUp s, string careGiver)
         {
             System.Console.WriteLine(s.TempId);
             var user = new AppUser
@@ -139,6 +143,7 @@ namespace Wdpr_Groep_E.Controllers
                 Email = s.Email,
                 PhoneNumber = s.PhoneNumber,
                 Subject = s.Subject,
+                CareGiver = careGiver
             };
             var createUser = _userManager.CreateAsync(user, "Test123!");
             //role toevoegen en api

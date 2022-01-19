@@ -54,6 +54,7 @@
                                             <input type="hidden" name="Id" value="@signup.Id">
                                             <input type="hidden" name="Subject" value="@signup.Subject"></input>
                                             <input type="hidden" name="TempId" value="@signup.TempId"></input>
+                                            <input type="hidden" name="careGiver" value="@signup.CareGiver"></input>
                                         </form>
                                         <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.TempId">
                                             <td class="text-center"><button class="btn btn-sm btn-danger">Weigeren</button></td>
@@ -78,6 +79,7 @@
                                             <input type="hidden" name="Email" value="@signup.Email">
                                             <input type="hidden" name="Subject" value="@signup.Subject"></input>
                                             <input type="hidden" name="TempId" value="@signup.TempId"></input>
+                                            <input type="hidden" name="careGiver" value="@signup.CareGiver"></input>
                                             <input type="hidden" name="ChildFirstName"
                                             value="@signup.Children.SingleOrDefault()?.ChildFirstName"></input>
                                             <input type="hidden" name="ChildInfix"
@@ -130,6 +132,8 @@
                                             <input type="hidden" name="Id" value="@signup.Id">
                                             <input type="hidden" name="TempId" value="@signup.TempId"></input>
                                             <input type="hidden" name="Subject" value="@signup.Subject"></input>
+                                            <input type="hidden" name="careGiver" value="@signup.CareGiver"></input>
+
                                         </form>
                                         <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.TempId">
                                             <td class="text-center"><button class="btn btn-sm btn-danger">Weigeren</button></td>
@@ -154,6 +158,7 @@
                                             <input type="hidden" name="Email" value="@signup.Email">
                                             <input type="hidden" name="Subject" value="@signup.Subject"></input>
                                             <input type="hidden" name="TempId" value="@signup.TempId"></input>
+                                            <input type="hidden" name="careGiver" value="@signup.CareGiver"></input>
                                             <input type="hidden" name="ChildFirstName"
                                             value="@signup.Children.SingleOrDefault()?.ChildFirstName"></input>
                                             <input type="hidden" name="ChildInfix"
@@ -206,6 +211,8 @@
                                             <input type="hidden" name="Id" value="@signup.Id">
                                             <input type="hidden" name="TempId" value="@signup.TempId"></input>
                                             <input type="hidden" name="Subject" value="@signup.Subject"></input>
+                                            <input type="hidden" name="careGiver" value="@signup.CareGiver"></input>
+
                                         </form>
                                         <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.TempId">
                                             <td class="text-center"><button class="btn btn-sm btn-danger">Weigeren</button></td>
@@ -230,6 +237,7 @@
                                             <input type="hidden" name="Email" value="@signup.Email">
                                             <input type="hidden" name="Subject" value="@signup.Subject"></input>
                                             <input type="hidden" name="TempId" value="@signup.TempId"></input>
+                                            <input type="hidden" name="careGiver" value="@signup.CareGiver"></input>
                                             <input type="hidden" name="ChildFirstName"
                                             value="@signup.Children.SingleOrDefault()?.ChildFirstName"></input>
                                             <input type="hidden" name="ChildInfix"
@@ -282,6 +290,8 @@
                                             <input type="hidden" name="Id" value="@signup.Id">
                                             <input type="hidden" name="TempId" value="@signup.TempId"></input>
                                             <input type="hidden" name="Subject" value="@signup.Subject"></input>
+                                            <input type="hidden" name="careGiver" value="@signup.CareGiver"></input>
+
                                         </form>
                                         <form method="post" asp-controller="SignUp" asp-action="DeleteSignUp" asp-route-id="@signup.TempId">
                                             <td class="text-center"><button class="btn btn-sm btn-danger">Weigeren</button></td>
@@ -305,6 +315,7 @@
                                             <input type="hidden" name="Infix" value="@signup.Infix"></input>
                                             <input type="hidden" name="Email" value="@signup.Email">
                                             <input type="hidden" name="Subject" value="@signup.Subject"></input>
+                                            <input type="hidden" name="careGiver" value="@signup.CareGiver"></input>
                                             <input type="hidden" name="TempId" value="@signup.TempId"></input>
                                             <input type="hidden" name="ChildFirstName"
                                             value="@signup.Children.SingleOrDefault()?.ChildFirstName"></input>

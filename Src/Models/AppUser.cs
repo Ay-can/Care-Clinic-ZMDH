@@ -29,6 +29,7 @@ namespace Wdpr_Groep_E.Models
 
 
         public string WorkLocation { get; set; }
+        public string CareGiver {get;set;}
 
         public Collection<AppUser> Children { get; set; }
 

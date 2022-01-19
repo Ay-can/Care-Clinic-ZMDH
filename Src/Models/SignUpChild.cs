@@ -32,5 +32,9 @@ namespace Wdpr_Groep_E.Models
         public DateTime ChildBirthDate { get; set; }
         public SignUp Signup { get; set; }
         public string TempChildId { get; set; } = Guid.NewGuid().ToString();
+        [Required]
+        [Display(Name ="Orthopedagoog")]
+        public string CareGiver { get; set; }
+
     }
 }
