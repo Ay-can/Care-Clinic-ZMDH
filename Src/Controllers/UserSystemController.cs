@@ -29,14 +29,14 @@ namespace Wdpr_Groep_E.Controllers
             var getRoleViewModel = new List<UserRoleViewModel>();
             foreach (var user in getUsers)
             {
-                var curentViewModel = new UserRoleViewModel()
+                var currentViewModel = new UserRoleViewModel()
                 {
                     UserId = user.Id,
                     UserName = user.UserName,
                     Email = user.Email,
                     Roles = await GetRoles(user)
                 };
-                getRoleViewModel.Add(curentViewModel);
+                getRoleViewModel.Add(currentViewModel);
             }
             return View(getRoleViewModel);
         }
