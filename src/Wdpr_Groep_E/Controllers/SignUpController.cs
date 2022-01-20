@@ -70,7 +70,7 @@ namespace Wdpr_Groep_E.Controllers
                             Email = s.Email,
                             BirthDate = s.BirthDate,
                             UserName = s.UserName,
-                            CareGiver = careGiver
+                            CareGiver = careGiver,
                         });
                         await _context.SaveChangesAsync();
                         var sender = _email
@@ -142,7 +142,7 @@ namespace Wdpr_Groep_E.Controllers
                                 ChildInfix = c.ChildInfix,
                                 ChildBirthDate = c.ChildBirthDate,
                                 Subject = c.Subject,
-                                CareGiver = careGiver
+                                CareGiver = careGiver,
                                 }
                             }
                         });
@@ -203,11 +203,12 @@ namespace Wdpr_Groep_E.Controllers
                 Email = s.Email,
                 PhoneNumber = s.PhoneNumber,
                 Subject = s.Subject,
-                CareGiver = careGiver
+                CareGiver = careGiver,
+                Id = await _api.CreateClientId()
             };
             await _userManager.CreateAsync(user, "Test123!");
             await _userManager.AddToRoleAsync(user, "Tiener");
-            // Api
+            
             await _context.SaveChangesAsync();
             var sender = _email
                 .To(s.Email)
@@ -216,6 +217,11 @@ namespace Wdpr_Groep_E.Controllers
 
             ChatSystemController chatSystem = new ChatSystemController(_email, _userManager, _roleManager, _context);
             var test = chatSystem.CreatePrivateRoom(s.UserName);
+            await _api.PostClient(new Client() 
+            {
+                clientid = user.Id,
+                volledigenaam = user.FirstName + user.Infix + user.LastName,
+                });
             await DeleteSignUp(s.TempId);
             await sender.SendAsync();
             return RedirectToAction("Overview", "SignUp");
@@ -234,7 +240,8 @@ namespace Wdpr_Groep_E.Controllers
                 Email = "",
                 Subject = c.Subject,
                 BirthDate = c.ChildBirthDate,
-                CareGiver = careGiver
+                CareGiver = careGiver,
+                Id = await _api.CreateClientId()
             };
             await _context.SaveChangesAsync();
             await _userManager.CreateAsync(child, "Test123!");
@@ -249,12 +256,17 @@ namespace Wdpr_Groep_E.Controllers
                 Infix = s.Infix,
                 Subject = s.Subject,
                 PhoneNumber = s.PhoneNumber,
-                CareGiver = ""
+                CareGiver = "",
+                Id = await _api.CreateClientId() 
             };
             await _context.SaveChangesAsync();
             await _userManager.CreateAsync(user, "Test123!");
             await _userManager.AddToRoleAsync(user, "Ouder");
-            // Api
+            await _api.PostClient(new Client() {
+                 clientid = child.Id, 
+                 volledigenaam = child.FirstName + child.Infix + child.LastName,
+                 
+                 });
             await DeleteSignUp(s.TempId);
             return RedirectToAction("Overview", "SignUp");
         }

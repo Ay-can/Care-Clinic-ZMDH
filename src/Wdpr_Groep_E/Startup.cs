@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,7 +27,10 @@ namespace Wdpr_Groep_E
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddHttpClient();
+            // services.AddHttpClient<Client>();
+            // services.AddHttpClient<ZmdhApi>();
+            services.AddControllersWithViews().AddJsonOptions(x=>x.JsonSerializerOptions.ReferenceHandler=ReferenceHandler.Preserve);;
             services.AddDbContext<WdprContext>(options => options.UseSqlite("Data Source=demo.db"));
             // services.AddDbContext<WdprContext>(options => options.UseSqlServer("Data Source=SQL5109.site4now.net;Initial Catalog=db_a7f252_zmdh;User Id=db_a7f252_zmdh_admin;Password=Aycan123!"));
             services.AddRazorPages();
@@ -46,6 +50,8 @@ namespace Wdpr_Groep_E
             services.AddSingleton<IZmdhApi, ZmdhApi>();
             services.AddSingleton<IZorgdomein, Zorgdomein>();
             services.AddSignalR();
+
+            
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

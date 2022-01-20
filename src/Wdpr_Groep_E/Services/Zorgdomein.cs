@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,17 +29,18 @@ xAlye2oFbyNM4LSh89kCQQDWN3dPjtSx397v/WjIqO1LCjj5zT2uSLO5Wx4sJp/4
 Xkr7eT6cnWJp60Xlca65DmOdPYOr6X4eEED6eoF00q3T
 -----END RSA PRIVATE KEY-----";
 
-    public HttpClient HttpClient {get;set;} = new HttpClient();
-    public Zorgdomein()
+    public HttpClient HttpClient { get; set; } = new HttpClient();
+    private readonly IHttpClientFactory _clientFactory;
+    public Zorgdomein(IHttpClientFactory clientFactory)
     {
         HttpClient.BaseAddress = new Uri(Url);
         HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-    } 
+        _clientFactory = clientFactory;
+    }
     public string Base64(string message)
     {
         byte[] baseResult;
-        using(var createRsa = RSA.Create())
+        using (var createRsa = RSA.Create())
         {
             createRsa.ImportParameters(GetRSAParameters());
             baseResult = createRsa.SignData(Encoding.UTF8.GetBytes(message), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
@@ -46,24 +48,32 @@ Xkr7eT6cnWJp60Xlca65DmOdPYOr6X4eEED6eoF00q3T
         return Convert.ToBase64String(baseResult);
     }
 
-    public async Task<Referral> GetReferralObject(string birthDate , string bsn)
-    {
-        HttpClient.DefaultRequestHeaders.Add("key",KeyHeader());
+   
 
-        var getReferral = await HttpClient.GetAsync(urlParameters + "/" + birthDate + "/" + bsn);
-        var Response = await getReferral.Content.ReadAsAsync<Referral>();
-        return Response;
+    public async Task<Referral> GetReferralObject(string birthDate, string bsn)
+    {
+        Referral r;
+        var request = new HttpRequestMessage(HttpMethod.Get, Url + urlParameters + "/" + birthDate + "/" + bsn);
+        request.Headers.Add("key", KeyHeader());
+        var client = _clientFactory.CreateClient();
+        HttpResponseMessage response = await client.SendAsync(request);
+        r = await response.Content.ReadFromJsonAsync<Referral>();
+        return r;
+
     }
 
     public async Task<IEnumerable<ReferralOverview>> GetAllReferrals()
     {
-        HttpClient.DefaultRequestHeaders.Add("key",KeyHeader());
-        
-        var getReferrals = await HttpClient.GetAsync(urlParameters);
-        var Response = await getReferrals.Content.ReadAsAsync<IEnumerable<ReferralOverview>>();
-
-        return Response;
+        IEnumerable<ReferralOverview> allReferrals;
+        var request = new HttpRequestMessage(HttpMethod.Get, Url + urlParameters);
+        request.Headers.Add("key", KeyHeader());
+        var client = _clientFactory.CreateClient();
+        HttpResponseMessage response = await client.SendAsync(request);
+        allReferrals = await response.Content.ReadFromJsonAsync<IEnumerable<ReferralOverview>>();
+        return allReferrals;
     }
+
+
 
 
     public RSAParameters GetRSAParameters()
