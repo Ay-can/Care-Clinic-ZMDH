@@ -6,6 +6,9 @@ namespace Wdpr_Groep_E.Models
 {
     public class SignUpChild
     {
+        public SignUp Signup { get; set; }
+
+        public string TempChildId { get; set; } = Guid.NewGuid().ToString();
 
         public int Id { get; set; }
 
@@ -27,14 +30,13 @@ namespace Wdpr_Groep_E.Models
         [Required(ErrorMessage = "Kies uw onderwerp.")]
         [Display(Name = "Onderwerp")]
         public string Subject { get; set; }
-        [Required(ErrorMessage ="U moet ouder dan 16 zijn.")]
-        [Display(Name ="Leeftijd")]
-        public DateTime ChildBirthDate { get; set; }
-        public SignUp Signup { get; set; }
-        public string TempChildId { get; set; } = Guid.NewGuid().ToString();
-        [Required]
-        [Display(Name ="Orthopedagoog")]
-        public string CareGiver { get; set; }
 
+        [Required(ErrorMessage = "U moet ouder dan 16 zijn.")]
+        [Display(Name = "Leeftijd")]
+        public DateTime ChildBirthDate { get; set; }
+
+        [Required]
+        [Display(Name = "Orthopedagoog")]
+        public string CareGiver { get; set; }
     }
 }

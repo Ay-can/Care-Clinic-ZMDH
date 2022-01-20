@@ -117,7 +117,7 @@ namespace Wdpr_Groep_E.Data
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 Subject = "Faalangst",
-                CareGiver = context.Users.Where(u => u.Subject == "Faalangst").FirstOrDefault().Id
+                CareGiver = context.Users.SingleOrDefault(u => u.Subject == "Faalangst").Id
             };
             await userManager.CreateAsync(Test, "Test123!");
             await userManager.AddToRoleAsync(Test, "Tiener");
@@ -129,7 +129,7 @@ namespace Wdpr_Groep_E.Data
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 Subject = "Hoogbegaafdheid",
-                CareGiver = context.Users.Where(u => u.Subject == "Hoogbegaafdheid").FirstOrDefault().Id
+                CareGiver = context.Users.SingleOrDefault(u => u.Subject == "Hoogbegaafdheid").Id
             };
             await userManager.CreateAsync(Hans, "Test123!");
             await userManager.AddToRoleAsync(Hans, "Tiener");
@@ -141,7 +141,7 @@ namespace Wdpr_Groep_E.Data
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 Subject = "ADD",
-                CareGiver = context.Users.Where(u => u.Subject == "ADD").FirstOrDefault().Id
+                CareGiver = context.Users.SingleOrDefault(u => u.Subject == "ADD").Id
             };
             await userManager.CreateAsync(Sara, "Test123!");
             await userManager.AddToRoleAsync(Sara, "Kind");

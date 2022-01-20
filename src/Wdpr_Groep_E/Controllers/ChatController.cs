@@ -47,7 +47,7 @@ namespace Wdpr_Groep_E.Controllers
             {
                 var chat = _context.Chats
                     .Include(c => c.Messages)
-                    .FirstOrDefault(c => c.Id == id);
+                    .SingleOrDefault(c => c.Id == id);
                 return View(chat);
             }
             else

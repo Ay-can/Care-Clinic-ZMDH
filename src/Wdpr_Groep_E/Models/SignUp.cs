@@ -8,7 +8,6 @@ namespace Wdpr_Groep_E.Models
 {
     public class SignUp
     {
-        
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Vul uw {0} in.")]
@@ -40,21 +39,19 @@ namespace Wdpr_Groep_E.Models
         [Display(Name = "Onderwerp")]
         public string Subject { get; set; }
 
-        [Required(ErrorMessage = "Voer uw reden voor een afspraak in")]
         [Display(Name = "Bericht")]
-        [StringLength(250)]
+        [StringLength(100, ErrorMessage = "Een {0} kan maximaal {1} karakters lang zijn.")]
         public string Message { get; set; }
-        [Required(ErrorMessage ="Vul uw geboortedatum in")]
-        [Display(Name ="Geboortedatum")]
 
+        [Required(ErrorMessage = "Vul uw geboortedatum in")]
+        [Display(Name = "Geboortedatum")]
         public DateTime BirthDate { get; set; }
 
         public Collection<SignUpChild> Children { get; set; }
         public string TempId { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
-        [Display(Name ="Orthopedagoog")]
+        [Display(Name = "Orthopedagoog")]
         public string CareGiver { get; set; }
-        
     }
 }
