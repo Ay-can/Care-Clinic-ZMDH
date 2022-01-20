@@ -46,7 +46,7 @@ namespace Wdpr_Groep_E.Controllers
             return chats;
         }
 
-        public IActionResult Users(int id) => View(_context.ChatUsers.Include(c => c.User).Include(c => c.Chat).Where(u => u.ChatId == id).ToList());
+        public IActionResult Users(int id) => View(_context.ChatUsers.Include(cu => cu.User).Include(cu => cu.Chat).ThenInclude(c => c.Messages).Where(u => u.ChatId == id).ToList());
 
         [HttpPost]
         [Authorize(Roles = "Orthopedagoog")]
@@ -60,13 +60,10 @@ namespace Wdpr_Groep_E.Controllers
                 Subject = subject,
                 AgeGroup = age
             };
-            chat.Users.Add(new ChatUser
-            {
-                UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value
-            });
+            chat.Users.Add(new ChatUser { UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value });
             _context.Chats.Add(chat);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Chat", "Chat", new { id = chat.Id });
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

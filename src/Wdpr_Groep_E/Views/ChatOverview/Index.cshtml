@@ -2,7 +2,6 @@
 @using Microsoft.AspNetCore.Identity
 @using System.Security.Claims
 @inject UserManager<AppUser> UserManager
-
 @{
     ViewData["Title"] = "Zelfhulpgroepen beheren";
 }
@@ -22,7 +21,7 @@
                         <th>Chat</th>
                         <th>Kind</th>
                         <th>Orthopedagoog</th>
-                        <th>Frequentie</th>
+                        <th>Aantal berichten</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,7 +37,7 @@
                                         <td>@chat.Name</td>
                                         <td>@chatUser.User.UserName</td>
                                         <td>@UserManager.FindByIdAsync(chatUser.User.CareGiver).Result.UserName</td>
-                                        <td>@chatUser.Chat.Messages.Count()</td>
+                                        <td>@chat.Messages.Count()</td>
                                     </tr>
                                 }
                             }

@@ -15,6 +15,6 @@ namespace Wdpr_Groep_E.Controllers
             _context = context;
         }
 
-        public IActionResult Index() => View(_context.Chats.Include(c => c.Users).ThenInclude(cu => cu.User).ThenInclude(u => u.Parent).Where(c => c.Type == ChatType.Private));
+        public IActionResult Index() => View(_context.Chats.Include(c => c.Messages).Include(c => c.Users).ThenInclude(cu => cu.User).ThenInclude(u => u.Parent).Where(c => c.Type == ChatType.Private));
     }
 }
