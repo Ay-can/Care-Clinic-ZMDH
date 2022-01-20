@@ -17,7 +17,8 @@
                     <tr>
                         <th>Gebruikersnaam</th>
                         <th>Email</th>
-                        <th>Rollen</th>
+                        <th>Kinderen</th>
+                        <th>Rol</th>
                         <th>Update</th>
                         <th>Verwijder</th>
                     </tr>
@@ -28,6 +29,21 @@
                         <tr>
                             <td>@user.UserName</td>
                             <td>@user.Email</td>
+                            @if (user.Children.Count > 0)
+                            {
+                                @foreach (var child in user?.Children)
+                                {
+                                    <td>
+                                        <div class="p-0">Gebruikersnaam: @child.UserName</div>
+                                        <div class="p-0">Naam: @child.FirstName @child.Infix @child.LastName</div>
+                                        <div class="p-0">Leeftijd: @(DateTime.Now.Year - child.BirthDate.Year)</div>
+                                    </td>
+                                }
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
                             <td>@string.Join(" ", user.Roles.ToList())
                             <td class="text-center"><a class="btn btn-sm btn-primary">Aanpassen</td>
                             <form method="post" asp-controller="UserSystem" asp-action="DeleteUser" asp-route-id="@user.UserId">

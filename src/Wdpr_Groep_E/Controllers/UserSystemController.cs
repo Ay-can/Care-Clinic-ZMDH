@@ -1,21 +1,24 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using Wdpr_Groep_E.Data;
 using Wdpr_Groep_E.Models;
 
 namespace Wdpr_Groep_E.Controllers
 {
     public class UserSystemController : Controller
     {
+        private readonly WdprContext _context;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UserSystemController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+        public UserSystemController(WdprContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
+            _context = context;
             _roleManager = roleManager;
             _userManager = userManager;
         }
@@ -34,6 +37,7 @@ namespace Wdpr_Groep_E.Controllers
                     UserId = user.Id,
                     UserName = user.UserName,
                     Email = user.Email,
+                    Children = await _context.Users.Where(u => u.Parent.Id == user.Id).ToListAsync(),
                     Roles = await GetRoles(user)
                 };
                 getRoleViewModel.Add(currentViewModel);
@@ -43,9 +47,20 @@ namespace Wdpr_Groep_E.Controllers
 
         public async Task<IActionResult> DeleteUser(string id)
         {
-            var GetUser = _userManager.FindByIdAsync(id);
-            await _userManager.DeleteAsync(GetUser.Result);
-            return RedirectToAction("Index");
+            if (_context.Users.Include(u => u.Children).SingleOrDefault(u => u.Id == id).Children.Count == 0)
+            {
+                var GetUser = _userManager.FindByIdAsync(id);
+                await _userManager.DeleteAsync(GetUser.Result);
+                return RedirectToAction("Index");
+            }
+            else
+                return RedirectToAction("Index", "Message", new
+                {
+                    Type = "Failed",
+                    Message = "Deze ouder heeft nog kinderen in het systeem staan, en kan niet worden verwijderd.",
+                    Redirect = "UserSystem",
+                    Timeout = 4500
+                });
         }
     }
 }
