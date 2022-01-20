@@ -1,5 +1,4 @@
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -8,7 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Wdpr_Groep_E.Data;
 using Wdpr_Groep_E.Models;
 
@@ -17,17 +15,16 @@ namespace Wdpr_Groep_E.Controllers
     public class ChatSystemController : Controller
     {
         private readonly IFluentEmail _email;
-        private readonly UserManager<AppUser> _userManager;
-        // private readonly ILogger<ChatSystemController> _logger;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly WdprContext _context;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public ChatSystemController(IFluentEmail email, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, WdprContext context)
+        public ChatSystemController(IFluentEmail email, WdprContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _email = email;
+            _context = context;
             _userManager = userManager;
             _roleManager = roleManager;
-            _context = context;
         }
 
         public async Task<IActionResult> Index(string search)
@@ -76,11 +73,9 @@ namespace Wdpr_Groep_E.Controllers
         [Authorize(Roles = "Moderator")]
         public async Task<IActionResult> BlockUser(string id, int chat)
         {
-            _context.ChatUsers.FirstOrDefault(u => u.UserId == id && u.ChatId == chat).IsBlocked = true;
-            var careGiver = _context.Users.SingleOrDefault(u => u.Id == id).CareGiver;
-            var careGiverEmail = _context.Users.SingleOrDefault(u => u.Id == careGiver).Email;
+            _context.ChatUsers.SingleOrDefault(u => u.UserId == id && u.ChatId == chat).IsBlocked = true;
             var sender = _email
-                .To(careGiverEmail)
+                .To(_context.Users.SingleOrDefault(u => u.Id == _context.Users.SingleOrDefault(u => u.Id == id).CareGiver).Email)
                 .Subject("Cliënt geblokkeerd")
                 .Body($"Uw cliënt: {_userManager.FindByIdAsync(id).Result.UserName} is geblokkeerd door een moderator in de chat: {_context.Chats.SingleOrDefault(c => c.Id == chat).Name}.");
             await _context.SaveChangesAsync();
@@ -92,7 +87,7 @@ namespace Wdpr_Groep_E.Controllers
         [Authorize(Roles = "Moderator")]
         public IActionResult UnblockUser(string id, int chat)
         {
-            _context.ChatUsers.FirstOrDefault(u => u.UserId == id && u.ChatId == chat).IsBlocked = false;
+            _context.ChatUsers.SingleOrDefault(u => u.UserId == id && u.ChatId == chat).IsBlocked = false;
             _context.SaveChanges();
             return RedirectToAction("Users", new { id = chat });
         }
@@ -100,10 +95,19 @@ namespace Wdpr_Groep_E.Controllers
         [Authorize(Roles = "Orthopedagoog")]
         public async Task<IActionResult> CreatePrivateRoom(string name)
         {
-            var getCareGiverKey = _context.Users.Where(s => s.UserName == name).SingleOrDefault().CareGiver;
-            var getCareGiverName = _context.Users.SingleOrDefault(s => s.Id == getCareGiverKey).UserName;
-            var getCareGiverId = _context.Users.SingleOrDefault(s => s.Id == getCareGiverKey).Id;
-            var getCareGiverSubject = _context.Users.SingleOrDefault(s => s.Id == getCareGiverKey).Subject;
+            var caregiver = _context.Users.Where(s => s.UserName == name).SingleOrDefault().CareGiver;
+            var caregiverName = _context.Users.SingleOrDefault(s => s.Id == caregiver).UserName;
+
+            var role = _context.Roles.SingleOrDefault(
+                s => s.Id == _context.UserRoles.SingleOrDefault(
+                    s => s.UserId == _context.Users.SingleOrDefault(
+                        s => s.UserName == name).Id).RoleId).Name;
+
+            var email = "";
+            if (role == "Tiener")
+                email = _context.Users.SingleOrDefault(s => s.UserName == name).Email;
+            else if (role == "Kind")
+                email = _context.Users.Include(p => p.Parent).SingleOrDefault(s => s.UserName == name).Parent.Email;
 
             var clientId = _userManager.Users.SingleOrDefault(u => u.UserName == name)?.Id;
             if (clientId != null)
@@ -111,16 +115,16 @@ namespace Wdpr_Groep_E.Controllers
                 var chat = new Chat
                 {
                     Id = GenerateChatId(),
-                    Name = "Chat tussen " + getCareGiverName + " en " + name,
-                    Subject = getCareGiverSubject,
+                    Name = "Chat tussen " + caregiverName + " en " + name,
+                    Subject = _context.Users.SingleOrDefault(s => s.Id == caregiver).Subject,
                     Type = ChatType.Private
                 };
                 var sender = _email
-                    .To(_context.Users.SingleOrDefault(s => s.UserName == name).Email)
+                    .To(email)
                     .Subject("Chat aanvraag")
-                    .Body($"{getCareGiverName} heeft een chat aangevraagd. Gebruik de volgende code om de chat te joinen: {chat.Id}");
+                    .Body($"{caregiverName} heeft een chat aangevraagd. Gebruik de volgende code om de chat te joinen: {chat.Id}");
                 sender.Send();
-                chat.Users.Add(new ChatUser { UserId = getCareGiverId });
+                chat.Users.Add(new ChatUser { UserId = _context.Users.SingleOrDefault(s => s.Id == caregiver).Id });
                 _context.Chats.Add(chat);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Chat", "Chat", new { Id = chat.Id });
@@ -143,7 +147,11 @@ namespace Wdpr_Groep_E.Controllers
             {
                 if (chat.Type == ChatType.Private)
                 {
-                    chat.Users.Add(new ChatUser { UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value });
+                    chat.Users.Add(new ChatUser
+                    {
+                        User = _userManager.Users.SingleOrDefault(u => u.Id == User.FindFirst(ClaimTypes.NameIdentifier).Value),
+                        UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value
+                    });
                     await _context.SaveChangesAsync();
                     return RedirectToAction("Chat", "Chat", new { id = chat.Id });
                 }
@@ -192,8 +200,5 @@ namespace Wdpr_Groep_E.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Chat", "Chat", new { Id = id });
         }
-
-        // [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        // public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
