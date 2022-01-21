@@ -9,5 +9,6 @@ namespace Wdpr_Groep_E.Models
         public string Email { get; set; }
         public IList<AppUser> Children { get; set; }
         public IList<string> Roles { get; set; }
+        public AppUser CareGiver {get;set;}
     }
 }

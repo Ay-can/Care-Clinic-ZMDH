@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Wdpr_Groep_E.Data;
 using Wdpr_Groep_E.Models;
+using Wdpr_Groep_E.Services;
 
 namespace Wdpr_Groep_E.Controllers
 {
@@ -15,7 +17,7 @@ namespace Wdpr_Groep_E.Controllers
         private readonly WdprContext _context;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-
+    
         public UserSystemController(WdprContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
@@ -37,7 +39,7 @@ namespace Wdpr_Groep_E.Controllers
                     UserName = user.UserName,
                     Email = user.Email,
                     Children = await _context.Users.Where(u => u.Parent.Id == user.Id).ToListAsync(),
-                    Roles = await GetRoles(user)
+                    Roles = await GetRoles(user),
                 };
                 getRoleViewModel.Add(currentViewModel);
             }
