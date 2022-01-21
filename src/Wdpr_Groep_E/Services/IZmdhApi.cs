@@ -13,6 +13,7 @@ namespace Wdpr_Groep_E.Services
         
          Task<IEnumerable<string>> GetAllClients();
          Task<int> CreateClientId();
+         Task<IEnumerable<Client>> GetClients();
         
     }
 
