@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Wdpr_Groep_E.Models;
 namespace Wdpr_Groep_E.Services
@@ -11,28 +14,29 @@ namespace Wdpr_Groep_E.Services
     {
         private const string Url = "https://orthopedagogie-zmdh.herokuapp.com/clienten";
         private const string Key = "?sleutel=725630189";
-        private string urlParameters ="&clientid=";
+        private string urlParameters = "&clientid=";
         public HttpClient HttpClient { get; set; } = new HttpClient();
         public HttpResponseMessage ResponseMessage { get; set; } = new HttpResponseMessage();
 
-        public ZmdhApi()
+        private readonly IHttpClientFactory _clientFactory;
+
+        public ZmdhApi(IHttpClientFactory factory)
         {
             HttpClient.BaseAddress = new Uri(Url);
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _clientFactory = factory;
         }
         public async Task DeleteClient(string clientid)
         {
-            
             await HttpClient.DeleteAsync(Key + urlParameters + clientid);
-
         }
 
         public async Task<Client> GetClientObject(string clientid)
         {
-             var httpGet = await HttpClient.GetAsync(Key + urlParameters + clientid);
-             var httpResponse = await httpGet.Content.ReadAsAsync<Client>();
+            var httpGet = await HttpClient.GetAsync(Key + urlParameters + clientid);
+            var httpResponse = await httpGet.Content.ReadAsAsync<Client>();
 
-            return httpResponse;        
+            return httpResponse;
 
         }
 
@@ -43,26 +47,45 @@ namespace Wdpr_Groep_E.Services
             return httpResponse;
         }
 
-        public async Task<string> CreateClientId()
+        public async Task<int> CreateClientId()
         {
             var getClients = await GetAllClients();
-
             var getLastClientId = getClients.Last();
-
             int parseClienetId = int.Parse(getLastClientId) + 1;
 
-            return parseClienetId.ToString();
-
-
+            return parseClienetId;
         }
+        // public async Task<int>PostClient()
+        // {
+        //     var send = await HttpClient.PostAsync(Key,null);
+        //     Console.WriteLine(send.Content.ReadAsStringAsync().Result);
+
+        //     int result = int.Parse(send.Content.ReadAsStringAsync().Result);
+        //     System.Console.WriteLine(result);
+        //     return result;
+        // }
+        //  public async Task PostClientTest()
+        // {
+           
+        //     var send =  await HttpClient.PostAsync(Key,null);
+        //     Console.WriteLine(send.Content.ReadAsStringAsync().Result);
+        // }
         public async Task PostClient(Client c)
         {
-        await HttpClient.PostAsJsonAsync(Key,c);
+         var send = await HttpClient.PostAsJsonAsync(Key,c);
+         System.Console.WriteLine(send.Content.ReadAsStringAsync().Result);
         }
-
-        public async Task PutClient(Client c )
+        public async Task PutClient(Client c)
         {
-            await HttpClient.PutAsJsonAsync<Client>(Key + urlParameters + c.clientid,c);
+           var send = await HttpClient.PutAsJsonAsync(Key,c);
+           Console.WriteLine(send.Content.ReadAsStringAsync().Result);
         }
+        // public async Task PutClient(Client c)
+        // {
+        //     HttpClient.BaseAddress = new Uri(Url);
+        //     HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        //     await HttpClient.PutAsJsonAsync<Client>(Key + urlParameters, c);
+        // }
+
     }
 }

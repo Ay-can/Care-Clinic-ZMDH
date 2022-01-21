@@ -70,7 +70,7 @@ namespace Wdpr_Groep_E.Controllers
                             Email = s.Email,
                             BirthDate = s.BirthDate,
                             UserName = s.UserName,
-                            CareGiver = careGiver
+                            CareGiver = careGiver,
                         });
                         await _context.SaveChangesAsync();
                         var sender = _email
@@ -142,7 +142,7 @@ namespace Wdpr_Groep_E.Controllers
                                 ChildInfix = c.ChildInfix,
                                 ChildBirthDate = c.ChildBirthDate,
                                 Subject = c.Subject,
-                                CareGiver = careGiver
+                                CareGiver = careGiver,
                                 }
                             }
                         });
@@ -192,7 +192,7 @@ namespace Wdpr_Groep_E.Controllers
         [Authorize(Roles = "Orthopedagoog")]
         public async Task<IActionResult> AcceptSignUpAsync(SignUp s, string careGiver)
         {
-            System.Console.WriteLine(s.TempId);
+            int generateId = await _api.CreateClientId();
             var user = new AppUser
             {
                 UserName = s.UserName,
@@ -203,17 +203,25 @@ namespace Wdpr_Groep_E.Controllers
                 Email = s.Email,
                 PhoneNumber = s.PhoneNumber,
                 Subject = s.Subject,
-                CareGiver = careGiver
+                CareGiver = careGiver,
+                Id = generateId.ToString()
             };
             await _context.SaveChangesAsync();
             await _userManager.CreateAsync(user, "Test123!");
             await _userManager.AddToRoleAsync(user, "Tiener");
-            // Api
             var sender = _email
                 .To(s.Email)
                 .Subject("Aanmelding goedgekeurd")
                 .Body($"Uw aanmelding voor een zmdh account over {s.Subject} is goedgekeurd, U kunt inloggen met dit wachtwoord: Test123!.");
             sender.Send();
+            await _api.PostClient(new Client()
+            {
+                clientid = generateId,
+                volledigenaam = $"{user.FirstName} {user.Infix} {user.LastName}",
+                IBAN = "",
+                BSN = "",
+                gebdatum = user.BirthDate.ToString()
+            });
             await new ChatSystemController(_email, _context, _userManager, _roleManager).CreatePrivateRoom(s.UserName);
             await DeleteSignUp(s.TempId);
             return RedirectToAction("Overview", "SignUp");
@@ -223,6 +231,7 @@ namespace Wdpr_Groep_E.Controllers
         [Authorize(Roles = "Orthopedagoog")]
         public async Task<IActionResult> AcceptSignUpWithChildren(SignUp s, SignUpChild c, string careGiver)
         {
+            int generateId = await _api.CreateClientId();
             var child = new AppUser()
             {
                 UserName = c.ChildUserName,
@@ -232,7 +241,8 @@ namespace Wdpr_Groep_E.Controllers
                 Email = "",
                 Subject = c.Subject,
                 BirthDate = c.ChildBirthDate,
-                CareGiver = careGiver
+                CareGiver = careGiver,
+                Id = generateId.ToString()
             };
             await _context.SaveChangesAsync();
             await _userManager.CreateAsync(child, "Test123!");
@@ -247,18 +257,25 @@ namespace Wdpr_Groep_E.Controllers
                 Infix = s.Infix,
                 Subject = s.Subject,
                 PhoneNumber = s.PhoneNumber,
-                CareGiver = ""
+                CareGiver = "",
             };
             await _context.SaveChangesAsync();
             await _userManager.CreateAsync(user, "Test123!");
             await _userManager.AddToRoleAsync(user, "Ouder");
-            child.Parent = user;
-            // Api
             var sender = _email
                 .To(s.Email)
                 .Subject("Aanmelding goedgekeurd")
                 .Body($"Uw aanmelding voor een zmdh account over {s.Subject} is goedgekeurd, U kunt inloggen met dit wachtwoord: Test123!.");
             sender.Send();
+            await _api.PostClient(new Client()
+            {
+                clientid = generateId,
+                volledigenaam = $"{child.FirstName} {child.Infix} {child.LastName}",
+                IBAN = "",
+                BSN = "",
+                gebdatum = child.BirthDate.ToString()
+            });
+            child.Parent = user;
             await new ChatSystemController(_email, _context, _userManager, _roleManager).CreatePrivateRoom(c.ChildUserName);
             await DeleteSignUp(s.TempId);
             return RedirectToAction("Overview", "SignUp");

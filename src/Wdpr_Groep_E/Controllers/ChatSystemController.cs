@@ -30,7 +30,7 @@ namespace Wdpr_Groep_E.Controllers
         public async Task<IActionResult> Index(string search)
         {
             if (User.IsInRole("Orthopedagoog"))
-                return View(await Search(_context.Chats.Where(c => c.Type == ChatType.Room), search).ToListAsync());
+                return View(await Search(_context.Chats.Include(c => c.Users).Where(c => c.Type == ChatType.Room), search).ToListAsync());
             else
             {
                 return View(await Search(_context.Chats.Include(c => c.Users)

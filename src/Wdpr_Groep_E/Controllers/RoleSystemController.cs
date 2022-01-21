@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,11 +14,13 @@ namespace Wdpr_Groep_E.Controllers
     public class RoleSystemController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IHttpClientFactory _clientFactory;
 
 
-
-        public RoleSystemController(RoleManager<IdentityRole> roleManager) => _roleManager = roleManager;
-
+        public RoleSystemController(RoleManager<IdentityRole> roleManager, IHttpClientFactory clientFactory) {
+        _clientFactory = clientFactory;
+         _roleManager = roleManager;
+        }
         [HttpGet]
         public async Task<IActionResult> Index()
         {

@@ -13,7 +13,6 @@ namespace Wdpr_Groep_E.Services
         string KeyHeader();
         Task<Referral> GetReferralObject(string birthDate, string bsn);
         Task<IEnumerable<ReferralOverview>> GetAllReferrals();
-
     }
 
 
