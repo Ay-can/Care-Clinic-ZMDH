@@ -33,7 +33,7 @@
                             <strong>@message.Name</strong>
                             <span>@DateTime.Now.ToString("HH:mm")</span>
                             <span class="material-icons-round text-danger report">
-                                <form onsubmit="reportUser(event)" asp-controller="ReportSystem" asp-action="ReportUser" method="post">
+                                <form onsubmit="reportUser(event)" asp-controller="Report" asp-action="ReportUser" method="post">
                                     <input type="hidden" name="chat" value="@Model.Id" />
                                     <input type="hidden" name="name" value="@message.Name" />
                                     <input type="hidden" name="text" value="@message.Text" />
@@ -157,7 +157,7 @@
     var reportUser = function (event) {
         event.preventDefault();
         var data = new FormData(event.target);
-        axios.post('/ReportSystem/ReportUser', data)
+        axios.post('/Report/ReportUser', data)
             .then(res => {
                 $('#ReportUser').modal('show');
                 console.log("Gebruiker gerapporteerd!", res);

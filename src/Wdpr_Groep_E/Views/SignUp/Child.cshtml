@@ -115,7 +115,7 @@
                         <div class="col-12 col-sm-6">
                             <div class="form-group">
                                 <label for="ortho">Orthopedagoog:</label><span class="required"> *</span>
-                                <select class="custom-select" id="ortho" name="careGiver" required>
+                                <select class="custom-select" id="ortho" name="caregiver" required>
                                     <option value="" selected>Kies een orthopedagoog</option>
                                     @foreach (var ortho in UserManager.GetUsersInRoleAsync("Orthopedagoog").Result)
                                     {

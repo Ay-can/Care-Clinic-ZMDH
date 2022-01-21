@@ -32,14 +32,14 @@
                             <td>@report.Text</td>
                             <td>@report.Date.ToString("dd/MM/yyyy")</td>
                             <td class="text-center">
-                                <form method="post" asp-controller="ReportSystem" asp-action="BlockReportedUser" asp-route-id='@UserManager.Users.SingleOrDefault(u => u.UserName == report.Name).Id'>
+                                <form method="post" asp-controller="Report" asp-action="BlockReportedUser" asp-route-id='@UserManager.Users.SingleOrDefault(u => u.UserName == report.Name).Id'>
                                     <input type="hidden" name="report" value="@report.Id" />
                                     <input type="hidden" name="chat" value="@report.ChatId" />
                                     <button class="btn btn-sm btn-danger">Blokkeren</button>
                                 </form>
                             </td>
                             <td class="text-center">
-                                <form method="post" asp-controller="ReportSystem" asp-action="RemoveReport" asp-route-id="@report.Id">
+                                <form method="post" asp-controller="Report" asp-action="RemoveReport" asp-route-id="@report.Id">
                                     <button class="btn btn-sm btn-danger">X</button>
                                 </form>
                             </td>

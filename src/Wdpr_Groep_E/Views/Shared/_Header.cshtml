@@ -62,7 +62,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="ReportSystem" asp-action="Index" title="Gerapporteerde gebruikers">
+                            <a class="nav-link text-dark" asp-controller="Report" asp-action="Index" title="Gerapporteerde gebruikers">
                                 <span class="material-icons-round" aria-hidden="true">flag</span>
                             </a>
                         </li>
@@ -78,7 +78,7 @@
                     @if (User.IsInRole("Ouder"))
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="ChatOverview" asp-action="Index" title="Chats van kinderen inzien">
+                            <a class="nav-link text-dark" asp-controller="ParentOverview" asp-action="Index" title="Chats van kinderen inzien">
                                 <span class="material-icons-round" aria-hidden="true">3p</span>
                             </a>
                         </li>

@@ -1,12 +1,8 @@
-using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Wdpr_Groep_E.Models;
-using Wdpr_Groep_E.Services;
 
 namespace Wdpr_Groep_E.Controllers
 {
@@ -14,18 +10,13 @@ namespace Wdpr_Groep_E.Controllers
     public class RoleSystemController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IHttpClientFactory _clientFactory;
 
+        public RoleSystemController(RoleManager<IdentityRole> roleManager) => _roleManager = roleManager;
 
-        public RoleSystemController(RoleManager<IdentityRole> roleManager, IHttpClientFactory clientFactory) {
-        _clientFactory = clientFactory;
-         _roleManager = roleManager;
-        }
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var GetRoles = await _roleManager.Roles.ToListAsync();
-            return View(GetRoles);
+            return View(await _roleManager.Roles.ToListAsync());
         }
 
         [HttpPost]

@@ -1,28 +1,24 @@
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentEmail.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Wdpr_Groep_E.Data;
 using Wdpr_Groep_E.Models;
 
 namespace Wdpr_Groep_E.Controllers
 {
-    public class ReportSystemController : Controller
+    public class ReportController : Controller
     {
         private readonly IFluentEmail _email;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly ILogger<ReportSystemController> _logger;
         private readonly WdprContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public ReportSystemController(ILogger<ReportSystemController> logger, UserManager<AppUser> userManager, IFluentEmail email, WdprContext context)
+        public ReportController(IFluentEmail email, WdprContext context, UserManager<AppUser> userManager)
         {
             _email = email;
-            _logger = logger;
             _context = context;
             _userManager = userManager;
         }
@@ -49,15 +45,19 @@ namespace Wdpr_Groep_E.Controllers
         public async Task<IActionResult> BlockReportedUser(int report, string id, int chat)
         {
             _context.ChatUsers.SingleOrDefault(u => u.UserId == id && u.ChatId == chat).IsBlocked = true;
-            var careGiver = _context.Users.SingleOrDefault(u => u.Id == id).CareGiver;
-            var careGiverEmail = _context.Users.SingleOrDefault(u => u.Id == careGiver).Email;
+
+            var caregiverEmail = _context.Users
+                .SingleOrDefault(u => u.Id == _context.Users
+                    .SingleOrDefault(u => u.Id == id).Caregiver).Email;
+
             var sender = _email
-                .To(careGiverEmail)
+                .To(caregiverEmail)
                 .Subject("Cliënt geblokkeerd")
                 .Body($"Uw cliënt: {_userManager.FindByIdAsync(id).Result.UserName} is geblokkeerd door een moderator in de chat: {_context.Chats.SingleOrDefault(c => c.Id == chat).Name}.");
+            await sender.SendAsync();
+
             await RemoveReport(report);
             await _context.SaveChangesAsync();
-            await sender.SendAsync();
             return RedirectToAction("Index");
         }
 
@@ -65,13 +65,9 @@ namespace Wdpr_Groep_E.Controllers
         [Authorize(Roles = "Moderator")]
         public async Task<IActionResult> RemoveReport(int id)
         {
-            var report = await _context.Reports.FindAsync(id);
-            _context.Reports.Remove(report);
+            _context.Reports.Remove(await _context.Reports.FindAsync(id));
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

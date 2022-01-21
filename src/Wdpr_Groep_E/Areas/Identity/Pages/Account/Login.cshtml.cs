@@ -19,17 +19,15 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
+        private readonly ILogger<LoginModel> _logger;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<AppUser> signInManager,
-            ILogger<LoginModel> logger,
-            UserManager<AppUser> userManager)
+        public LoginModel(SignInManager<AppUser> signInManager, ILogger<LoginModel> logger, UserManager<AppUser> userManager)
         {
+            _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
-            _logger = logger;
         }
 
         [BindProperty]
@@ -98,7 +96,13 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("Successvol ingelogd.");
                     // return LocalRedirect(returnUrl);
-                    return RedirectToAction("Index", "Message", new { Type = "Success", Message = "Successvol ingelogd!", Redirect = returnUrl, Timeout = 2500 });
+                    return RedirectToAction("Index", "Message", new
+                    {
+                        Type = "Success",
+                        Message = "Successvol ingelogd!",
+                        Redirect = returnUrl,
+                        Timeout = 2000
+                    });
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -112,8 +116,13 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Inloggen mislukt.");
-                    return RedirectToAction("Index", "Message", new { Type = "Failed", Message = "Verkeerd ingevoerde gegevens, probeer opnieuw!", Redirect = "Identity/Account/Login", Timeout = 2500 });
-                    // return Page();
+                    return RedirectToAction("Index", "Message", new
+                    {
+                        Type = "Failed",
+                        Message = "Verkeerd ingevoerde gegevens, probeer opnieuw!",
+                        Redirect = "Identity/Account/Login",
+                        Timeout = 2000
+                    });
                 }
             }
 

@@ -52,6 +52,6 @@ namespace Wdpr_Groep_E.Models
 
         [Required]
         [Display(Name = "Orthopedagoog")]
-        public string CareGiver { get; set; }
+        public string Caregiver { get; set; }
     }
 }
