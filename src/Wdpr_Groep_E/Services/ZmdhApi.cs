@@ -47,40 +47,44 @@ namespace Wdpr_Groep_E.Services
             return httpResponse;
         }
 
-        public async Task<string> CreateClientId()
+        public async Task<int> CreateClientId()
         {
             var getClients = await GetAllClients();
             var getLastClientId = getClients.Last();
             int parseClienetId = int.Parse(getLastClientId) + 1;
 
-            return parseClienetId.ToString();
+            return parseClienetId;
         }
+        // public async Task<int>PostClient()
+        // {
+        //     var send = await HttpClient.PostAsync(Key,null);
+        //     Console.WriteLine(send.Content.ReadAsStringAsync().Result);
+
+        //     int result = int.Parse(send.Content.ReadAsStringAsync().Result);
+        //     System.Console.WriteLine(result);
+        //     return result;
+        // }
+        //  public async Task PostClientTest()
+        // {
+           
+        //     var send =  await HttpClient.PostAsync(Key,null);
+        //     Console.WriteLine(send.Content.ReadAsStringAsync().Result);
+        // }
         public async Task PostClient(Client c)
         {
-            await HttpClient.PostAsJsonAsync<Client>(Key, c);
+         var send = await HttpClient.PostAsJsonAsync(Key,c);
+         System.Console.WriteLine(send.Content.ReadAsStringAsync().Result);
         }
-
         public async Task PutClient(Client c)
         {
-            await HttpClient.PutAsJsonAsync<Client>(Key + urlParameters + c.clientid, c);
+           var send = await HttpClient.PutAsJsonAsync(Key,c);
+           Console.WriteLine(send.Content.ReadAsStringAsync().Result);
         }
-
-        // public async Task GetTest()
+        // public async Task PutClient(Client c)
         // {
-        //     Client c;
-        //     var request = new HttpRequestMessage(HttpMethod.Get,"https://orthopedagogie-zmdh.herokuapp.com/clienten?sleutel=725630189");
-        //     var client = _clientFactory.CreateClient();
-
-        //     HttpResponseMessage response = await client.SendAsync(request);
-        //     if(response.IsSuccessStatusCode)
-        //     {
-        //         c = await response.Content.ReadFromJsonAsync<Client>();
-        //     }
-        //     else
-        //     {
-        //         Console.WriteLine("Het ging fout");
-        //         System.Console.WriteLine(response.ReasonPhrase);
-        //     }
+        //     HttpClient.BaseAddress = new Uri(Url);
+        //     HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        //     await HttpClient.PutAsJsonAsync<Client>(Key + urlParameters, c);
         // }
 
     }

@@ -192,7 +192,7 @@ namespace Wdpr_Groep_E.Controllers
         [Authorize(Roles = "Orthopedagoog")]
         public async Task<IActionResult> AcceptSignUpAsync(SignUp s, string careGiver)
         {
-            System.Console.WriteLine(s.TempId);
+            int generateId = await _api.CreateClientId();
             var user = new AppUser
             {
                 UserName = s.UserName,
@@ -204,11 +204,11 @@ namespace Wdpr_Groep_E.Controllers
                 PhoneNumber = s.PhoneNumber,
                 Subject = s.Subject,
                 CareGiver = careGiver,
-                Id = await _api.CreateClientId()
+                Id = generateId.ToString()
             };
             await _userManager.CreateAsync(user, "Test123!");
             await _userManager.AddToRoleAsync(user, "Tiener");
-            
+
             await _context.SaveChangesAsync();
             var sender = _email
                 .To(s.Email)
@@ -217,11 +217,14 @@ namespace Wdpr_Groep_E.Controllers
 
             ChatSystemController chatSystem = new ChatSystemController(_email, _userManager, _roleManager, _context);
             var test = chatSystem.CreatePrivateRoom(s.UserName);
-            await _api.PostClient(new Client() 
+            await _api.PostClient(new Client()
             {
-                clientid = user.Id,
-                volledigenaam = user.FirstName + user.Infix + user.LastName,
-                });
+                clientid = generateId,
+                volledigenaam = $"{user.FirstName} {user.Infix} {user.LastName}",
+                IBAN = "",
+                BSN = "",
+                gebdatum = user.BirthDate.ToString()
+            });
             await DeleteSignUp(s.TempId);
             await sender.SendAsync();
             return RedirectToAction("Overview", "SignUp");
@@ -231,6 +234,7 @@ namespace Wdpr_Groep_E.Controllers
         [Authorize(Roles = "Orthopedagoog")]
         public async Task<IActionResult> AcceptSignUpWithChildren(SignUp s, SignUpChild c, string careGiver)
         {
+            int generateId = await _api.CreateClientId();
             var child = new AppUser()
             {
                 UserName = c.ChildUserName,
@@ -241,7 +245,7 @@ namespace Wdpr_Groep_E.Controllers
                 Subject = c.Subject,
                 BirthDate = c.ChildBirthDate,
                 CareGiver = careGiver,
-                Id = await _api.CreateClientId()
+                Id = generateId.ToString()
             };
             await _context.SaveChangesAsync();
             await _userManager.CreateAsync(child, "Test123!");
@@ -257,16 +261,18 @@ namespace Wdpr_Groep_E.Controllers
                 Subject = s.Subject,
                 PhoneNumber = s.PhoneNumber,
                 CareGiver = "",
-                Id = await _api.CreateClientId() 
             };
             await _context.SaveChangesAsync();
             await _userManager.CreateAsync(user, "Test123!");
             await _userManager.AddToRoleAsync(user, "Ouder");
-            await _api.PostClient(new Client() {
-                 clientid = child.Id, 
-                 volledigenaam = child.FirstName + child.Infix + child.LastName,
-                 
-                 });
+            await _api.PostClient(new Client()
+            {
+                clientid = generateId,
+                volledigenaam = $"{child.FirstName} {child.Infix} {child.LastName}",
+                IBAN = "",
+                BSN = "",
+                gebdatum = child.BirthDate.ToString()
+            });
             await DeleteSignUp(s.TempId);
             return RedirectToAction("Overview", "SignUp");
         }
