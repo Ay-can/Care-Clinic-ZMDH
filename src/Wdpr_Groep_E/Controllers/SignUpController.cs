@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentEmail.Core;
@@ -9,8 +7,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-
 using Wdpr_Groep_E.Data;
 using Wdpr_Groep_E.Models;
 using Wdpr_Groep_E.Services;
@@ -19,21 +15,19 @@ namespace Wdpr_Groep_E.Controllers
 {
     public class SignUpController : Controller
     {
-        private readonly ILogger<SignUpController> _logger;
+        private readonly IZmdhApi _api;
         private readonly IFluentEmail _email;
         private readonly WdprContext _context;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IZmdhApi _api;
 
-        public SignUpController(ILogger<SignUpController> logger, IFluentEmail email, WdprContext context, RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager, IZmdhApi api)
+        public SignUpController(IZmdhApi api, IFluentEmail email, WdprContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            _logger = logger;
+            _api = api;
             _email = email;
             _context = context;
-            _roleManager = roleManager;
             _userManager = userManager;
-            _api = api;
+            _roleManager = roleManager;
         }
 
         public IActionResult Index() => View();
@@ -51,12 +45,10 @@ namespace Wdpr_Groep_E.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateSignUp(SignUp s, string careGiver)
+        public async Task<IActionResult> CreateSignUp(SignUp s, string caregiver)
         {
             if (!_userManager.Users.Any(u => u.Email == s.Email))
-            {
                 if (!_userManager.Users.Any(u => u.UserName == s.UserName))
-                {
                     if (!(s.BirthDate > DateTime.Now.AddYears(-16)))
                     {
                         _context.Add(new SignUp()
@@ -70,20 +62,22 @@ namespace Wdpr_Groep_E.Controllers
                             Email = s.Email,
                             BirthDate = s.BirthDate,
                             UserName = s.UserName,
-                            CareGiver = careGiver,
+                            Caregiver = caregiver,
                         });
                         await _context.SaveChangesAsync();
+
                         var sender = _email
                             .To(s.Email)
                             .Subject("Aanmelding  account succesvol aangevraagd")
                             .Body($"Uw aanmelding voor een zmdh account over {s.Subject} is succesvol ontvangen, U krijgt zo snel mogelijk antwoord van de orthopedagoog.");
                         await sender.SendAsync();
+
                         return RedirectToAction("Index", "Message", new
                         {
                             Type = "Success",
                             Message = "Uw aanmelding is successvol verzonden.",
                             Redirect = "Home",
-                            Timeout = 2500
+                            Timeout = 2000
                         });
                     }
                     else
@@ -92,35 +86,31 @@ namespace Wdpr_Groep_E.Controllers
                             Type = "Failed",
                             Message = "U moet ouder dan 16 zijn om u aan te melden, laat anders je ouders/verzorgers je aanmelden.",
                             Redirect = "SignUp/Client",
-                            Timeout = 3500
+                            Timeout = 3000
                         });
-                }
                 else
                     return RedirectToAction("Index", "Message", new
                     {
                         Type = "Failed",
                         Message = "Er bestaat al een account met deze gebruikersnaam.",
                         Redirect = "SignUp/Client",
-                        Timeout = 2500
+                        Timeout = 2000
                     });
-            }
             else
                 return RedirectToAction("Index", "Message", new
                 {
                     Type = "Failed",
                     Message = "Er bestaat al een account met dit e-mailadres.",
                     Redirect = "SignUp/Client",
-                    Timeout = 2500
+                    Timeout = 2000
                 });
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateSignUpWithChild(SignUp s, SignUpChild c, string careGiver)
+        public async Task<IActionResult> CreateSignUpWithChild(SignUp s, SignUpChild c, string caregiver)
         {
             if (!_userManager.Users.Any(u => u.Email == s.Email))
-            {
                 if (!_userManager.Users.Any(u => u.UserName == s.UserName))
-                {
                     if (c.ChildBirthDate > DateTime.Now.AddYears(-16))
                     {
                         _context.Add(new SignUp()
@@ -133,7 +123,7 @@ namespace Wdpr_Groep_E.Controllers
                             Subject = s.Subject,
                             Message = s.Message,
                             UserName = s.Email,
-                            CareGiver = careGiver,
+                            Caregiver = caregiver,
                             Children = new Collection<SignUpChild>() {
                                 new SignUpChild() {
                                 ChildUserName = c.ChildUserName,
@@ -142,22 +132,24 @@ namespace Wdpr_Groep_E.Controllers
                                 ChildInfix = c.ChildInfix,
                                 ChildBirthDate = c.ChildBirthDate,
                                 Subject = c.Subject,
-                                CareGiver = careGiver,
+                                Caregiver = caregiver,
                                 }
                             }
                         });
                         await _context.SaveChangesAsync();
+
                         var sender = _email
                             .To(s.Email)
                             .Subject("Aanmelding ouder en kind succesvol aangevraagd")
                             .Body($"Uw aanmelding voor een zmdh account over {s.Subject} is succesvol ontvangen, U krijgt zo snel mogelijk antwoord van de orthopedagoog.");
                         await sender.SendAsync();
+
                         return RedirectToAction("Index", "Message", new
                         {
                             Type = "Success",
                             Message = "De aanmelding voor uw kind is successvol verzonden.",
                             Redirect = "Home",
-                            Timeout = 2500
+                            Timeout = 2000
                         });
                     }
                     else
@@ -166,31 +158,29 @@ namespace Wdpr_Groep_E.Controllers
                             Type = "Failed",
                             Message = "Uw kind is oud genoeg om een eigen account aan te maken.",
                             Redirect = "SignUp/Child",
-                            Timeout = 2500
+                            Timeout = 2000
                         });
-                }
                 else
                     return RedirectToAction("Index", "Message", new
                     {
                         Type = "Failed",
                         Message = "Er bestaat al een account met deze gebruikersnaam.",
                         Redirect = "SignUp/Child",
-                        Timeout = 2500
+                        Timeout = 2000
                     });
-            }
             else
                 return RedirectToAction("Index", "Message", new
                 {
                     Type = "Failed",
                     Message = "Er bestaat al een account met dit e-mailadres.",
                     Redirect = "SignUp/Child",
-                    Timeout = 2500
+                    Timeout = 2000
                 });
         }
 
         [HttpPost]
         [Authorize(Roles = "Orthopedagoog")]
-        public async Task<IActionResult> AcceptSignUpAsync(SignUp s, string careGiver)
+        public async Task<IActionResult> AcceptSignUpAsync(SignUp s, string caregiver)
         {
             int generateId = await _api.CreateClientId();
             var user = new AppUser
@@ -203,17 +193,19 @@ namespace Wdpr_Groep_E.Controllers
                 Email = s.Email,
                 PhoneNumber = s.PhoneNumber,
                 Subject = s.Subject,
-                CareGiver = careGiver,
+                Caregiver = caregiver,
                 Id = generateId.ToString()
             };
             await _context.SaveChangesAsync();
             await _userManager.CreateAsync(user, "Test123!");
             await _userManager.AddToRoleAsync(user, "Tiener");
+
             var sender = _email
                 .To(s.Email)
                 .Subject("Aanmelding goedgekeurd")
                 .Body($"Uw aanmelding voor een zmdh account over {s.Subject} is goedgekeurd, U kunt inloggen met dit wachtwoord: Test123!.");
-            sender.Send();
+            await sender.SendAsync();
+
             await _api.PostClient(new Client()
             {
                 clientid = generateId,
@@ -222,6 +214,7 @@ namespace Wdpr_Groep_E.Controllers
                 BSN = "",
                 gebdatum = user.BirthDate.ToString()
             });
+
             await new ChatSystemController(_email, _context, _userManager, _roleManager).CreatePrivateRoom(s.UserName);
             await DeleteSignUp(s.TempId);
             return RedirectToAction("Overview", "SignUp");
@@ -229,7 +222,7 @@ namespace Wdpr_Groep_E.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Orthopedagoog")]
-        public async Task<IActionResult> AcceptSignUpWithChildren(SignUp s, SignUpChild c, string careGiver)
+        public async Task<IActionResult> AcceptSignUpWithChildren(SignUp s, SignUpChild c, string caregiver)
         {
             int generateId = await _api.CreateClientId();
             var child = new AppUser()
@@ -241,12 +234,13 @@ namespace Wdpr_Groep_E.Controllers
                 Email = "",
                 Subject = c.Subject,
                 BirthDate = c.ChildBirthDate,
-                CareGiver = careGiver,
+                Caregiver = caregiver,
                 Id = generateId.ToString()
             };
             await _context.SaveChangesAsync();
             await _userManager.CreateAsync(child, "Test123!");
             await _userManager.AddToRoleAsync(child, "Kind");
+
             var user = new AppUser
             {
                 UserName = s.FirstName + s.LastName,
@@ -257,16 +251,20 @@ namespace Wdpr_Groep_E.Controllers
                 Infix = s.Infix,
                 Subject = s.Subject,
                 PhoneNumber = s.PhoneNumber,
-                CareGiver = "",
+                Caregiver = "",
             };
             await _context.SaveChangesAsync();
             await _userManager.CreateAsync(user, "Test123!");
             await _userManager.AddToRoleAsync(user, "Ouder");
+
+            child.Parent = user;
+
             var sender = _email
                 .To(s.Email)
                 .Subject("Aanmelding goedgekeurd")
                 .Body($"Uw aanmelding voor een zmdh account over {s.Subject} is goedgekeurd, U kunt inloggen met dit wachtwoord: Test123!.");
-            sender.Send();
+            await sender.SendAsync();
+
             await _api.PostClient(new Client()
             {
                 clientid = generateId,
@@ -275,7 +273,7 @@ namespace Wdpr_Groep_E.Controllers
                 BSN = "",
                 gebdatum = child.BirthDate.ToString()
             });
-            child.Parent = user;
+
             await new ChatSystemController(_email, _context, _userManager, _roleManager).CreatePrivateRoom(c.ChildUserName);
             await DeleteSignUp(s.TempId);
             return RedirectToAction("Overview", "SignUp");
@@ -284,13 +282,9 @@ namespace Wdpr_Groep_E.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteSignUp(string Id)
         {
-            var getSignUp = _context.SignUps.SingleOrDefault(s => s.TempId == Id);
-            _context.Remove(getSignUp);
+            _context.Remove(_context.SignUps.SingleOrDefault(s => s.TempId == Id));
             await _context.SaveChangesAsync();
             return RedirectToAction("Overview");
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

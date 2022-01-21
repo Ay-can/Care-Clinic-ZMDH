@@ -19,8 +19,8 @@ namespace Wdpr_Groep_E.Controllers
         public UserSystemController(WdprContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
-            _roleManager = roleManager;
             _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         private async Task<List<string>> GetRoles(AppUser user) => new List<string>(await _userManager.GetRolesAsync(user));
@@ -28,9 +28,8 @@ namespace Wdpr_Groep_E.Controllers
         [Authorize(Roles = "Moderator")]
         public async Task<IActionResult> Index()
         {
-            var getUsers = await _userManager.Users.ToListAsync();
             var getRoleViewModel = new List<UserRoleViewModel>();
-            foreach (var user in getUsers)
+            foreach (var user in await _userManager.Users.ToListAsync())
             {
                 var currentViewModel = new UserRoleViewModel()
                 {
@@ -49,8 +48,7 @@ namespace Wdpr_Groep_E.Controllers
         {
             if (_context.Users.Include(u => u.Children).SingleOrDefault(u => u.Id == id).Children.Count == 0)
             {
-                var GetUser = _userManager.FindByIdAsync(id);
-                await _userManager.DeleteAsync(GetUser.Result);
+                await _userManager.DeleteAsync(_userManager.FindByIdAsync(id).Result);
                 return RedirectToAction("Index");
             }
             else
@@ -59,7 +57,7 @@ namespace Wdpr_Groep_E.Controllers
                     Type = "Failed",
                     Message = "Deze ouder heeft nog kinderen in het systeem staan, en kan niet worden verwijderd.",
                     Redirect = "UserSystem",
-                    Timeout = 4500
+                    Timeout = 4000
                 });
         }
     }

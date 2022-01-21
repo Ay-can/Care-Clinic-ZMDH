@@ -36,7 +36,7 @@
                                     <tr>
                                         <td>@chat.Name</td>
                                         <td>@chatUser.User.UserName</td>
-                                        <td>@UserManager.FindByIdAsync(chatUser.User.CareGiver).Result.UserName</td>
+                                        <td>@UserManager.FindByIdAsync(chatUser.User.Caregiver).Result.UserName</td>
                                         <td>@chat.Messages.Count()</td>
                                     </tr>
                                 }

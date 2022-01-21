@@ -22,7 +22,7 @@ namespace Wdpr_Groep_E.Models
         public string Subject { get; set; }
         public string IBAN { get; set; }
         public string WorkLocation { get; set; }
-        public string CareGiver { get; set; }
+        public string Caregiver { get; set; }
         public AppUser Parent { get; set; }
         public Collection<AppUser> Children { get; set; }
     }

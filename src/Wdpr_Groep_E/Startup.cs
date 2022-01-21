@@ -30,9 +30,15 @@ namespace Wdpr_Groep_E
             services.AddHttpClient();
             // services.AddHttpClient<Client>();
             // services.AddHttpClient<ZmdhApi>();
-            services.AddControllersWithViews().AddJsonOptions(x=>x.JsonSerializerOptions.ReferenceHandler=ReferenceHandler.Preserve);;
-            services.AddDbContext<WdprContext>(options => options.UseSqlite("Data Source=demo.db"));
+            services.AddControllersWithViews().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+
+            // Local databases
+            // services.AddDbContext<WdprContext>(options => options.UseSqlite("Data Source=demo.db"));
+            services.AddDbContext<WdprContext>(options => options.UseSqlServer(Configuration.GetConnectionString("WdprContext")));
+
+            // Live database
             // services.AddDbContext<WdprContext>(options => options.UseSqlServer("Data Source=SQL5109.site4now.net;Initial Catalog=db_a7f252_zmdh;User Id=db_a7f252_zmdh_admin;Password=Aycan123!"));
+
             services.AddRazorPages();
             services.AddIdentity<AppUser, IdentityRole>()
                 .AddEntityFrameworkStores<WdprContext>()
@@ -51,7 +57,7 @@ namespace Wdpr_Groep_E
             services.AddSingleton<IZorgdomein, Zorgdomein>();
             services.AddSignalR();
 
-            
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

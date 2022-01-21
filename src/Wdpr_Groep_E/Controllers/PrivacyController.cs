@@ -1,20 +1,9 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-
-using Wdpr_Groep_E.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Wdpr_Groep_E.Controllers
 {
     public class PrivacyController : Controller
     {
-        private readonly ILogger<PrivacyController> _logger;
-
-        public PrivacyController(ILogger<PrivacyController> logger) => _logger = logger;
-
         public IActionResult Index() => View();
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error() => View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }
