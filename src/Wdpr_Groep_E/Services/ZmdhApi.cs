@@ -55,6 +55,18 @@ namespace Wdpr_Groep_E.Services
 
             return parseClienetId;
         }
+        
+        public async Task<IEnumerable<Client>> GetClients()
+        {
+            IEnumerable<Client> allClients;
+        var request = new HttpRequestMessage(HttpMethod.Get, Url + Key);
+        var client = _clientFactory.CreateClient();
+        HttpResponseMessage response = await client.SendAsync(request);
+        allClients = await response.Content.ReadFromJsonAsync<IEnumerable<Client>>();
+        return allClients;
+        }
+
+
         // public async Task<int>PostClient()
         // {
         //     var send = await HttpClient.PostAsync(Key,null);

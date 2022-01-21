@@ -1,6 +1,6 @@
-@model List<AppUser>;
+@model IEnumerable<string>;
 @{
-    ViewData["Title"] = "Orthopedagogen";
+    ViewData["Title"] = "Clienten";
 }
 
 <div class="container-fluid manage pt-3 pb-3">
@@ -15,16 +15,20 @@
             <table class="table table-sm table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>Voornaam</th>
-                        <th>Tussenvoegsel</th>
-                        <th>Achternaam</th>
-                        <th>Email</th>
-                        <th>Telefoonnummer</th>
-                        <th>Onderwerp</th>
+                        <th>ClientID</th>
+                        <th>ClientGegevens</th>
                     </tr>
                 </thead>
                 <tbody>
-                   
+                   @foreach (var item in Model)
+                   {
+                       <tr>
+                       <td>@item</td>
+                       <form method="post" asp-action="ClientInfo" asp-controller="ClientSystem" asp-route-clientId ="@item">
+                                <td class="text-center"><button class="btn btn-sm btn-primary">ClientGegevens</button></td>
+                        </form>
+                       </tr>
+                   }
                 </tbody>
             </table>
         </div>

@@ -30,7 +30,13 @@ namespace Wdpr_Groep_E.Controllers
 
         public IActionResult Index() 
         {
-            return View(_api.GetAllClients());
+            return View(_api.GetAllClients().Result);
+        }
+        [HttpPost]
+        public IActionResult ClientInfo(string clientId)
+        {
+
+            return View(_api.GetClientObject(clientId).Result);
         } 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
