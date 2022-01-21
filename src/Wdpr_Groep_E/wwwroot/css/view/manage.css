@@ -20,3 +20,12 @@
 .manage table {
   border: none;
 }
+
+.manage .manage-sort a {
+  display: flex;
+}
+
+.manage .manage-sort a, .manage .manage-options a {
+  color: #000;
+  text-decoration: none;
+}
