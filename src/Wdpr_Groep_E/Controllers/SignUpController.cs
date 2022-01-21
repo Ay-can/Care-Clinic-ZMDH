@@ -206,17 +206,14 @@ namespace Wdpr_Groep_E.Controllers
                 CareGiver = careGiver,
                 Id = generateId.ToString()
             };
+            await _context.SaveChangesAsync();
             await _userManager.CreateAsync(user, "Test123!");
             await _userManager.AddToRoleAsync(user, "Tiener");
-
-            await _context.SaveChangesAsync();
             var sender = _email
                 .To(s.Email)
                 .Subject("Aanmelding goedgekeurd")
                 .Body($"Uw aanmelding voor een zmdh account over {s.Subject} is goedgekeurd, U kunt inloggen met dit wachtwoord: Test123!.");
-
-            ChatSystemController chatSystem = new ChatSystemController(_email, _userManager, _roleManager, _context);
-            var test = chatSystem.CreatePrivateRoom(s.UserName);
+            sender.Send();
             await _api.PostClient(new Client()
             {
                 clientid = generateId,
@@ -225,8 +222,8 @@ namespace Wdpr_Groep_E.Controllers
                 BSN = "",
                 gebdatum = user.BirthDate.ToString()
             });
+            await new ChatSystemController(_email, _context, _userManager, _roleManager).CreatePrivateRoom(s.UserName);
             await DeleteSignUp(s.TempId);
-            await sender.SendAsync();
             return RedirectToAction("Overview", "SignUp");
         }
 
@@ -265,6 +262,11 @@ namespace Wdpr_Groep_E.Controllers
             await _context.SaveChangesAsync();
             await _userManager.CreateAsync(user, "Test123!");
             await _userManager.AddToRoleAsync(user, "Ouder");
+            var sender = _email
+                .To(s.Email)
+                .Subject("Aanmelding goedgekeurd")
+                .Body($"Uw aanmelding voor een zmdh account over {s.Subject} is goedgekeurd, U kunt inloggen met dit wachtwoord: Test123!.");
+            sender.Send();
             await _api.PostClient(new Client()
             {
                 clientid = generateId,
@@ -273,6 +275,8 @@ namespace Wdpr_Groep_E.Controllers
                 BSN = "",
                 gebdatum = child.BirthDate.ToString()
             });
+            child.Parent = user;
+            await new ChatSystemController(_email, _context, _userManager, _roleManager).CreatePrivateRoom(c.ChildUserName);
             await DeleteSignUp(s.TempId);
             return RedirectToAction("Overview", "SignUp");
         }

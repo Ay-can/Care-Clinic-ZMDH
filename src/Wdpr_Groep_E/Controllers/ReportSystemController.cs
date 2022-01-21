@@ -48,7 +48,7 @@ namespace Wdpr_Groep_E.Controllers
         [Authorize(Roles = "Moderator")]
         public async Task<IActionResult> BlockReportedUser(int report, string id, int chat)
         {
-            _context.ChatUsers.FirstOrDefault(u => u.UserId == id && u.ChatId == chat).IsBlocked = true;
+            _context.ChatUsers.SingleOrDefault(u => u.UserId == id && u.ChatId == chat).IsBlocked = true;
             var careGiver = _context.Users.SingleOrDefault(u => u.Id == id).CareGiver;
             var careGiverEmail = _context.Users.SingleOrDefault(u => u.Id == careGiver).Email;
             var sender = _email

@@ -35,7 +35,7 @@
                     {
                         <li class="nav-item">
                             <form asp-controller="Chat" asp-action="Index">
-                                <button class="nav-link btn btn-link btn-primary text-white d-flex align-items-center">
+                                <button class="nav-link btn btn-link btn-primary text-white d-flex align-items-center" title="Mijn chats">
                                     <span class="material-icons-round" aria-hidden="true">chat</span>Chatten
                                 </button>
                             </form>
@@ -44,7 +44,7 @@
                     @if (User.IsInRole("Moderator") || User.IsInRole("Orthopedagoog"))
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="ChatSystem" asp-action="Index">
+                            <a class="nav-link text-dark" asp-controller="ChatSystem" asp-action="Index" title="Zelfhulpgroepen beheren">
                                 <span class="material-icons-round" aria-hidden="true">feedback</span>
                             </a>
                         </li>
@@ -52,17 +52,17 @@
                     @if (User.IsInRole("Moderator"))
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="UserSystem" asp-action="Index">
+                            <a class="nav-link text-dark" asp-controller="UserSystem" asp-action="Index" title="Gebruikers inzien">
                                 <span class="material-icons-round" aria-hidden="true">people</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="RoleSystem" asp-action="Index">
+                            <a class="nav-link text-dark" asp-controller="RoleSystem" asp-action="Index" title="Gebruikers rollen">
                                 <span class="material-icons-round" aria-hidden="true">assignment_ind</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="ReportSystem" asp-action="Index">
+                            <a class="nav-link text-dark" asp-controller="ReportSystem" asp-action="Index" title="Gerapporteerde gebruikers">
                                 <span class="material-icons-round" aria-hidden="true">flag</span>
                             </a>
                         </li>
@@ -70,8 +70,16 @@
                     @if (User.IsInRole("Orthopedagoog"))
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="SignUp" asp-action="Overview">
+                            <a class="nav-link text-dark" asp-controller="SignUp" asp-action="Overview" title="Aanmeldingen gebruikers">
                                 <span class="material-icons-round" aria-hidden="true">people</span>
+                            </a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Ouder"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="ChatOverview" asp-action="Index" title="Chats van kinderen inzien">
+                                <span class="material-icons-round" aria-hidden="true">3p</span>
                             </a>
                         </li>
                     }
@@ -99,7 +107,7 @@
                     </li>
                     <li class="nav-item">
                         <form asp-controller="SignUp" asp-action="Index">
-                            <button class="nav-link btn btn-link btn-primary text-white d-flex align-items-center">
+                            <button class="nav-link btn btn-link btn-primary text-white d-flex align-items-center" title="Aanmelden bij ZMDH">
                                 <span class="material-icons-round" aria-hidden="true">drive_file_rename_outline</span>Meld je aan!
                             </button>
                         </form>

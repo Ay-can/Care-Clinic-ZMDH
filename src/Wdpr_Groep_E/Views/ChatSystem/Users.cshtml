@@ -33,7 +33,7 @@
                         {
                             <tr>
                                 <td>@user.User.UserName</td>
-                                <td>@user.Chat.Messages.Count()</td>
+                                <td>@user.Chat.Messages.Where(m => m.Name == user.User.UserName).Count()</td>
                                 @if (User.IsInRole("Moderator"))
                                 {
                                     @if (user.IsBlocked)
