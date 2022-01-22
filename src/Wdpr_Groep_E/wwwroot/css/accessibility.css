@@ -7,7 +7,7 @@
   height: 2.5rem;
   position: fixed;
   border-radius: .25rem;
-  background-color: var(--blue);
+  background-color: var(--primary);
   border: solid 1px rgba(0 0 0 / .25);
   -webkit-box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
   box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
@@ -47,7 +47,8 @@
 
 [accessibility=on] figcaption, [accessibility=on] label,
 [accessibility=on] li, [accessibility=on] .btn,
-[accessibility=on] .scroll-down, [accessibility=on] .form-control {
+[accessibility=on] .scroll-down, [accessibility=on] .form-control,
+[accessibility=on] .custom-select {
   font-size: 1.25rem;
 }
 
@@ -57,7 +58,7 @@
 
 [accessibility=on] .accessibility {
   color: #FFF;
-  background-color: var(--green);
+  background-color: var(--success);
   -webkit-box-shadow: inset 0 2px 4px -2px rgb(0 0 0 / .5);
   box-shadow: inset 0 2px 4px -2px rgb(0 0 0 / .5);
 }
@@ -78,8 +79,16 @@
   background-color: var(--grey_1) !important;
 }
 
+[accessibility=on] .btn-primary:active, [accessibility=on] .btn-primary:focus, [accessibility=on] .btn-primary:active:focus {
+  box-shadow: none !important;
+}
+
 [accessibility=on] .home-bg:before {
   background: rgba(0 0 0 / .75);
+}
+
+[accessibility=on] .head-card>h1 {
+  font-size: 2.5rem;
 }
 
 [accessibility=on] .head-card p {
