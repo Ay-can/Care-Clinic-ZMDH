@@ -26,15 +26,20 @@
 }
 
 .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
-  border-color: #0074fd !important;
-  background-color: #0089fd !important;
+  border-color: #1e7dff !important;
+  background-color: #1e7dff !important;
 }
 
 .btn-primary:active, .btn-primary:focus, .btn-primary:active:focus {
-  box-shadow: 0 0 0 0.2rem rgb(0 137 253 / 50%) !important;
+  box-shadow: 0 0 0 0.2rem rgb(30 125 255 / 50%) !important;
 }
 
 /* Forms */
 .form-control, .input-group-text, .custom-select {
   border: solid 1px rgba(0 0 0 / .25);
+}
+
+/* Tables */
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: var(--grey_2);
 }

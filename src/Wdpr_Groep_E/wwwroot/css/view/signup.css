@@ -10,7 +10,7 @@
   border-radius: .25rem;
   flex-direction: column;
   justify-content: center;
-  background-color: var(--white_3);
+  background-color: var(--white_2);
   border: solid 1px rgba(0 0 0 / .25);
   -webkit-box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
   box-shadow: 0 2px 4px -2px rgb(0 0 0 / .5);
