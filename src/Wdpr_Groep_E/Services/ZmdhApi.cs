@@ -92,12 +92,5 @@ namespace Wdpr_Groep_E.Services
            var send = await HttpClient.PutAsJsonAsync(Key,c);
            Console.WriteLine(send.Content.ReadAsStringAsync().Result);
         }
-        // public async Task PutClient(Client c)
-        // {
-        //     HttpClient.BaseAddress = new Uri(Url);
-        //     HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        //     await HttpClient.PutAsJsonAsync<Client>(Key + urlParameters, c);
-        // }
-
     }
 }
