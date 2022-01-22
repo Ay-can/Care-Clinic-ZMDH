@@ -1,6 +1,6 @@
 @model IEnumerable<ReferralOverview>
 @{
-    ViewData["Title"] = "Dossier Overzicht";
+    ViewData["Title"] = "Dossier overzicht";
 }
 
 <div class="container-fluid manage pt-3 pb-3">
@@ -87,7 +87,7 @@
                                 <form asp-controller="Referral" asp-action="IndividualReferral" method="post">
                                     <input type="hidden" name="Bsn" value="@client.bsn" />
                                     <input type="hidden" name="birthDate" value="@client.dt" />
-                                    <button class="btn btn-sm btn-primary">Informatie</button>
+                                    <button class="btn btn-sm btn-info">Informatie</button>
                                 </form>
                             </td>
                         </tr>
