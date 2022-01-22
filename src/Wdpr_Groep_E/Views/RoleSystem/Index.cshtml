@@ -12,14 +12,23 @@
     <hr />
     <div class="row">
         <div class="col">
-            <form method="post" asp-action="AddRole" asp-controller="RoleSystem">
-                <div class="input-group">
-                    <input name="Name" class="form-control"></input>
-                    <span class="input-group-btn pl-3">
-                        <button class="btn btn-primary">Rol Toevoegen</button>
-                    </span>
-                </div>
-            </form>
+            <section>
+                <form asp-controller="RoleSystem" asp-action="Index" method="get">
+                    <label for="search">Zoeken:</label>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input class="form-control" id="search" name="search" placeholder="Zoeken" />
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-auto">
+                            <div class="form-group text-center">
+                                <input type="submit" class="btn btn-primary message-btn" value="Zoeken" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </section>
         </div>
     </div>
     <div class="row">
@@ -27,8 +36,25 @@
             <table class="table table-sm table-striped table-bordered mt-3">
                 <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>Rol</th>
+                        <th>
+                            <div class="row m-0">
+                                <div class="col p-0">Rol</div>
+                                <div class="col-auto manage-sort text-right p-0">
+                                    @if ((string)ViewData["sort"] == "rol_oplopend")
+                                    {
+                                        <a asp-action="Index" asp-route-sort="rol_aflopend" asp-route-search='@ViewData["search"]' title="Sorteer rol aflopend">
+                                            <span class="material-icons-round" aria-hidden="true">arrow_downward</span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="Index" asp-route-sort="rol_oplopend" asp-route-search='@ViewData["search"]' title="Sorteer rol oplopend">
+                                            <span class="material-icons-round" aria-hidden="true">arrow_upward</span>
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </th>
                         <th>Verwijder</th>
                     </tr>
                 </thead>
@@ -36,15 +62,74 @@
                     @foreach (var role in Model)
                     {
                         <tr>
-                            <td>@role.Id</td>
                             <td>@role.Name</td>
-                            <form method="post" asp-action="DeleteRole" asp-controller="RoleSystem" asp-route-id="@role.Id">
-                                <td class="text-center"><button class="btn btn-sm btn-danger">Verwijder</button></td>
-                            </form>
+                            <td class="text-center shrink">
+                                <form method="post" asp-action="DeleteRole" asp-controller="RoleSystem" asp-route-id="@role.Id">
+                                    <button class="btn btn-sm btn-danger">Verwijder</button>
+                                </form>
+                            </td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
     </div>
+    <div class="row manage-options">
+        @if ((int)ViewData["size"] != 10)
+        {
+            <div class="col-1 d-flex justify-content-center">
+                <a asp-action="Index" asp-route-page='1' asp-route-size='10' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>10</a>
+            </div>
+        }
+        @if ((int)ViewData["size"] == 10)
+        {
+            <div class="col-1 d-flex justify-content-center">
+                <a style="opacity: .5; pointer-events: none;" asp-action="Index" asp-route-page='1' asp-route-size='10' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>10</a>
+            </div>
+        }
+        @if ((int)ViewData["size"] != 25)
+        {
+            <div class="col-1 d-flex justify-content-center">
+                <a asp-action="Index" asp-route-page='1' asp-route-size='25' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>25</a>
+            </div>
+        }
+        @if ((int)ViewData["size"] == 25)
+        {
+            <div class="col-1 d-flex justify-content-center">
+                <a style="opacity: .5; pointer-events: none;" asp-action="Index" asp-route-page='1' asp-route-size='25' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>25</a>
+            </div>
+        }
+        @if ((int)ViewData["size"] != 50)
+        {
+            <div class="col-1 d-flex justify-content-center">
+                <a asp-action="Index" asp-route-page='1' asp-route-size='50' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>50</a>
+            </div>
+        }
+        @if ((int)ViewData["size"] == 50)
+        {
+            <div class="col-1 d-flex justify-content-center">
+                <a style="opacity: .5; pointer-events: none;" asp-action="Index" asp-route-page='1' asp-route-size='50' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>50</a>
+            </div>
+        }
+        <div class="col-5"></div>
+        <div class="col-2 d-flex justify-content-center">
+            @if ((bool)ViewData["previous"])
+            {
+                <a asp-action="Index" asp-route-page='@((int)ViewData["page"] - 1)' asp-route-size='@ViewData["size"]' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>← Terug</a>
+            }
+        </div>
+        <div class="col-2 d-flex justify-content-center">
+            @if ((bool)ViewData["next"])
+            {
+                <a asp-action="Index" asp-route-page='@((int)ViewData["page"] + 1)' asp-route-size='@ViewData["size"]' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>Volgende →</a>
+            }
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col text-center">
+            <button class="btn btn-primary lg-btn" type="button" data-toggle="modal" data-target="#AddRole">Rol toevoegen</button>
+        </div>
+    </div>
 </div>
+
+<partial name="../Shared/Modals/AddRoleModal" />

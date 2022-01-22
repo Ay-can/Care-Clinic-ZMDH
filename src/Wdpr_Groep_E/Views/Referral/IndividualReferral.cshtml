@@ -1,7 +1,6 @@
- @model Referral
+@model Referral
 @{
     ViewData["Title"] = "Dossier Overzicht";
-    var key = ViewData["key"];
 }
 
 <div class="container-fluid manage pt-3 pb-3">
@@ -16,27 +15,25 @@
             <table class="table table-sm table-striped table-bordered mt-3">
                 <thead>
                     <tr>
-                        <th>Bsn</th>
+                        <th>BSN</th>
                         <th>Naam</th>
-                        <th>GeboorteDatum</th>
+                        <th>Geboortedatum</th>
                         <th>Woonplaats</th>
                         <th>Postcode</th>
                         <th>Verzekering</th>
                         <th>Reden</th>
-                        
                     </tr>
                 </thead>
                 <tbody>
                     <td>@Model.naw.bsn</td>
-                     <td>@Model.naw.naam</td>
-                     <td>@Model.naw.geboorteDatum</td>
-                     <td>@Model.naw.woonplaats</td>
-                     <td>@Model.naw.postcode</td>
-                     <td>@Model.verzekering</td>
-                     <td>@Model.redenVanVerwijzing</td>
+                    <td>@Model.naw.naam</td>
+                    <td>@Model.naw.geboorteDatum</td>
+                    <td>@Model.naw.woonplaats</td>
+                    <td>@Model.naw.postcode</td>
+                    <td>@Model.verzekering</td>
+                    <td>@Model.redenVanVerwijzing</td>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-

@@ -46,10 +46,82 @@
             <table class="table table-sm table-striped table-bordered mt-3">
                 <thead>
                     <tr>
-                        <th>Chatnaam</th>
-                        <th>Onderwerp</th>
-                        <th>Deelnemers</th>
-                        <th>Leeftijdscategorie</th>
+                        <th>
+                            <div class="row m-0">
+                                <div class="col p-0">Chatnaam</div>
+                                <div class="col-auto manage-sort text-right p-0">
+                                    @if ((string)ViewData["sort"] == "chatnaam_oplopend")
+                                    {
+                                        <a asp-action="Index" asp-route-sort="chatnaam_aflopend" asp-route-search='@ViewData["search"]' title="Sorteer chatnaam aflopend">
+                                            <span class="material-icons-round" aria-hidden="true">arrow_downward</span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="Index" asp-route-sort="chatnaam_oplopend" asp-route-search='@ViewData["search"]' title="Sorteer chatnaam oplopend">
+                                            <span class="material-icons-round" aria-hidden="true">arrow_upward</span>
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="row m-0">
+                                <div class="col p-0">Onderwerp</div>
+                                <div class="col-auto manage-sort text-right p-0">
+                                    @if ((string)ViewData["sort"] == "onderwerp_oplopend")
+                                    {
+                                        <a asp-action="Index" asp-route-sort="onderwerp_aflopend" asp-route-search='@ViewData["search"]' title="Sorteer onderwerp aflopend">
+                                            <span class="material-icons-round" aria-hidden="true">arrow_downward</span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="Index" asp-route-sort="onderwerp_oplopend" asp-route-search='@ViewData["search"]' title="Sorteer onderwerp oplopend">
+                                            <span class="material-icons-round" aria-hidden="true">arrow_upward</span>
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="row m-0">
+                                <div class="col p-0">Aantal deelnemers</div>
+                                <div class="col-auto manage-sort text-right p-0">
+                                    @if ((string)ViewData["sort"] == "deelnemers_oplopend")
+                                    {
+                                        <a asp-action="Index" asp-route-sort="deelnemers_aflopend" asp-route-search='@ViewData["search"]' title="Sorteer aantal deelnemers aflopend">
+                                            <span class="material-icons-round" aria-hidden="true">arrow_downward</span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="Index" asp-route-sort="deelnemers_oplopend" asp-route-search='@ViewData["search"]' title="Sorteer aantal deelnemers oplopend">
+                                            <span class="material-icons-round" aria-hidden="true">arrow_upward</span>
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="row m-0">
+                                <div class="col p-0">Leeftijdscategorie</div>
+                                <div class="col-auto manage-sort text-right p-0">
+                                    @if ((string)ViewData["sort"] == "leeftijd_oplopend")
+                                    {
+                                        <a asp-action="Index" asp-route-sort="leeftijd_aflopend" asp-route-search='@ViewData["search"]' title="Sorteer leeftijdscategorie aflopend">
+                                            <span class="material-icons-round" aria-hidden="true">arrow_downward</span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="Index" asp-route-sort="leeftijd_oplopend" asp-route-search='@ViewData["search"]' title="Sorteer leeftijdscategorie oplopend">
+                                            <span class="material-icons-round" aria-hidden="true">arrow_upward</span>
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </th>
                         @if (User.IsInRole("Tiener") || User.IsInRole("Kind"))
                         {
                             <th>Deelnemen</th>
@@ -71,7 +143,7 @@
                             <td>@chat.AgeGroup</td>
                             @if (User.IsInRole("Tiener") || User.IsInRole("Kind"))
                             {
-                                <td class="text-center">
+                                <td class="text-center shrink">
                                     <form asp-controller="ChatSystem" asp-action="JoinRoom" asp-route-id="@chat.Id" method="get">
                                         <button class="btn btn-sm btn-primary">Deelnemen</button>
                                     </form>
@@ -79,12 +151,12 @@
                             }
                             @if (User.IsInRole("Moderator"))
                             {
-                                <td class="text-center">
+                                <td class="text-center shrink">
                                     <form asp-controller="ChatSystem" asp-action="Users" asp-route-id="@chat.Id">
                                         <button class="btn btn-sm btn-info">Gebruikers</button>
                                     </form>
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center shrink">
                                     <form asp-controller="ChatSystem" asp-action="DeleteChat" asp-route-id="@chat.Id">
                                         <button class="btn btn-sm btn-danger">Verwijder</button>
                                     </form>
@@ -96,9 +168,60 @@
             </table>
         </div>
     </div>
+    <div class="row manage-options">
+        @if ((int)ViewData["size"] != 10)
+        {
+            <div class="col-1 d-flex justify-content-center">
+                <a asp-action="Index" asp-route-page='1' asp-route-size='10' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>10</a>
+            </div>
+        }
+        @if ((int)ViewData["size"] == 10)
+        {
+            <div class="col-1 d-flex justify-content-center">
+                <a style="opacity: .5; pointer-events: none;" asp-action="Index" asp-route-page='1' asp-route-size='10' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>10</a>
+            </div>
+        }
+        @if ((int)ViewData["size"] != 25)
+        {
+            <div class="col-1 d-flex justify-content-center">
+                <a asp-action="Index" asp-route-page='1' asp-route-size='25' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>25</a>
+            </div>
+        }
+        @if ((int)ViewData["size"] == 25)
+        {
+            <div class="col-1 d-flex justify-content-center">
+                <a style="opacity: .5; pointer-events: none;" asp-action="Index" asp-route-page='1' asp-route-size='25' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>25</a>
+            </div>
+        }
+        @if ((int)ViewData["size"] != 50)
+        {
+            <div class="col-1 d-flex justify-content-center">
+                <a asp-action="Index" asp-route-page='1' asp-route-size='50' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>50</a>
+            </div>
+        }
+        @if ((int)ViewData["size"] == 50)
+        {
+            <div class="col-1 d-flex justify-content-center">
+                <a style="opacity: .5; pointer-events: none;" asp-action="Index" asp-route-page='1' asp-route-size='50' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>50</a>
+            </div>
+        }
+        <div class="col-5"></div>
+        <div class="col-2 d-flex justify-content-center">
+            @if ((bool)ViewData["previous"])
+            {
+                <a asp-action="Index" asp-route-page='@((int)ViewData["page"] - 1)' asp-route-size='@ViewData["size"]' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>← Terug</a>
+            }
+        </div>
+        <div class="col-2 d-flex justify-content-center">
+            @if ((bool)ViewData["next"])
+            {
+                <a asp-action="Index" asp-route-page='@((int)ViewData["page"] + 1)' asp-route-size='@ViewData["size"]' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>Volgende →</a>
+            }
+        </div>
+    </div>
     @if (User.IsInRole("Orthopedagoog"))
     {
-        <div class="row">
+        <div class="row mt-3">
             <div class="col text-center">
                 <button class="btn btn-primary lg-btn" type="button" data-toggle="modal" data-target="#NewRoom">Nieuwe zelfhulpgroep</button>
             </div>

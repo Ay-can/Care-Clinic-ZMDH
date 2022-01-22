@@ -38,10 +38,75 @@ namespace Wdpr_Groep_E.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Orthopedagoog")]
-        public IActionResult Overview()
+        public async Task<IActionResult> Overview(string search, int page, int size, string sort)
         {
-            _context.SaveChangesAsync();
-            return View(_context.SignUps.Include(s => s.Children).ToList());
+            var signups = _context.SignUps.Include(s => s.Children);
+            if (sort == null) sort = "voornaam_oplopend";
+            ViewData["sort"] = sort;
+
+            if (page == 0) page = 1;
+            ViewData["page"] = page;
+
+            if (size == 0) size = 10;
+            ViewData["size"] = size;
+
+            ViewData["previous"] = page > 1;
+            ViewData["next"] = (page * size) < signups.Count();
+
+            return View(await Paginate(Search(Sort(signups, sort), search), page, size).ToListAsync());
+        }
+
+        public IQueryable<SignUp> Search(IQueryable<SignUp> signups, string search)
+        {
+            if (search != null) signups = signups
+                .Where(s => s.FirstName
+                    .Contains(search) || s.LastName
+                        .Contains(search) || s.Email
+                            .Contains(search) || s.PhoneNumber
+                                .Contains(search) || s.Subject
+                                    .Contains(search) || s.Children.SingleOrDefault().ChildFirstName
+                                        .Contains(search) || s.Children.SingleOrDefault().ChildLastName
+                                            .Contains(search) || s.Children.SingleOrDefault().Caregiver
+                                                .Contains(search));
+            return signups;
+        }
+
+        public IQueryable<SignUp> Paginate(IQueryable<SignUp> signups, int page, int size)
+        {
+            return signups.Skip((page - 1) * size).Take(size);
+        }
+
+        public IQueryable<SignUp> Sort(IQueryable<SignUp> signups, string sort)
+        {
+            switch (sort)
+            {
+                case "voornaam_oplopend":
+                    return signups.OrderBy(r => r.FirstName);
+                case "voornaam_aflopend":
+                    return signups.OrderByDescending(r => r.FirstName);
+                case "achternaam_oplopend":
+                    return signups.OrderBy(r => r.LastName);
+                case "achternaam_aflopend":
+                    return signups.OrderByDescending(r => r.LastName);
+                case "email_oplopend":
+                    return signups.OrderBy(r => r.Email);
+                case "email_aflopend":
+                    return signups.OrderByDescending(r => r.Email);
+                case "telefoon_oplopend":
+                    return signups.OrderBy(r => r.PhoneNumber);
+                case "telefoon_aflopend":
+                    return signups.OrderByDescending(r => r.PhoneNumber);
+                case "onderwerp_oplopend":
+                    return signups.OrderBy(r => r.Subject);
+                case "onderwerp_aflopend":
+                    return signups.OrderByDescending(r => r.Subject);
+                case "kind_oplopend":
+                    return signups.OrderBy(r => r.Children.SingleOrDefault().ChildFirstName);
+                case "kind_aflopend":
+                    return signups.OrderByDescending(r => r.Children.SingleOrDefault().ChildFirstName);
+                default:
+                    return signups.OrderBy(r => r);
+            }
         }
 
         [HttpPost]
@@ -62,7 +127,7 @@ namespace Wdpr_Groep_E.Controllers
                             Email = s.Email,
                             BirthDate = s.BirthDate,
                             UserName = s.UserName,
-                            Caregiver = caregiver,
+                            Caregiver = caregiver
                         });
                         await _context.SaveChangesAsync();
 
@@ -126,13 +191,13 @@ namespace Wdpr_Groep_E.Controllers
                             Caregiver = caregiver,
                             Children = new Collection<SignUpChild>() {
                                 new SignUpChild() {
-                                ChildUserName = c.ChildUserName,
-                                ChildFirstName = c.ChildFirstName,
-                                ChildLastName = c.ChildLastName,
-                                ChildInfix = c.ChildInfix,
-                                ChildBirthDate = c.ChildBirthDate,
-                                Subject = c.Subject,
-                                Caregiver = caregiver,
+                                    ChildUserName = c.ChildUserName,
+                                    ChildFirstName = c.ChildFirstName,
+                                    ChildLastName = c.ChildLastName,
+                                    ChildInfix = c.ChildInfix,
+                                    ChildBirthDate = c.ChildBirthDate,
+                                    Subject = c.Subject,
+                                    Caregiver = caregiver
                                 }
                             }
                         });
@@ -251,7 +316,7 @@ namespace Wdpr_Groep_E.Controllers
                 Infix = s.Infix,
                 Subject = s.Subject,
                 PhoneNumber = s.PhoneNumber,
-                Caregiver = "",
+                Caregiver = ""
             };
             await _context.SaveChangesAsync();
             await _userManager.CreateAsync(user, "Test123!");

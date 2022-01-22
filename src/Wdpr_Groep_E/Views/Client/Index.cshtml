@@ -1,8 +1,6 @@
-@model IEnumerable<Report>;
-@using Microsoft.AspNetCore.Identity
-@inject UserManager<AppUser> UserManager
+@model IEnumerable<string>;
 @{
-    ViewData["Title"] = "Reports inzien";
+    ViewData["Title"] = "Cliënten";
 }
 
 <div class="container-fluid manage pt-3 pb-3">
@@ -15,7 +13,7 @@
     <div class="row">
         <div class="col">
             <section>
-                <form asp-controller="Report" asp-action="Index" method="get">
+                <form asp-controller="Client" asp-action="Index" method="get">
                     <label for="search">Zoeken:</label>
                     <div class="form-row">
                         <div class="col">
@@ -35,71 +33,41 @@
     </div>
     <div class="row">
         <div class="col">
-            <table class="table table-sm table-striped table-bordered mt-3">
+            <table class="table table-sm table-striped table-bordered">
                 <thead>
                     <tr>
                         <th>
                             <div class="row m-0">
-                                <div class="col p-0">Gebruiker</div>
+                                <div class="col p-0">Id</div>
                                 <div class="col-auto manage-sort text-right p-0">
-                                    @if ((string)ViewData["sort"] == "gebruiker_oplopend")
+                                    @if ((string)ViewData["sort"] == "id_oplopend")
                                     {
-                                        <a asp-action="Index" asp-route-sort="gebruiker_aflopend" asp-route-search='@ViewData["search"]' title="Sorteer gebruiker aflopend">
+                                        <a asp-action="Index" asp-route-sort="id_aflopend" asp-route-search='@ViewData["search"]' title="Sorteer id aflopend">
                                             <span class="material-icons-round" aria-hidden="true">arrow_downward</span>
                                         </a>
                                     }
                                     else
                                     {
-                                        <a asp-action="Index" asp-route-sort="gebruiker_oplopend" asp-route-search='@ViewData["search"]' title="Sorteer gebruiker oplopend">
+                                        <a asp-action="Index" asp-route-sort="id_oplopend" asp-route-search='@ViewData["search"]' title="Sorteer id oplopend">
                                             <span class="material-icons-round" aria-hidden="true">arrow_upward</span>
                                         </a>
                                     }
                                 </div>
                             </div>
                         </th>
-                        <th>Bericht</th>
-                        <th>
-                            <div class="row m-0">
-                                <div class="col p-0">Datum</div>
-                                <div class="col-auto manage-sort text-right p-0">
-                                    @if ((string)ViewData["sort"] == "datum_oplopend")
-                                    {
-                                        <a asp-action="Index" asp-route-sort="datum_aflopend" asp-route-search='@ViewData["search"]' title="Sorteer datum aflopend">
-                                            <span class="material-icons-round" aria-hidden="true">arrow_downward</span>
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <a asp-action="Index" asp-route-sort="datum_oplopend" asp-route-search='@ViewData["search"]' title="Sorteer datum oplopend">
-                                            <span class="material-icons-round" aria-hidden="true">arrow_upward</span>
-                                        </a>
-                                    }
-                                </div>
-                            </div>
-                        </th>
-                        <th>Blokkeer</th>
-                        <th>Verwijder</th>
+                        <th>Gegevens</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var report in Model)
+                    @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@report.Name</td>
-                            <td>@report.Text</td>
-                            <td>@report.Date.ToString("dd/MM/yyyy")</td>
-                            <td class="text-center shrink">
-                                <form method="post" asp-controller="Report" asp-action="BlockReportedUser" asp-route-id='@UserManager.Users.SingleOrDefault(u => u.UserName == report.Name).Id'>
-                                    <input type="hidden" name="report" value="@report.Id" />
-                                    <input type="hidden" name="chat" value="@report.ChatId" />
-                                    <button class="btn btn-sm btn-danger">Blokkeren</button>
-                                </form>
-                            </td>
-                            <td class="text-center shrink">
-                                <form method="post" asp-controller="Report" asp-action="RemoveReport" asp-route-id="@report.Id">
-                                    <button class="btn btn-sm btn-danger">X</button>
-                                </form>
-                            </td>
+                            <td>@item</td>
+                            <form method="post" asp-action="ClientInfo" asp-controller="Client" asp-route-clientId="@item">
+                                <td class="text-center shrink">
+                                    <button class="btn btn-sm btn-primary">Zie gegevens</button>
+                                </td>
+                            </form>
                         </tr>
                     }
                 </tbody>
@@ -143,7 +111,9 @@
                 <a style="opacity: .5; pointer-events: none;" asp-action="Index" asp-route-page='1' asp-route-size='50' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>50</a>
             </div>
         }
-        <div class="col-5"></div>
+        <div class="col-1"></div>
+        <div class="col-3 d-flex justify-content-center">@ViewData["page"] / @ViewData["total"]</div>
+        <div class="col-1"></div>
         <div class="col-2 d-flex justify-content-center">
             @if ((bool)ViewData["previous"])
             {

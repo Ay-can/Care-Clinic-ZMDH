@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -26,22 +27,83 @@ namespace Wdpr_Groep_E.Controllers
         private async Task<List<string>> GetRoles(AppUser user) => new List<string>(await _userManager.GetRolesAsync(user));
 
         [Authorize(Roles = "Moderator")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search, int page, int size, string sort)
         {
             var getRoleViewModel = new List<UserRoleViewModel>();
-            foreach (var user in await _userManager.Users.ToListAsync())
+
+            foreach (var user in _context.Users)
             {
-                var currentViewModel = new UserRoleViewModel()
+                getRoleViewModel.Add(new UserRoleViewModel()
                 {
                     UserId = user.Id,
                     UserName = user.UserName,
                     Email = user.Email,
-                    Children = await _context.Users.Where(u => u.Parent.Id == user.Id).ToListAsync(),
+                    CaregiverUserName = _context.Users?.SingleOrDefault(s => s.Id == user.Caregiver)?.UserName,
+                    Children = await _context.Users?.Where(u => u.Parent.Id == user.Id)?.ToListAsync(),
                     Roles = await GetRoles(user)
-                };
-                getRoleViewModel.Add(currentViewModel);
+                });
             }
-            return View(getRoleViewModel);
+
+            if (sort == null) sort = "gebruiker_oplopend";
+            ViewData["sort"] = sort;
+
+            if (page == 0) page = 1;
+            ViewData["page"] = page;
+
+            if (size == 0) size = 10;
+            ViewData["size"] = size;
+
+            ViewData["previous"] = page > 1;
+            ViewData["next"] = (page * size) < getRoleViewModel.Count;
+
+            return View(Paginate(Search(Sort(getRoleViewModel.AsQueryable(), sort), search), page, size).ToList());
+        }
+
+        public IQueryable<UserRoleViewModel> Search(IQueryable<UserRoleViewModel> userRoleViews, string search)
+        {
+            if (search != null)
+                userRoleViews = userRoleViews
+                    .Where(s => s.UserName
+                        .Contains(search) || s.Email
+                                // .Contains(search) || s.Children.SingleOrDefault().FirstName
+                                .Contains(search) || s.Roles.SingleOrDefault()
+                                        // .Contains(search) || s.CaregiverUserName
+                                        .Contains(search));
+            return userRoleViews;
+        }
+
+        public IQueryable<UserRoleViewModel> Paginate(IQueryable<UserRoleViewModel> userRoleViews, int page, int size)
+        {
+            return userRoleViews.Skip((page - 1) * size).Take(size);
+        }
+
+        public IQueryable<UserRoleViewModel> Sort(IQueryable<UserRoleViewModel> userRoleViews, string sort)
+        {
+            switch (sort)
+            {
+                case "gebruiker_oplopend":
+                    return userRoleViews.OrderBy(r => r.UserName);
+                case "gebruiker_aflopend":
+                    return userRoleViews.OrderByDescending(r => r.UserName);
+                case "email_oplopend":
+                    return userRoleViews.OrderBy(r => r.Email);
+                case "email_aflopend":
+                    return userRoleViews.OrderByDescending(r => r.Email);
+                // case "kind_oplopend":
+                //     return userRoleViews.OrderBy(r => r.Children.SingleOrDefault().FirstName);
+                // case "kind_aflopend":
+                //     return userRoleViews.OrderByDescending(r => r.Children.SingleOrDefault().FirstName);
+                case "rol_oplopend":
+                    return userRoleViews.OrderBy(r => r.Roles.SingleOrDefault());
+                case "rol_aflopend":
+                    return userRoleViews.OrderByDescending(r => r.Roles.SingleOrDefault());
+                case "ortho_oplopend":
+                    return userRoleViews.OrderBy(r => r.CaregiverUserName);
+                case "ortho_aflopend":
+                    return userRoleViews.OrderByDescending(r => r.CaregiverUserName);
+                default:
+                    return userRoleViews.OrderBy(r => r);
+            }
         }
 
         public async Task<IActionResult> DeleteUser(string id)

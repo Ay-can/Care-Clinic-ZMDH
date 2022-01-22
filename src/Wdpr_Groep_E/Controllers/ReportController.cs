@@ -5,6 +5,7 @@ using FluentEmail.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Wdpr_Groep_E.Data;
 using Wdpr_Groep_E.Models;
 
@@ -24,7 +25,54 @@ namespace Wdpr_Groep_E.Controllers
         }
 
         [Authorize(Roles = "Moderator")]
-        public IActionResult Index() => View(_context.Reports);
+        public async Task<IActionResult> Index(string search, int page, int size, string sort)
+        {
+            var reports = _context.Reports.AsQueryable();
+            if (sort == null) sort = "gebruiker_oplopend";
+            ViewData["sort"] = sort;
+
+            if (page == 0) page = 1;
+            ViewData["page"] = page;
+
+            if (size == 0) size = 10;
+            ViewData["size"] = size;
+
+            ViewData["previous"] = page > 1;
+            ViewData["next"] = (page * size) < reports.Count();
+
+            return View(await Paginate(Search(Sort(reports, sort), search), page, size).ToListAsync());
+        }
+
+        public IQueryable<Report> Search(IQueryable<Report> reports, string search)
+        {
+            if (search != null) reports = reports
+                .Where(r => r.Name
+                    .Contains(search) || r.Text
+                        .Contains(search));
+            return reports;
+        }
+
+        public IQueryable<Report> Paginate(IQueryable<Report> reports, int page, int size)
+        {
+            return reports.Skip((page - 1) * size).Take(size);
+        }
+
+        public IQueryable<Report> Sort(IQueryable<Report> reports, string sort)
+        {
+            switch (sort)
+            {
+                case "gebruiker_oplopend":
+                    return reports.OrderBy(r => r.Name);
+                case "gebruiker_aflopend":
+                    return reports.OrderByDescending(r => r.Name);
+                case "datum_oplopend":
+                    return reports.OrderBy(r => r.Date);
+                case "datum_aflopend":
+                    return reports.OrderByDescending(r => r.Date);
+                default:
+                    return reports.OrderBy(r => r);
+            }
+        }
 
         [HttpPost]
         public async Task<IActionResult> ReportUser(int chat, string name, string text)

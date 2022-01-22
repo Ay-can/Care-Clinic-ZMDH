@@ -1,7 +1,6 @@
- @model IEnumerable<ReferralOverview>
+@model IEnumerable<ReferralOverview>
 @{
     ViewData["Title"] = "Dossier Overzicht";
-    var key = ViewData["key"];
 }
 
 <div class="container-fluid manage pt-3 pb-3">
@@ -13,31 +12,139 @@
     <hr />
     <div class="row">
         <div class="col">
+            <section>
+                <form asp-controller="Referral" asp-action="Index" method="get">
+                    <label for="search">Zoeken:</label>
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="form-group">
+                                <input class="form-control" id="search" name="search" placeholder="Zoeken" />
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-auto">
+                            <div class="form-group text-center">
+                                <input type="submit" class="btn btn-primary message-btn" value="Zoeken" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
             <table class="table table-sm table-striped table-bordered mt-3">
                 <thead>
                     <tr>
-                        <th>Bsn</th>
-                        <th>Geboortedatum</th>
+                        <th>
+                            <div class="row m-0">
+                                <div class="col p-0">BSN</div>
+                                <div class="col-auto manage-sort text-right p-0">
+                                    @if ((string)ViewData["sort"] == "bsn_oplopend")
+                                    {
+                                        <a asp-action="Index" asp-route-sort="bsn_aflopend" asp-route-search='@ViewData["search"]' title="Sorteer BSN aflopend">
+                                            <span class="material-icons-round" aria-hidden="true">arrow_downward</span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="Index" asp-route-sort="bsn_oplopend" asp-route-search='@ViewData["search"]' title="Sorteer BSN oplopend">
+                                            <span class="material-icons-round" aria-hidden="true">arrow_upward</span>
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="row m-0">
+                                <div class="col p-0">Geboortedatum</div>
+                                <div class="col-auto manage-sort text-right p-0">
+                                    @if ((string)ViewData["sort"] == "geboortedatum_oplopend")
+                                    {
+                                        <a asp-action="Index" asp-route-sort="geboortedatum_aflopend" asp-route-search='@ViewData["search"]' title="Sorteer geboortedatum aflopend">
+                                            <span class="material-icons-round" aria-hidden="true">arrow_downward</span>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="Index" asp-route-sort="geboortedatum_oplopend" asp-route-search='@ViewData["search"]' title="Sorteer geboortedatum oplopend">
+                                            <span class="material-icons-round" aria-hidden="true">arrow_upward</span>
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </th>
                         <th>Informatie</th>
                     </tr>
                 </thead>
                 <tbody>
-                     @foreach (var client in Model)
+                    @foreach (var client in Model)
                     {
                         <tr>
                             <td>@client.bsn</td>
                             <td>@client.dt</td>
-                            <form method="post" asp-action="IndividualReferral" asp-controller="Referral">
-                                <td class="text-center"><button class="btn btn-sm btn-primary">Informatie</button></td>
-                                <input type="hidden" name="Bsn" value="@client.bsn"></input>
-                                <input type="hidden" name="birthDate" value="@client.dt"></input>
-                            </form>
+                            <td class="text-center shrink">
+                                <form asp-controller="Referral" asp-action="IndividualReferral" method="post">
+                                    <input type="hidden" name="Bsn" value="@client.bsn" />
+                                    <input type="hidden" name="birthDate" value="@client.dt" />
+                                    <button class="btn btn-sm btn-primary">Informatie</button>
+                                </form>
+                            </td>
                         </tr>
-                    }  
-
+                    }
                 </tbody>
             </table>
         </div>
     </div>
+    <div class="row manage-options">
+        @if ((int)ViewData["size"] != 10)
+        {
+            <div class="col-1 d-flex justify-content-center">
+                <a asp-action="Index" asp-route-page='1' asp-route-size='10' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>10</a>
+            </div>
+        }
+        @if ((int)ViewData["size"] == 10)
+        {
+            <div class="col-1 d-flex justify-content-center">
+                <a style="opacity: .5; pointer-events: none;" asp-action="Index" asp-route-page='1' asp-route-size='10' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>10</a>
+            </div>
+        }
+        @if ((int)ViewData["size"] != 25)
+        {
+            <div class="col-1 d-flex justify-content-center">
+                <a asp-action="Index" asp-route-page='1' asp-route-size='25' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>25</a>
+            </div>
+        }
+        @if ((int)ViewData["size"] == 25)
+        {
+            <div class="col-1 d-flex justify-content-center">
+                <a style="opacity: .5; pointer-events: none;" asp-action="Index" asp-route-page='1' asp-route-size='25' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>25</a>
+            </div>
+        }
+        @if ((int)ViewData["size"] != 50)
+        {
+            <div class="col-1 d-flex justify-content-center">
+                <a asp-action="Index" asp-route-page='1' asp-route-size='50' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>50</a>
+            </div>
+        }
+        @if ((int)ViewData["size"] == 50)
+        {
+            <div class="col-1 d-flex justify-content-center">
+                <a style="opacity: .5; pointer-events: none;" asp-action="Index" asp-route-page='1' asp-route-size='50' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>50</a>
+            </div>
+        }
+        <div class="col-5"></div>
+        <div class="col-2 d-flex justify-content-center">
+            @if ((bool)ViewData["previous"])
+            {
+                <a asp-action="Index" asp-route-page='@((int)ViewData["page"] - 1)' asp-route-size='@ViewData["size"]' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>← Terug</a>
+            }
+        </div>
+        <div class="col-2 d-flex justify-content-center">
+            @if ((bool)ViewData["next"])
+            {
+                <a asp-action="Index" asp-route-page='@((int)ViewData["page"] + 1)' asp-route-size='@ViewData["size"]' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>Volgende →</a>
+            }
+        </div>
+    </div>
 </div>
-
