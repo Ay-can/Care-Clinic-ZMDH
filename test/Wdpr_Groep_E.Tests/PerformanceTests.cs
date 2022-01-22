@@ -39,5 +39,7 @@ namespace Wdpr_Groep_E.Tests
             _output.WriteLine("Laadtijd homepage: " + result + "ms");
             Assert.True(result < 500);
         }
+
+        
     }
 }
