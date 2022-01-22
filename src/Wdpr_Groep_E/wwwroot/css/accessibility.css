@@ -78,6 +78,10 @@
   background-color: var(--grey_1) !important;
 }
 
+[accessibility=on] .home-bg:before {
+  background: rgba(0 0 0 / .75);
+}
+
 [accessibility=on] .head-card p {
   font-size: 2.25rem;
 }
