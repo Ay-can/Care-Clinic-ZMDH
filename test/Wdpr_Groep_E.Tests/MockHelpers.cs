@@ -1,18 +1,12 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-
-using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 
-namespace Wdpr_Groep_E.Tests
+namespace Microsoft.AspNetCore.Identity.Test
 {
-
     public static class MockHelpers
     {
         public static StringBuilder LogMessage = new StringBuilder();
@@ -20,7 +14,17 @@ namespace Wdpr_Groep_E.Tests
         public static Mock<UserManager<TUser>> MockUserManager<TUser>() where TUser : class
         {
             var store = new Mock<IUserStore<TUser>>();
-            var mgr = new Mock<UserManager<TUser>>(store.Object, null, null, null, null, null, null, null, null);
+            var mgr = new Mock<UserManager<TUser>>(
+                store.Object,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+            );
             mgr.Object.UserValidators.Add(new UserValidator<TUser>());
             mgr.Object.PasswordValidators.Add(new PasswordValidator<TUser>());
             return mgr;
@@ -31,8 +35,13 @@ namespace Wdpr_Groep_E.Tests
             store = store ?? new Mock<IRoleStore<TRole>>().Object;
             var roles = new List<IRoleValidator<TRole>>();
             roles.Add(new RoleValidator<TRole>());
-            return new Mock<RoleManager<TRole>>(store, roles, MockLookupNormalizer(),
-                new IdentityErrorDescriber(), null);
+            return new Mock<RoleManager<TRole>>(
+                store,
+                roles,
+                new UpperInvariantLookupNormalizer(),
+                new IdentityErrorDescriber(),
+                null
+            );
         }
 
         public static UserManager<TUser> TestUserManager<TUser>(IUserStore<TUser> store = null) where TUser : class
@@ -47,12 +56,23 @@ namespace Wdpr_Groep_E.Tests
             userValidators.Add(validator.Object);
             var pwdValidators = new List<PasswordValidator<TUser>>();
             pwdValidators.Add(new PasswordValidator<TUser>());
-            var userManager = new UserManager<TUser>(store, options.Object, new PasswordHasher<TUser>(),
-                userValidators, pwdValidators, MockLookupNormalizer(),
-                new IdentityErrorDescriber(), null,
-                new Mock<ILogger<UserManager<TUser>>>().Object);
-            validator.Setup(v => v.ValidateAsync(userManager, It.IsAny<TUser>()))
-                .Returns(Task.FromResult(IdentityResult.Success)).Verifiable();
+            var userManager = new UserManager<TUser>(
+                store,
+                options.Object,
+                new PasswordHasher<TUser>(),
+                userValidators,
+                pwdValidators,
+                new UpperInvariantLookupNormalizer(),
+                new IdentityErrorDescriber(),
+                null,
+                new Mock<ILogger<UserManager<TUser>>>().Object
+            );
+            validator.Setup(v => v
+                .ValidateAsync(userManager, It
+                    .IsAny<TUser>()))
+                        .Returns(Task
+                            .FromResult(IdentityResult.Success))
+                                .Verifiable();
             return userManager;
         }
 
@@ -61,29 +81,13 @@ namespace Wdpr_Groep_E.Tests
             store = store ?? new Mock<IRoleStore<TRole>>().Object;
             var roles = new List<IRoleValidator<TRole>>();
             roles.Add(new RoleValidator<TRole>());
-            return new RoleManager<TRole>(store, roles,
-                MockLookupNormalizer(),
+            return new RoleManager<TRole>(
+                store,
+                roles,
+                new UpperInvariantLookupNormalizer(),
                 new IdentityErrorDescriber(),
-                null);
-        }
-
-        public static ILookupNormalizer MockLookupNormalizer()
-        {
-            var normalizerFunc = new Func<string, string>(i =>
-            {
-                if (i == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return Convert.ToBase64String(Encoding.UTF8.GetBytes(i)).ToUpperInvariant();
-                }
-            });
-            var lookupNormalizer = new Mock<ILookupNormalizer>();
-            lookupNormalizer.Setup(i => i.NormalizeName(It.IsAny<string>())).Returns(normalizerFunc);
-            lookupNormalizer.Setup(i => i.NormalizeEmail(It.IsAny<string>())).Returns(normalizerFunc);
-            return lookupNormalizer.Object;
+                null
+            );
         }
     }
 }
