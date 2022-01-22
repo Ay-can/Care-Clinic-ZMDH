@@ -30,7 +30,7 @@
 }
 
 .nav-link:hover, .nav-link:focus {
-  background-color: var(--white_5);
+  background-color: var(--grey_1);
   box-shadow: inset 0 2px 4px -2px rgba(0 0 0 / .5);
 }
 

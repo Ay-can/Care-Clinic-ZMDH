@@ -31,7 +31,7 @@
   justify-content: center;
 }
 
-.head-card>h2 {
+.head-card>h1 {
   color: #FFF;
   font-size: 1.5rem;
 }
@@ -73,7 +73,7 @@
   height: 12.5vh;
   min-height: 5rem;
   align-items: center;
-  background-color: var(--white_4);
+  background-color: var(--white_3);
   -webkit-box-shadow: inset 0 0 4px -2px #000;
   box-shadow: inset 0 0 4px -2px #000;
 }
@@ -112,11 +112,11 @@
   }
 
   .head-card>h2 {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
   }
 
   .home-card>h2 {
-    font-size: 1.8rem;
+    font-size: 1.75rem;
   }
 
   .home-text-col {
@@ -142,7 +142,7 @@
   }
 
   .home-card {
-    font-size: .9rem;
+    font-size: 0.9375rem;
   }
 
   .home-text-col {
@@ -166,7 +166,7 @@
   }
 
   .home-card {
-    font-size: 1.1rem;
+    font-size: 1.1875rem;
   }
 
   .home-text-col {
