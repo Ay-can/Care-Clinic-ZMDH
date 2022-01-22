@@ -37,7 +37,7 @@
   color: var(--blue);
 }
 
-.report button {
+.report button, .report a {
   padding: 0;
   border: none;
   font: inherit;

@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -16,7 +15,7 @@ namespace Wdpr_Groep_E.Tests
             _output = output;
         }
 
-        public long LaadtijdHomepageTijdInitialize()
+        public long LaadtijdHomepageInitialize()
         {
             WebClient client = new WebClient();
 
@@ -34,9 +33,9 @@ namespace Wdpr_Groep_E.Tests
         }
 
         [Fact]
-        public void LaadtijdHomepageTijd()
+        public void LaadtijdHomepageTest()
         {
-            long result = LaadtijdHomepageTijdInitialize();
+            long result = LaadtijdHomepageInitialize();
             _output.WriteLine("Laadtijd homepage: " + result + "ms");
             Assert.True(result < 500);
         }
