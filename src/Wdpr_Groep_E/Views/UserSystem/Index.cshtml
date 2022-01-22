@@ -19,6 +19,7 @@
                         <th>Email</th>
                         <th>Kinderen</th>
                         <th>Rol</th>
+                        <th>Orthopedagoog</th>
                         <th>Update</th>
                         <th>Verwijder</th>
                     </tr>
@@ -29,6 +30,7 @@
                         <tr>
                             <td>@user.UserName</td>
                             <td>@user.Email</td>
+                            
                             @if (user.Children.Count > 0)
                             {
                                 @foreach (var child in user?.Children)
