@@ -16,6 +16,7 @@ namespace Wdpr_Groep_E.Tests
         [Fact]
         public void CreateRoomTest()
         {
+            // Arrange
             var context = new WdprContext(new DbContextOptionsBuilder<WdprContext>().UseInMemoryDatabase("CreateRoomTestDb").Options);
 
             var controller = new ChatSystemController(
@@ -31,12 +32,14 @@ namespace Wdpr_Groep_E.Tests
             });
             context.SaveChanges();
 
+            // Assert
             Assert.Equal(1, context.Chats.Where(c => c.Type == ChatType.Room).Count());
         }
 
         [Fact]
         public void CreatePrivateRoomTest()
         {
+            // Arrange
             var context = new WdprContext(new DbContextOptionsBuilder<WdprContext>().UseInMemoryDatabase("CreatePrivateRoomTestDb").Options);
 
             var controller = new ChatSystemController(
@@ -50,12 +53,14 @@ namespace Wdpr_Groep_E.Tests
             });
             context.SaveChanges();
 
+            // Assert
             Assert.Equal(1, context.Chats.Where(c => c.Type == ChatType.Private).Count());
         }
 
         [Fact]
         public void JoinRoomTest()
         {
+            // Arrange
             var context = new WdprContext(new DbContextOptionsBuilder<WdprContext>().UseInMemoryDatabase("JoinRoomTestDb").Options);
 
             var controller = new ChatSystemController(
@@ -79,12 +84,14 @@ namespace Wdpr_Groep_E.Tests
             });
             context.SaveChanges();
 
+            // Assert
             Assert.Equal(1, context.ChatUsers.Where(cu => cu.ChatId == 1).Count());
         }
 
         [Fact]
         public void JoinPrivateRoomTest()
         {
+            // Arrange
             var context = new WdprContext(new DbContextOptionsBuilder<WdprContext>().UseInMemoryDatabase("JoinPrivateRoomTestDb").Options);
 
             var controller = new ChatSystemController(
@@ -108,12 +115,14 @@ namespace Wdpr_Groep_E.Tests
             });
             context.SaveChanges();
 
+            // Assert
             Assert.Equal(1, context.ChatUsers.Where(cu => cu.ChatId == 1).Count());
         }
 
         [Fact]
         public void BlockUserTest()
         {
+            // Arrange
             var context = new WdprContext(new DbContextOptionsBuilder<WdprContext>().UseInMemoryDatabase("BlockUserTestDb").Options);
 
             var controller = new ChatSystemController(
@@ -137,14 +146,17 @@ namespace Wdpr_Groep_E.Tests
             });
             context.SaveChanges();
 
+            // Act
             context.ChatUsers.Where(cu => cu.ChatId == 1).First().IsBlocked = true;
 
-            Assert.Equal(true, context.ChatUsers.Where(cu => cu.ChatId == 1).First().IsBlocked);
+            // Assert
+            Assert.True(context.ChatUsers.Where(cu => cu.ChatId == 1).First().IsBlocked);
         }
 
         [Fact]
         public void UnBlockUserTest()
         {
+            // Arrange
             var context = new WdprContext(new DbContextOptionsBuilder<WdprContext>().UseInMemoryDatabase("UnBlockUserTestDb").Options);
 
             var controller = new ChatSystemController(
@@ -168,9 +180,11 @@ namespace Wdpr_Groep_E.Tests
             });
             context.SaveChanges();
 
+            // Act
             context.ChatUsers.Where(cu => cu.ChatId == 1).First().IsBlocked = false;
 
-            Assert.Equal(false, context.ChatUsers.Where(cu => cu.ChatId == 1).First().IsBlocked);
+            // Assert
+            Assert.False(context.ChatUsers.Where(cu => cu.ChatId == 1).First().IsBlocked);
         }
     }
 }
