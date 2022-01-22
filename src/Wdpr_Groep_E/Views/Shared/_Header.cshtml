@@ -48,19 +48,6 @@
                                 <span class="material-icons-round" aria-hidden="true">feedback</span>
                             </a>
                         </li>
-                    }
-                    @if (User.IsInRole("Moderator"))
-                    {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Report" asp-action="Index" title="Gerapporteerde gebruikers">
-                                <span class="material-icons-round" aria-hidden="true">flag</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="UserSystem" asp-action="Index" title="Gebruikers inzien">
-                                <span class="material-icons-round" aria-hidden="true">people</span>
-                            </a>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Referral" asp-action="Index" title="Verwijzingen inzien">
                                 <span class="material-icons-round" aria-hidden="true">assignment</span>
@@ -71,9 +58,27 @@
                                 <span class="material-icons-round" aria-hidden="true">face</span>
                             </a>
                         </li>
+                    }
+                    @if (User.IsInRole("Moderator"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="UserSystem" asp-action="Index" title="Gebruikers inzien">
+                                <span class="material-icons-round" aria-hidden="true">people</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Caregiver" asp-action="Index" title="Orthopadagogen beheren">
+                                <span class="material-icons-round" aria-hidden="true">nature_people</span>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="RoleSystem" asp-action="Index" title="Gebruikers rollen">
                                 <span class="material-icons-round" aria-hidden="true">assignment_ind</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Report" asp-action="Index" title="Gerapporteerde gebruikers">
+                                <span class="material-icons-round" aria-hidden="true">flag</span>
                             </a>
                         </li>
                     }

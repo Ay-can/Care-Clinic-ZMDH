@@ -1,12 +1,14 @@
 using System;
 using System.Globalization;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Wdpr_Groep_E.Models;
 using Wdpr_Groep_E.Services;
 
 namespace Wdpr_Groep_E.Controllers
 {
+    [Authorize(Roles = "Moderator, Orthopedagoog")]
     public class ReferralController : Controller
     {
         private readonly IZorgdomein _zorgdomein;

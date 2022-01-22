@@ -92,12 +92,12 @@
                                 <form method="post" asp-controller="Report" asp-action="BlockReportedUser" asp-route-id='@UserManager.Users.SingleOrDefault(u => u.UserName == report.Name).Id'>
                                     <input type="hidden" name="report" value="@report.Id" />
                                     <input type="hidden" name="chat" value="@report.ChatId" />
-                                    <button class="btn btn-sm btn-danger">Blokkeren</button>
+                                    <button class="btn btn-sm btn-danger">Blokkeer</button>
                                 </form>
                             </td>
                             <td class="text-center shrink">
                                 <form method="post" asp-controller="Report" asp-action="RemoveReport" asp-route-id="@report.Id">
-                                    <button class="btn btn-sm btn-danger">X</button>
+                                    <button class="btn btn-sm btn-danger">Verwijder</button>
                                 </form>
                             </td>
                         </tr>

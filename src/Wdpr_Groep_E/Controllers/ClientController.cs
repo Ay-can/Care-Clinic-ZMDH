@@ -10,7 +10,7 @@ using Wdpr_Groep_E.Services;
 
 namespace Wdpr_Groep_E.Controllers
 {
-    [Authorize(Roles = "Moderator")]
+    [Authorize(Roles = "Moderator, Orthopedagoog")]
     public class ClientController : Controller
     {
         private readonly IZmdhApi _api;

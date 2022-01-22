@@ -18,7 +18,7 @@ namespace Wdpr_Groep_E.Controllers
         private readonly WdprContext _context;
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-    
+
         public UserSystemController(WdprContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
@@ -106,12 +106,7 @@ namespace Wdpr_Groep_E.Controllers
                     return userRoleViews.OrderByDescending(r => r.CaregiverUserName);
                 default:
                     return userRoleViews.OrderBy(r => r);
-
-                    Children = await _context.Users.Where(u => u.Parent.Id == user.Id).ToListAsync(),
-                    Roles = await GetRoles(user),
-                };
-                getRoleViewModel.Add(currentViewModel);
-            }
+            };
         }
 
         public async Task<IActionResult> DeleteUser(string id)
