@@ -35,7 +35,7 @@ namespace Wdpr_Groep_E.Tests
             Timer.Stop();
             var Result = Timer.ElapsedMilliseconds;
             _output.WriteLine($"Loadtime Home page: {Result}ms");
-            Assert.True(Result < 500);
+            Assert.True(Result < 1000);
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace Wdpr_Groep_E.Tests
             Timer.Stop();
             var Result = Timer.ElapsedMilliseconds;
             _output.WriteLine($"Loadtime Info page :{Result}ms");
-            Assert.True(Result < 500);
+            Assert.True(Result < 1000);
         }
         [Fact]
         public void AboutUsPageTest()
@@ -66,7 +66,7 @@ namespace Wdpr_Groep_E.Tests
             Timer.Stop();
             var Result = Timer.ElapsedMilliseconds;
             _output.WriteLine($"Loadtime About page :{Result}ms");
-            Assert.False(Result < 500);
+            Assert.True(Result < 1000);
         }
         [Fact]
         public void OrthopedagoogPageTest()
@@ -81,7 +81,7 @@ namespace Wdpr_Groep_E.Tests
             Timer.Stop();
             var Result = Timer.ElapsedMilliseconds;
             _output.WriteLine($"Loadtime About page :{Result}ms");
-            Assert.True(Result < 500);
+            Assert.True(Result < 1000);
         }
 
         [Fact]
@@ -96,7 +96,7 @@ namespace Wdpr_Groep_E.Tests
 
             var Result = Timer.ElapsedMilliseconds;
             _output.WriteLine($"Loadtime api call for all clients {Result}ms");
-            Assert.True(Result < 100);
+            Assert.True(Result < 1000);
         }
         [Fact]
         public void ApiGetAllReferralsPerformanceTest()
@@ -109,7 +109,7 @@ namespace Wdpr_Groep_E.Tests
             Timer.Stop();
             var Result = Timer.ElapsedMilliseconds;
             _output.WriteLine($"Loadtime api call for all client referrals {Result}ms");
-            Assert.True(Result < 100);
+            Assert.True(Result < 1000);
         }
         [Fact]
         public void ApiPostClientPerformanceTest()
@@ -123,7 +123,7 @@ namespace Wdpr_Groep_E.Tests
             Timer.Stop();
             var Result = Timer.ElapsedMilliseconds;
             _output.WriteLine($"New client added to api {Result} ms");
-            Assert.True(Result < 300);
+            Assert.True(Result < 500);
         }
     }
 }

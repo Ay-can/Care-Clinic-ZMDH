@@ -41,7 +41,7 @@ namespace Wdpr_Groep_E.Tests
                 Subject = "Test",
                 Message = "Test",
                 Email = "test@mail.nl",
-                BirthDate = DateTime.Now,
+                BirthDate = DateTime.Now.AddYears(-20),
                 UserName = "TestUser"
             }, "test");
 
