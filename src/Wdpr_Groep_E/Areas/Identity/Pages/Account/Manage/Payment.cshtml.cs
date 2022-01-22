@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Wdpr_Groep_E.Models;
+using Wdpr_Groep_E.Services;
 
 namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
 {
@@ -19,15 +20,17 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly IEmailSender _emailSender;
+        private readonly IZmdhApi _api;
 
         public PaymentModel(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender,IZmdhApi api )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
+            _api = api;
         }
 
         public string Username { get; set; }
@@ -48,15 +51,16 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
 
         private async Task LoadAsync(AppUser user)
         {
-            var iban = await _userManager.GetEmailAsync(user);
-            IBAN = iban;
+            var userId = user.Id;
+
+            var getClientObject = await _api.GetClientObject(userId);
+            IBAN = getClientObject.IBAN;
 
             Input = new InputModel
             {
-                IBAN = iban,
+                IBAN = getClientObject.IBAN
             };
 
-            // IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -71,9 +75,14 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
-        public async Task<IActionResult> OnPostChangeEmailAsync()
+         public async Task<IActionResult> OnPostChangePayment()
         {
+             
             var user = await _userManager.GetUserAsync(User);
+            var userIdApi = user.Id;
+
+            var getClientObject = await _api.GetClientObject(userIdApi);
+            
             if (user == null)
             {
                 return NotFound($"Kan gebruiker met ID '{_userManager.GetUserId(User)}' niet laden.");
@@ -84,60 +93,7 @@ namespace Wdpr_Groep_E.Areas.Identity.Pages.Account.Manage
                 await LoadAsync(user);
                 return Page();
             }
-
-            var iban = await _userManager.GetEmailAsync(user);
-            if (Input.IBAN != iban)
-            {
-                var userId = await _userManager.GetUserIdAsync(user);
-                var code = await _userManager.GenerateChangeEmailTokenAsync(user, Input.IBAN);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                var callbackUrl = Url.Page(
-                    "/Account/ConfirmPaymentChange",
-                    pageHandler: null,
-                    values: new { userId = userId, email = Input.IBAN, code = code },
-                    protocol: Request.Scheme);
-                await _emailSender.SendEmailAsync(
-                    Input.IBAN,
-                    "Confirm your email",
-                    $"Bevestig uw account door <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>hier te klikken</a>.");
-
-                StatusMessage = "Bevestigingslink om verzonden e-mail te wijzigen. Controleer uw e-mail.";
-                return RedirectToPage();
-            }
-
-            StatusMessage = "Uw e-mail is ongewijzigd.";
-            return RedirectToPage();
-        }
-
-        public async Task<IActionResult> OnPostSendVerificationEmailAsync()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound($"Kan gebruiker met ID '{_userManager.GetUserId(User)}' niet laden.");
-            }
-
-            if (!ModelState.IsValid)
-            {
-                await LoadAsync(user);
-                return Page();
-            }
-
-            var userId = await _userManager.GetUserIdAsync(user);
-            var email = await _userManager.GetEmailAsync(user);
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            var callbackUrl = Url.Page(
-                "/Account/ConfirmEmail",
-                pageHandler: null,
-                values: new { area = "Identity", userId = userId, code = code },
-                protocol: Request.Scheme);
-            await _emailSender.SendEmailAsync(
-                email,
-                "Bevestig uw email",
-                $"Bevestig uw account door <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>hier te klikken</a>.");
-
-            StatusMessage = "Verificatie-e-mail verzonden. Controleer uw e-mail.";
+            await _api.PutClient(new Client() {clientid = int.Parse(userIdApi), IBAN = Input.IBAN});
             return RedirectToPage();
         }
     }

@@ -11,22 +11,13 @@
         <h4>@ViewData["Title"]</h4>
         <form id="bsn-form" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
-            @* <div class="form-group">
-                <label asp-for="Email"></label>:
-                <div class="input-group">
-                <input asp-for="Email" class="form-control" disabled />
-                <div class="input-group-append">
-                <span class="input-group-text text-success font-weight-bold">✓</span>
-                </div>
-                </div>
-                </div> *@
             <div class="form-group">
                 <label asp-for="Input.BSN"></label>:<span class="required"> *</span>
                 <input asp-for="Input.BSN" class="form-control" />
                 <span asp-validation-for="Input.BSN" class="text-danger"></span>
             </div>
             <div class="form-group text-center">
-                <button id="bsn-button" type="submit" asp-page-handler="ChangePayment" class="btn btn-primary lg-btn">Update BSN</button>
+                <button id="bsn-button" type="submit" asp-page-handler="ChangeBSN" class="btn btn-primary lg-btn">Update BSN</button>
             </div>
         </form>
     </div>
