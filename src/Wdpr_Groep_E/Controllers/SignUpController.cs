@@ -245,7 +245,7 @@ namespace Wdpr_Groep_E.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Orthopedagoog")]
-        public async Task<IActionResult> AcceptSignUpAsync(SignUp s, string caregiver)
+        public async Task<IActionResult> AcceptSignUp(SignUp s, string caregiver)
         {
             int generateId = await _api.CreateClientId();
             var user = new AppUser
@@ -287,7 +287,7 @@ namespace Wdpr_Groep_E.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Orthopedagoog")]
-        public async Task<IActionResult> AcceptSignUpWithChildren(SignUp s, SignUpChild c, string caregiver)
+        public async Task<IActionResult> AcceptSignUpWithChild(SignUp s, SignUpChild c, string caregiver)
         {
             int generateId = await _api.CreateClientId();
             var child = new AppUser()
