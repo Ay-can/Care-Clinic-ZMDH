@@ -77,3 +77,8 @@ a:hover {
   position: fixed;
   background: url('../img/load.svg') center no-repeat var(--white_3);
 }
+
+.shrink {
+  width: 0;
+  white-space: nowrap;
+}

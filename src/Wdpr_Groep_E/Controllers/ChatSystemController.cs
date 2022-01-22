@@ -28,22 +28,31 @@ namespace Wdpr_Groep_E.Controllers
             _roleManager = roleManager;
         }
 
-        public async Task<IActionResult> Index(string search)
+        public async Task<IActionResult> Index(string search, int page, int size, string sort)
         {
+            var chats = Enumerable.Empty<Chat>().AsQueryable();
             if (User.IsInRole("Orthopedagoog"))
-                return View(await Search(_context.Chats
-                    .Include(c => c.Users)
-                        .Where(c => c.Type == ChatType.Room), search)
-                            .ToListAsync());
+                chats = _context.Chats.Include(c => c.Users).Where(c => c.Type == ChatType.Room);
             else
-            {
-                return View(await Search(_context.Chats
+                chats = _context.Chats
                     .Include(c => c.Users)
                         .Where(c => !c.Users
                             .Any(u => u.UserId == User
-                                .FindFirst(ClaimTypes.NameIdentifier).Value) && c.Type == ChatType.Room), search)
-                                    .ToListAsync());
-            }
+                                .FindFirst(ClaimTypes.NameIdentifier).Value) && c.Type == ChatType.Room);
+
+            if (sort == null) sort = "chatnaam_oplopend";
+            ViewData["sort"] = sort;
+
+            if (page == 0) page = 1;
+            ViewData["page"] = page;
+
+            if (size == 0) size = 10;
+            ViewData["size"] = size;
+
+            ViewData["previous"] = page > 1;
+            ViewData["next"] = (page * size) < chats.Count();
+
+            return View(await Paginate(Search(Sort(chats, sort), search), page, size).ToListAsync());
         }
 
         public IQueryable<Chat> Search(IQueryable<Chat> chats, string search)
@@ -53,6 +62,36 @@ namespace Wdpr_Groep_E.Controllers
                     .Contains(search) || c.AgeGroup
                         .Contains(search));
             return chats;
+        }
+
+        public IQueryable<Chat> Paginate(IQueryable<Chat> chats, int page, int size)
+        {
+            return chats.Skip((page - 1) * size).Take(size);
+        }
+
+        public IQueryable<Chat> Sort(IQueryable<Chat> chats, string sort)
+        {
+            switch (sort)
+            {
+                case "chatnaam_oplopend":
+                    return chats.OrderBy(c => c.Name);
+                case "chatnaam_aflopend":
+                    return chats.OrderByDescending(c => c.Name);
+                case "onderwerp_oplopend":
+                    return chats.OrderBy(c => c.Subject);
+                case "onderwerp_aflopend":
+                    return chats.OrderByDescending(c => c.Subject);
+                case "deelnemers_oplopend":
+                    return chats.OrderBy(c => c.Users.Count);
+                case "deelnemers_aflopend":
+                    return chats.OrderByDescending(c => c.Users.Count);
+                case "leeftijd_oplopend":
+                    return chats.OrderBy(c => c.AgeGroup);
+                case "leeftijd_aflopend":
+                    return chats.OrderByDescending(c => c.AgeGroup);
+                default:
+                    return chats.OrderBy(c => c.Name);
+            }
         }
 
         public IActionResult Users(int id) => View(_context.ChatUsers

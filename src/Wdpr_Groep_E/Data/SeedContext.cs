@@ -10,14 +10,11 @@ namespace Wdpr_Groep_E.Data
     {
         public static async Task CreateRolesAsync(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            //We maken rollen aan en vervolgens voegen we ze toe.
             await roleManager.CreateAsync(new IdentityRole("Orthopedagoog"));
             await roleManager.CreateAsync(new IdentityRole("Moderator"));
             await roleManager.CreateAsync(new IdentityRole("Ouder"));
             await roleManager.CreateAsync(new IdentityRole("Tiener"));
             await roleManager.CreateAsync(new IdentityRole("Kind"));
-
-            await roleManager.CreateAsync(new IdentityRole("TestUser"));
         }
 
         public static async Task CreateSubjects(WdprContext context)
@@ -32,7 +29,6 @@ namespace Wdpr_Groep_E.Data
 
         public static async Task CreateModeratorAsync(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
-            //nog aanpassen wanneer default AppUser is veranderd.
             var Moderator = new AppUser
             {
                 UserName = "Moderator",
@@ -106,45 +102,6 @@ namespace Wdpr_Groep_E.Data
             };
             await userManager.CreateAsync(Joseph, "Test123!");
             await userManager.AddToRoleAsync(Joseph, "Orthopedagoog");
-        }
-
-        public static async Task CreateUsers(WdprContext context, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
-        {
-            var Test = new AppUser
-            {
-                UserName = "Test",
-                Email = "zmdh.hulp@gmail.com",
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = true,
-                Subject = "Faalangst",
-                Caregiver = context.Users.SingleOrDefault(u => u.Subject == "Faalangst").Id
-            };
-            await userManager.CreateAsync(Test, "Test123!");
-            await userManager.AddToRoleAsync(Test, "Tiener");
-
-            var Hans = new AppUser
-            {
-                UserName = "Hans2207",
-                Email = "hans@mail.nl",
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = true,
-                Subject = "Hoogbegaafdheid",
-                Caregiver = context.Users.SingleOrDefault(u => u.Subject == "Hoogbegaafdheid").Id
-            };
-            await userManager.CreateAsync(Hans, "Test123!");
-            await userManager.AddToRoleAsync(Hans, "Tiener");
-
-            var Sara = new AppUser
-            {
-                UserName = "Sara2004",
-                Email = "sara@mail.nl",
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = true,
-                Subject = "ADD",
-                Caregiver = context.Users.SingleOrDefault(u => u.Subject == "ADD").Id
-            };
-            await userManager.CreateAsync(Sara, "Test123!");
-            await userManager.AddToRoleAsync(Sara, "Kind");
         }
     }
 }

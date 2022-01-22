@@ -16,24 +16,69 @@ namespace Wdpr_Groep_E.Controllers
     [Authorize(Roles = "Tiener, Kind, Orthopedagoog")]
     public class ChatController : Controller
     {
-        private readonly IHubContext<ChatHub> _chatContext;
-        private readonly UserManager<AppUser> _userManager;
         private readonly WdprContext _context;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IHubContext<ChatHub> _chatContext;
 
-        public ChatController(IHubContext<ChatHub> chatHubContext, UserManager<AppUser> userManager, WdprContext context)
+        public ChatController(WdprContext context, UserManager<AppUser> userManager, IHubContext<ChatHub> chatHubContext)
         {
-            _chatContext = chatHubContext;
-            _userManager = userManager;
             _context = context;
+            _userManager = userManager;
+            _chatContext = chatHubContext;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search, int page, int size, string sort)
         {
-            return View(await _context.ChatUsers
+            var chatUsers = _context.ChatUsers
                 .Include(c => c.Chat)
                     .Where(c => c.UserId == HttpContext.User
-                        .FindFirst(ClaimTypes.NameIdentifier).Value)
-                            .ToListAsync());
+                        .FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (sort == null) sort = "chatnaam_oplopend";
+            ViewData["sort"] = sort;
+
+            if (page == 0) page = 1;
+            ViewData["page"] = page;
+
+            if (size == 0) size = 10;
+            ViewData["size"] = size;
+
+            ViewData["previous"] = page > 1;
+            ViewData["next"] = (page * size) < chatUsers.Count();
+
+            return View(await Paginate(Search(Sort(chatUsers, sort), search), page, size).ToListAsync());
+        }
+
+        public IQueryable<ChatUser> Search(IQueryable<ChatUser> chatUsers, string search)
+        {
+            if (search != null) chatUsers = chatUsers.Where(u => u.Chat.Name.Contains(search));
+            return chatUsers;
+        }
+
+        public IQueryable<ChatUser> Paginate(IQueryable<ChatUser> chatUsers, int page, int size)
+        {
+            return chatUsers.Skip((page - 1) * size).Take(size);
+        }
+
+        public IQueryable<ChatUser> Sort(IQueryable<ChatUser> chatUsers, string sort)
+        {
+            switch (sort)
+            {
+                case "chatnaam_oplopend":
+                    return chatUsers.OrderBy(cu => cu.Chat.Name);
+                case "chatnaam_aflopend":
+                    return chatUsers.OrderByDescending(cu => cu.Chat.Name);
+                case "onderwerp_oplopend":
+                    return chatUsers.OrderBy(cu => cu.Chat.Subject);
+                case "onderwerp_aflopend":
+                    return chatUsers.OrderByDescending(cu => cu.Chat.Subject);
+                case "type_oplopend":
+                    return chatUsers.OrderBy(cu => cu.Chat.Type);
+                case "type_aflopend":
+                    return chatUsers.OrderByDescending(cu => cu.Chat.Type);
+                default:
+                    return chatUsers.OrderBy(cu => cu.Chat.Name);
+            }
         }
 
         [HttpGet("[controller]/{id}")]

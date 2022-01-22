@@ -38,7 +38,7 @@
                                 {
                                     @if (user.IsBlocked)
                                     {
-                                        <td class="text-center">
+                                        <td class="text-center shrink">
                                             <form asp-controller="ChatSystem" asp-action="UnblockUser" asp-route-id="@user.User.Id" method="post">
                                                 <input type="hidden" name="chat" value="@user.ChatId" />
                                                 <button class="btn btn-sm btn-success">Deblokkeren</button>
@@ -49,7 +49,7 @@
                                     else
                                     {
                                         <td></td>
-                                        <td class="text-center">
+                                        <td class="text-center shrink">
                                             <form asp-controller="ChatSystem" asp-action="BlockUser" asp-route-id="@user.User.Id" method="post">
                                                 <input type="hidden" name="chat" value="@user.ChatId" />
                                                 <button class="btn btn-sm btn-danger">Blokkeren</button>

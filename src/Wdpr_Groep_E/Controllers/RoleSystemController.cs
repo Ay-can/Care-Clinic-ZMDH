@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -16,28 +17,59 @@ namespace Wdpr_Groep_E.Controllers
         public RoleSystemController(RoleManager<IdentityRole> roleManager) => _roleManager = roleManager;
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search, int page, int size, string sort)
         {
-            return View(await _roleManager.Roles.ToListAsync());
+            var roles = _roleManager.Roles;
+            if (sort == null) sort = "rol_oplopend";
+            ViewData["sort"] = sort;
+
+            if (page == 0) page = 1;
+            ViewData["page"] = page;
+
+            if (size == 0) size = 10;
+            ViewData["size"] = size;
+
+            ViewData["previous"] = page > 1;
+            ViewData["next"] = (page * size) < roles.Count();
+
+            return View(await Paginate(Search(Sort(roles, sort), search), page, size).ToListAsync());
+        }
+
+        public IQueryable<IdentityRole> Search(IQueryable<IdentityRole> reports, string search)
+        {
+            if (search != null) reports = reports.Where(r => r.Name.Contains(search));
+            return reports;
+        }
+
+        public IQueryable<IdentityRole> Paginate(IQueryable<IdentityRole> reports, int page, int size)
+        {
+            return reports.Skip((page - 1) * size).Take(size);
+        }
+
+        public IQueryable<IdentityRole> Sort(IQueryable<IdentityRole> reports, string sort)
+        {
+            switch (sort)
+            {
+                case "rol_oplopend":
+                    return reports.OrderBy(r => r.Name);
+                case "rol_aflopend":
+                    return reports.OrderByDescending(r => r.Name);
+                default:
+                    return reports.OrderBy(r => r);
+            }
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddRole(string Name)
+        public async Task<IActionResult> AddRole(string name)
         {
-            if (Name != null)
-                await _roleManager.CreateAsync(new IdentityRole(Name));
+            if (name != null) await _roleManager.CreateAsync(new IdentityRole(name));
             return RedirectToAction("Index");
         }
 
         [HttpPost]
         public async Task<IActionResult> DeleteRole(string id)
         {
-            var GetRole = await _roleManager.FindByIdAsync(id);
-            if (GetRole == null)
-            {
-                // Return not found view of andere pagina.
-            }
-            await _roleManager.DeleteAsync(GetRole);
+            await _roleManager.DeleteAsync(await _roleManager.FindByIdAsync(id));
             return RedirectToAction("Index");
         }
     }
