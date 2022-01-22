@@ -1,9 +1,13 @@
-using FluentEmail.Core;
-using Microsoft.AspNetCore.Identity;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.Test;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Wdpr_Groep_E.Controllers;
 using Wdpr_Groep_E.Data;
+using Wdpr_Groep_E.Hubs;
 using Wdpr_Groep_E.Models;
 using Xunit;
 
@@ -11,38 +15,62 @@ namespace Wdpr_Groep_E.Tests
 {
     public class ChatTests
     {
-        private Mock<UserManager<AppUser>> GetMockUserManager()
+        [Fact]
+        public void CreateMessageTest()
         {
-            var userStoreMock = new Mock<IUserStore<AppUser>>();
-            return new Mock<UserManager<AppUser>>(userStoreMock.Object, null, null, null, null, null, null, null, null);
-        }
+            // Arrange
+            var context = new WdprContext(new DbContextOptionsBuilder<WdprContext>().UseInMemoryDatabase("CreateMessageTestDb").Options);
 
-        private Mock<RoleManager<IdentityRole>> GetMockRoleManager()
-        {
-            var roleManagerMock = new Mock<IUserStore<IdentityRole>>();
-            return new Mock<RoleManager<IdentityRole>>(roleManagerMock.Object, null, null, null, null, null, null, null, null);
+            var controller = new ChatController(
+                context, MockHelpers.MockUserManager<AppUser>().Object, new Mock<IHubContext<ChatHub>>().Object
+            );
+
+            context.Chats.Add(new Chat
+            {
+                Type = ChatType.Room,
+                Name = "TestUser",
+                Subject = "TestSubject",
+                AgeGroup = "12-13"
+            });
+            context.SaveChanges();
+
+            context.Messages.Add(new Message
+            {
+                ChatId = context.Chats.First().Id,
+                Text = "TestMessage"
+            });
+            context.SaveChanges();
+
+            // Assert
+            Assert.Equal("TestMessage", context.Messages.First().Text);
         }
 
         [Fact]
-        public void CreateRoomTest()
+        public void JoinRoomTest()
         {
-            DbContextOptions<WdprContext> options = new DbContextOptionsBuilder<WdprContext>().UseInMemoryDatabase("CreateTestDb").Options;
+            // Arrange
+            var context = new WdprContext(new DbContextOptionsBuilder<WdprContext>().UseInMemoryDatabase("JoinRoomTestDb").Options);
 
-            var emailMock = new Mock<IFluentEmail>();
-            var context = new WdprContext(options);
-            var userManagerMock = GetMockUserManager();
-            var roleManagerMock = GetMockRoleManager();
+            var controller = new ChatController(
+                context, MockHelpers.MockUserManager<AppUser>().Object, new Mock<IHubContext<ChatHub>>().Object
+            );
 
+            context.Chats.Add(new Chat
+            {
+                Type = ChatType.Room,
+                Name = "TestUser",
+                Subject = "TestSubject",
+                AgeGroup = "12-13"
+            });
+            context.SaveChanges();
 
-            var name = "TestUser";
-            var age = "12-13";
-            var subject = "TestSubject";
+            // Act
+            var result = controller.JoinRoom(new ChatHub().GetConnectionId(), context.Chats.First().Id.ToString());
+            var okResult = result.Result as OkResult;
 
-            var chatSystemController = new ChatSystemController(emailMock.Object, context, userManagerMock.Object, roleManagerMock.Object);
-
-            var result = chatSystemController.CreateRoom(name, age, subject);
-
-            Assert.Equal(1, context.Chats.CountAsync().Result);
+            // Assert
+            Assert.NotNull(okResult);
+            Assert.Equal(200, okResult.StatusCode);
         }
     }
 }
