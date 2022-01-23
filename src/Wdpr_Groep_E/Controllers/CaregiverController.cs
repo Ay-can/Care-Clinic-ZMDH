@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -34,6 +35,8 @@ namespace Wdpr_Groep_E.Controllers
 
             if (sort == null) sort = "voornaam_oplopend";
             ViewData["sort"] = sort;
+
+            ViewData["search"] = search;
 
             if (page == 0) page = 1;
             ViewData["page"] = page;
@@ -82,5 +85,9 @@ namespace Wdpr_Groep_E.Controllers
                     return users.OrderBy(h => h.FirstName);
             }
         }
+
+        public IActionResult Users(string id) => View(_context.Users
+            .Where(u => u.Caregiver == _usermanager
+                .FindByIdAsync(id).Result.Id));
     }
 }

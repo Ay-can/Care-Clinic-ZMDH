@@ -40,7 +40,6 @@ namespace Wdpr_Groep_E.Controllers
                     UserId = user.Id,
                     UserName = user.UserName,
                     Email = user.Email,
-
                     CaregiverUserName = _context.Users?.SingleOrDefault(s => s.Id == user.Caregiver)?.UserName,
                     Children = await _context.Users?.Where(u => u.Parent.Id == user.Id)?.ToListAsync(),
                     Roles = await GetRoles(user)
@@ -49,6 +48,8 @@ namespace Wdpr_Groep_E.Controllers
 
             if (sort == null) sort = "gebruiker_oplopend";
             ViewData["sort"] = sort;
+
+            ViewData["search"] = search;
 
             if (page == 0) page = 1;
             ViewData["page"] = page;

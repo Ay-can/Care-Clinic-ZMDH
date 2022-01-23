@@ -18,7 +18,7 @@
                     <div class="form-row">
                         <div class="col">
                             <div class="form-group">
-                                <input class="form-control" id="search" name="search" placeholder="Zoeken" />
+                                <input class="form-control" id="search" name="search" value='@ViewData["search"]' placeholder="Zoeken" />
                             </div>
                         </div>
                         <div class="col-12 col-md-auto">
@@ -62,7 +62,7 @@
                     @foreach (var role in Model)
                     {
                         <tr>
-                            <td>@role.Name</td>
+                            <td>@Html.DisplayName(role.Name)</td>
                             <td class="text-center shrink">
                                 <form method="post" asp-action="DeleteRole" asp-controller="RoleSystem" asp-route-id="@role.Id">
                                     <button class="btn btn-sm btn-danger">Verwijder</button>

@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Wdpr_Groep_E.Models
 {
@@ -12,7 +11,7 @@ namespace Wdpr_Groep_E.Models
 
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "{0} is verplicht")]
         [Display(Name = "Gebruikersnaam")]
         public string ChildUserName { get; set; }
 
@@ -27,7 +26,7 @@ namespace Wdpr_Groep_E.Models
         [Display(Name = "Achternaam")]
         public string ChildLastName { get; set; }
 
-        [Required(ErrorMessage = "Kies uw onderwerp.")]
+        [Required(ErrorMessage = "Kies een {0}.")]
         [Display(Name = "Onderwerp")]
         public string Subject { get; set; }
 

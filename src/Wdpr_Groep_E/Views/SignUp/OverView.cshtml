@@ -1,7 +1,7 @@
-@using Microsoft.AspNetCore.Identity
 @model List<Wdpr_Groep_E.Models.SignUp>;
-@inject SignInManager<AppUser> SignInManager
+@using Microsoft.AspNetCore.Identity
 @inject UserManager<AppUser> UserManager
+@inject SignInManager<AppUser> SignInManager
 @{
     ViewData["Title"] = "Gebruikers beheren";
 }
@@ -21,7 +21,7 @@
                     <div class="form-row">
                         <div class="col">
                             <div class="form-group">
-                                <input class="form-control" id="search" name="search" placeholder="Zoeken" />
+                                <input class="form-control" id="search" name="search" value='@ViewData["search"]' placeholder="Zoeken" />
                             </div>
                         </div>
                         <div class="col-12 col-md-auto">

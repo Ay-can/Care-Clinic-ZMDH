@@ -1,0 +1,45 @@
+@model IEnumerable<AppUser>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<AppUser> UserManager
+@{
+    if (Model.Count() != 0)
+    {
+        ViewData["Caregiver"] = UserManager.FindByIdAsync(Model.First().Caregiver).Result.UserName;
+    }
+    ViewData["Title"] = "Cliënten van " + ViewData["Caregiver"];
+}
+
+<div class="container-fluid manage pt-3 pb-3">
+    <div class="row mb-3">
+        <div class="col">
+            <a class="btn btn-primary lg-btn btn-no-extend d-flex align-items-center justify-content-center" asp-controller="Caregiver" asp-action="Index">
+                <span class="material-icons-round" aria-hidden="true">arrow_back</span>Terug
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1>@ViewData["Title"]</h1>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col">
+            <table class="table table-sm table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Gebruikersnaam</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>@user.UserName</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

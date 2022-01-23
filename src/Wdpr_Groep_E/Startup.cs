@@ -37,7 +37,7 @@ namespace Wdpr_Groep_E
             services.AddDbContext<WdprContext>(options => options.UseSqlServer(Configuration.GetConnectionString("WdprContext")));
 
             // Live database
-            // services.AddDbContext<WdprContext>(options => options.UseSqlServer("Data Source=SQL5109.site4now.net;Initial Catalog=db_a7f252_zmdh;User Id=db_a7f252_zmdh_admin;Password=Aycan123!"));
+            // services.AddDbContext<WdprContext>(options => options.UseSqlServer("Data Source=SQL5109.site4now.net;Initial Catalog=db_a7f252_zmdh;User Id=db_a7f252_zmdh_admin;Password=Aycan123!;MultipleActiveResultSets=true"));
 
             services.AddRazorPages();
             services.AddIdentity<AppUser, IdentityRole>()

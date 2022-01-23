@@ -2,13 +2,21 @@
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<AppUser> UserManager
 @{
-    ViewData["Title"] = "Gebruikers in chat";
+    ViewData["Chatname"] = @Model.First().Chat.Name;
+    ViewData["Title"] = "Gebruikers in chat: " + @Model.First().Chat.Name;
 }
 
 <div class="container-fluid manage pt-3 pb-3">
+    <div class="row mb-3">
+        <div class="col">
+            <a class="btn btn-primary lg-btn btn-no-extend d-flex align-items-center justify-content-center" asp-controller="ChatSystem" asp-action="Index">
+                <span class="material-icons-round" aria-hidden="true">arrow_back</span>Terug
+            </a>
+        </div>
+    </div>
     <div class="row">
         <div class="col">
-            <h1>@ViewData["Title"]: @Model.First().Chat.Name</h1>
+            <h1>@ViewData["Title"]</h1>
         </div>
     </div>
     <hr />
@@ -57,6 +65,15 @@
                                         </td>
                                     }
                                 }
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr class="disabled">
+                                <td>@user.User.UserName</td>
+                                <td>@user.Chat.Messages.Where(m => m.Name == user.User.UserName).Count()</td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         }
                     }

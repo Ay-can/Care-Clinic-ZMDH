@@ -4,10 +4,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Wdpr_Groep_E.Models;
+
 namespace Wdpr_Groep_E.Services
 {
     public class ZmdhApi : IZmdhApi
@@ -26,6 +25,7 @@ namespace Wdpr_Groep_E.Services
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             _clientFactory = factory;
         }
+
         public async Task DeleteClient(string clientid)
         {
             await HttpClient.DeleteAsync(Key + urlParameters + clientid);
@@ -55,17 +55,16 @@ namespace Wdpr_Groep_E.Services
 
             return parseClienetId;
         }
-        
+
         public async Task<IEnumerable<Client>> GetClients()
         {
             IEnumerable<Client> allClients;
-        var request = new HttpRequestMessage(HttpMethod.Get, Url + Key);
-        var client = _clientFactory.CreateClient();
-        HttpResponseMessage response = await client.SendAsync(request);
-        allClients = await response.Content.ReadFromJsonAsync<IEnumerable<Client>>();
-        return allClients;
+            var request = new HttpRequestMessage(HttpMethod.Get, Url + Key);
+            var client = _clientFactory.CreateClient();
+            HttpResponseMessage response = await client.SendAsync(request);
+            allClients = await response.Content.ReadFromJsonAsync<IEnumerable<Client>>();
+            return allClients;
         }
-
 
         // public async Task<int>PostClient()
         // {
@@ -78,19 +77,21 @@ namespace Wdpr_Groep_E.Services
         // }
         //  public async Task PostClientTest()
         // {
-           
+
         //     var send =  await HttpClient.PostAsync(Key,null);
         //     Console.WriteLine(send.Content.ReadAsStringAsync().Result);
         // }
+
         public async Task PostClient(Client c)
         {
-         var send = await HttpClient.PostAsJsonAsync(Key,c);
-         System.Console.WriteLine(send.Content.ReadAsStringAsync().Result);
+            var send = await HttpClient.PostAsJsonAsync(Key, c);
+            System.Console.WriteLine(send.Content.ReadAsStringAsync().Result);
         }
+
         public async Task PutClient(Client c)
         {
-           var send = await HttpClient.PutAsJsonAsync(Key,c);
-           Console.WriteLine(send.Content.ReadAsStringAsync().Result);
+            var send = await HttpClient.PutAsJsonAsync(Key, c);
+            Console.WriteLine(send.Content.ReadAsStringAsync().Result);
         }
     }
 }

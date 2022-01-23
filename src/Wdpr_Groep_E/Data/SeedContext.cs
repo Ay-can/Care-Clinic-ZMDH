@@ -36,15 +36,8 @@ namespace Wdpr_Groep_E.Data
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
             };
-            if (userManager.Users.All(s => s.Id != Moderator.Id))
-            {
-                var User = await userManager.FindByEmailAsync(Moderator.Email);
-                if (User == null)
-                {
-                    await userManager.CreateAsync(Moderator, "Moderator123!");
-                    await userManager.AddToRoleAsync(Moderator, "Moderator");
-                }
-            }
+            await userManager.CreateAsync(Moderator, "Moderator123!");
+            await userManager.AddToRoleAsync(Moderator, "Moderator");
         }
 
         public static async Task CreateOrthopedagogen(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
@@ -58,7 +51,8 @@ namespace Wdpr_Groep_E.Data
                 Email = "angela@zmdh.nl",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
-                Subject = "ADD"
+                Subject = "ADD",
+                WorkLocation = "ZMDH"
             };
             await userManager.CreateAsync(Angela, "Test123!");
             await userManager.AddToRoleAsync(Angela, "Orthopedagoog");
@@ -71,7 +65,8 @@ namespace Wdpr_Groep_E.Data
                 Email = "gijs@zmdh.nl",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
-                Subject = "Faalangst"
+                Subject = "Faalangst",
+                WorkLocation = "ZMDH"
             };
             await userManager.CreateAsync(Gijs, "Test123!");
             await userManager.AddToRoleAsync(Gijs, "Orthopedagoog");
@@ -84,7 +79,8 @@ namespace Wdpr_Groep_E.Data
                 Email = "jantinus@zmdh.nl",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
-                Subject = "ASS"
+                Subject = "ASS",
+                WorkLocation = "ZMDH"
             };
             await userManager.CreateAsync(Jantinus, "Test123!");
             await userManager.AddToRoleAsync(Jantinus, "Orthopedagoog");
@@ -98,7 +94,8 @@ namespace Wdpr_Groep_E.Data
                 Email = "joseph@zmdh.nl",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
-                Subject = "Hoogbegaafdheid"
+                Subject = "Hoogbegaafdheid",
+                WorkLocation = "ZMDH"
             };
             await userManager.CreateAsync(Joseph, "Test123!");
             await userManager.AddToRoleAsync(Joseph, "Orthopedagoog");
