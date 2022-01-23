@@ -29,3 +29,9 @@
   color: #000;
   text-decoration: none;
 }
+
+@media screen and (max-width: 575.98px) {
+  .manage .message-btn {
+    width: 100%;
+  }
+}

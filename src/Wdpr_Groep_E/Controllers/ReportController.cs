@@ -31,6 +31,8 @@ namespace Wdpr_Groep_E.Controllers
             if (sort == null) sort = "gebruiker_oplopend";
             ViewData["sort"] = sort;
 
+            ViewData["search"] = search;
+
             if (page == 0) page = 1;
             ViewData["page"] = page;
 
@@ -109,7 +111,6 @@ namespace Wdpr_Groep_E.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
         [Authorize(Roles = "Moderator")]
         public async Task<IActionResult> RemoveReport(int id)
         {

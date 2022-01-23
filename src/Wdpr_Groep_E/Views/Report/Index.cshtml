@@ -20,7 +20,7 @@
                     <div class="form-row">
                         <div class="col">
                             <div class="form-group">
-                                <input class="form-control" id="search" name="search" placeholder="Zoeken" />
+                                <input class="form-control" id="search" name="search" value='@ViewData["search"]' placeholder="Zoeken" />
                             </div>
                         </div>
                         <div class="col-12 col-md-auto">
@@ -82,26 +82,36 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var report in Model)
+                    @if (Model.Count() != 0)
+                    {
+                        @foreach (var report in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayName(report.Name)</td>
+                                <td>@Html.DisplayName(report.Text)</td>
+                                <td>@report.Date.ToString("dd/MM/yyyy")</td>
+                                <td class="text-center shrink">
+                                    <form method="post" asp-controller="Report" asp-action="BlockReportedUser" asp-route-id='@UserManager.Users.SingleOrDefault(u => u.UserName == report.Name).Id'>
+                                        <input type="hidden" name="report" value="@report.Id" />
+                                        <input type="hidden" name="chat" value="@report.ChatId" />
+                                        <button class="btn btn-sm btn-danger">Blokkeer</button>
+                                    </form>
+                                </td>
+                                <td class="text-center shrink">
+                                    <form method="post" asp-controller="Report" asp-action="RemoveReport" asp-route-id="@report.Id">
+                                        <button class="btn btn-sm btn-danger">Verwijder</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
                     {
                         <tr>
-                            <td>@report.Name</td>
-                            <td>@report.Text</td>
-                            <td>@report.Date.ToString("dd/MM/yyyy")</td>
-                            <td class="text-center shrink">
-                                <form method="post" asp-controller="Report" asp-action="BlockReportedUser" asp-route-id='@UserManager.Users.SingleOrDefault(u => u.UserName == report.Name).Id'>
-                                    <input type="hidden" name="report" value="@report.Id" />
-                                    <input type="hidden" name="chat" value="@report.ChatId" />
-                                    <button class="btn btn-sm btn-danger">Blokkeer</button>
-                                </form>
-                            </td>
-                            <td class="text-center shrink">
-                                <form method="post" asp-controller="Report" asp-action="RemoveReport" asp-route-id="@report.Id">
-                                    <button class="btn btn-sm btn-danger">Verwijder</button>
-                                </form>
-                            </td>
+                            <td colspan="100%">Geen reports gevonden!</td>
                         </tr>
                     }
+
                 </tbody>
             </table>
         </div>

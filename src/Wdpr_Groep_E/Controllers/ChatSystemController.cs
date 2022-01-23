@@ -43,6 +43,8 @@ namespace Wdpr_Groep_E.Controllers
             if (sort == null) sort = "chatnaam_oplopend";
             ViewData["sort"] = sort;
 
+            ViewData["search"] = search;
+
             if (page == 0) page = 1;
             ViewData["page"] = page;
 
@@ -122,20 +124,6 @@ namespace Wdpr_Groep_E.Controllers
             _context.ChatUsers.SingleOrDefault(u => u.UserId == id && u.ChatId == chat).IsBlocked = false;
             _context.SaveChanges();
             return RedirectToAction("Users", new { id = chat });
-        }
-
-        [HttpGet]
-        [Authorize(Roles = "Tiener, Kind")]
-        public async Task<IActionResult> JoinRoom(int id)
-        {
-            _context.ChatUsers.Add(new ChatUser
-            {
-                ChatId = id,
-                UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value
-            });
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Chat", "Chat", new { Id = id });
         }
 
         [HttpPost]
@@ -225,6 +213,20 @@ namespace Wdpr_Groep_E.Controllers
                 });
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Tiener, Kind")]
+        public async Task<IActionResult> JoinRoom(int id)
+        {
+            _context.ChatUsers.Add(new ChatUser
+            {
+                ChatId = id,
+                UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value
+            });
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Chat", "Chat", new { Id = id });
+        }
+
         [Authorize(Roles = "Tiener, Kind")]
         public async Task<IActionResult> JoinPrivateRoom(int id)
         {
@@ -258,6 +260,14 @@ namespace Wdpr_Groep_E.Controllers
                     Redirect = "Chat",
                     Timeout = 2000
                 });
+        }
+
+        [Authorize(Roles = "Moderator")]
+        public async Task<IActionResult> DeleteRoom(int id)
+        {
+            _context.Chats.Remove(await _context.Chats.FindAsync(id));
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         private int GenerateChatId()

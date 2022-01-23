@@ -1,4 +1,7 @@
 @model List<UserRoleViewModel>
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@inject UserManager<AppUser> UserManager
 @{
     ViewData["Title"] = "Gebruikers beheren";
 }
@@ -18,10 +21,10 @@
                     <div class="form-row">
                         <div class="col">
                             <div class="form-group">
-                                <input class="form-control" id="search" name="search" placeholder="Zoeken" />
+                                <input class="form-control" id="search" name="search" value='@ViewData["search"]' placeholder="Zoeken" />
                             </div>
                         </div>
-                        <div class="col-12 col-md-auto">
+                        <div class="col-12 col-sm-auto">
                             <div class="form-group text-center">
                                 <input type="submit" class="btn btn-primary message-btn" value="Zoeken" />
                             </div>
@@ -138,34 +141,37 @@
                 <tbody>
                     @foreach (var user in Model)
                     {
-                        <tr>
-                            <td>@user.UserName</td>
-                            <td>@user.Email</td>
-                            
-                            @if (user.Children.Count > 0)
-                            {
-                                @foreach (var child in user?.Children)
+                        @if (!(user.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                        {
+                            <tr>
+                                <td>@Html.DisplayName(user.UserName)</td>
+                                <td>@user.Email</td>
+
+                                @if (user.Children.Count > 0)
                                 {
-                                    <td>
-                                        <div class="p-0">Gebruikersnaam: @child.UserName</div>
-                                        <div class="p-0">Naam: @child.FirstName @child.Infix @child.LastName</div>
-                                        <div class="p-0">Leeftijd: @(DateTime.Now.Year - child.BirthDate.Year)</div>
-                                    </td>
+                                    @foreach (var child in user?.Children)
+                                    {
+                                        <td>
+                                            <div class="p-0">Gebruikersnaam: @Html.DisplayName(child.UserName)</div>
+                                            <div class="p-0">Naam: @Html.DisplayName(string.Join(" ", child.FirstName, child.Infix, child.LastName))</div>
+                                            <div class="p-0">Leeftijd: @(DateTime.Now.Year - child.BirthDate.Year)</div>
+                                        </td>
+                                    }
                                 }
-                            }
-                            else
-                            {
-                                <td></td>
-                            }
-                            <td>@string.Join(" ", user.Roles.ToList())</td>
-                            <td>@user.CaregiverUserName</td>
-                            @* <td class="text-center shrink"><a class="btn btn-sm btn-primary">Aanpassen</td> *@
-                            <td class="text-center shrink">
-                                <form method="post" asp-controller="UserSystem" asp-action="DeleteUser" asp-route-id="@user.UserId">
-                                    <button class="btn btn-sm btn-danger">Verwijder</button>
-                                </form>
-                            </td>
-                        </tr>
+                                else
+                                {
+                                    <td></td>
+                                }
+                                <td>@Html.DisplayName(string.Join(" ", user.Roles.ToList()))</td>
+                                <td>@Html.DisplayName(user.CaregiverUserName)</td>
+                                @* <td class="text-center shrink"><a class="btn btn-sm btn-primary">Aanpassen</td> *@
+                                <td class="text-center shrink">
+                                    <form method="post" asp-controller="UserSystem" asp-action="DeleteUser" asp-route-id="@user.UserId">
+                                        <button class="btn btn-sm btn-danger">Verwijder</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>

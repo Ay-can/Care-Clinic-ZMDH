@@ -23,6 +23,8 @@ namespace Wdpr_Groep_E.Controllers
             if (sort == null) sort = "rol_oplopend";
             ViewData["sort"] = sort;
 
+            ViewData["search"] = search;
+
             if (page == 0) page = 1;
             ViewData["page"] = page;
 

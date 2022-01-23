@@ -11,6 +11,10 @@
     {
         <h1 class="text-danger pb-3">Mislukt!</h1>
     }
+    else if (ViewData["Type"].ToString() == "Error")
+    {
+        <h1 class="text-danger pb-3">Fout!</h1>
+    }
     <p>@ViewData["Message"]</p>
 </div>
 

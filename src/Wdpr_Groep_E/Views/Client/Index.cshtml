@@ -18,10 +18,10 @@
                     <div class="form-row">
                         <div class="col">
                             <div class="form-group">
-                                <input class="form-control" id="search" name="search" placeholder="Zoeken" />
+                                <input class="form-control" id="search" name="search" value='@ViewData["search"]' placeholder="Zoeken" />
                             </div>
                         </div>
-                        <div class="col-12 col-md-auto">
+                        <div class="col-12 col-sm-auto">
                             <div class="form-group text-center">
                                 <input type="submit" class="btn btn-primary message-btn" value="Zoeken" />
                             </div>
@@ -62,12 +62,12 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@item</td>
-                            <form method="post" asp-action="ClientInfo" asp-controller="Client" asp-route-clientId="@item">
-                                <td class="text-center shrink">
+                            <td>@Html.DisplayName(item)</td>
+                            <td class="text-center shrink">
+                                <form asp-controller="Client" asp-action="ClientInfo" asp-route-clientId="@item" method="post">
                                     <button class="btn btn-sm btn-info">Gegevens</button>
-                                </td>
-                            </form>
+                                </form>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -111,9 +111,7 @@
                 <a style="opacity: .5; pointer-events: none;" asp-action="Index" asp-route-page='1' asp-route-size='50' asp-route-sort='@ViewData["sort"]' asp-route-search='@ViewData["search"]'>50</a>
             </div>
         }
-        <div class="col-1"></div>
-        <div class="col-3 d-flex justify-content-center">@ViewData["page"] / @ViewData["total"]</div>
-        <div class="col-1"></div>
+        <div class="col-5 d-flex justify-content-center">@ViewData["page"] / @ViewData["total"]</div>
         <div class="col-2 d-flex justify-content-center">
             @if ((bool)ViewData["previous"])
             {

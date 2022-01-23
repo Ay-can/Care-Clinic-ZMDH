@@ -16,6 +16,10 @@
   padding: .6rem 0;
 }
 
+.navbar-brand:hover {
+  opacity: 1;
+}
+
 .navbar-brand>img {
   height: 100%;
   display: flex;
@@ -30,8 +34,15 @@
 }
 
 .nav-link:hover, .nav-link:focus {
-  background-color: var(--grey_1);
   box-shadow: inset 0 2px 4px -2px rgba(0 0 0 / .5);
+}
+
+.nav-link:hover:not(.btn), .nav-link:focus:not(.btn) {
+  background-color: var(--grey_1);
+}
+
+.nav-collapse-text {
+  display: none;
 }
 
 .navbar a {
@@ -49,5 +60,20 @@
 
   .navbar-collapse {
     margin-top: .5rem;
+  }
+
+  .nav-collapse-text {
+    display: inline;
+  }
+}
+
+@media screen and (max-width: 575.98px) {
+  .nav-manage {
+    justify-content: space-between;
+  }
+
+  .navbar-link {
+    display: flex;
+    justify-content: center;
   }
 }

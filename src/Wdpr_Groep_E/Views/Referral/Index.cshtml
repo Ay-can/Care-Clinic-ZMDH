@@ -18,10 +18,10 @@
                     <div class="form-row">
                         <div class="col">
                             <div class="form-group">
-                                <input class="form-control" id="search" name="search" placeholder="Zoeken" />
+                                <input class="form-control" id="search" name="search" value='@ViewData["search"]' placeholder="Zoeken" />
                             </div>
                         </div>
-                        <div class="col-12 col-md-auto">
+                        <div class="col-12 col-sm-auto">
                             <div class="form-group text-center">
                                 <input type="submit" class="btn btn-primary message-btn" value="Zoeken" />
                             </div>
@@ -81,8 +81,8 @@
                     @foreach (var client in Model)
                     {
                         <tr>
-                            <td>@client.bsn</td>
-                            <td>@client.dt</td>
+                            <td>@Html.DisplayName(client.bsn)</td>
+                            <td>@Html.DisplayName(client.dt.Split()[0])</td>
                             <td class="text-center shrink">
                                 <form asp-controller="Referral" asp-action="IndividualReferral" method="post">
                                     <input type="hidden" name="Bsn" value="@client.bsn" />
