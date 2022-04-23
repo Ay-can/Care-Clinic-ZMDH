@@ -11,4 +11,5 @@ The website was developed with accessibility in mind.
 ![chat](https://user-images.githubusercontent.com/61593654/153766829-b0c6967d-5379-4334-93c7-dc16daa83c3e.png)
 ## About Us
 ![info](https://user-images.githubusercontent.com/61593654/153766830-37b79999-c108-414e-89dc-46c673fdb626.png)
-
+### Grade for this project
+A+
